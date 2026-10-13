@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "citisproperty",
-  "compatibility_date": "2026-08-08",
+  "name": "citisproperty-2",
+  "compatibility_date": "2024-09-23",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./out",
