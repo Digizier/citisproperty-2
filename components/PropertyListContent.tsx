@@ -9,14 +9,10 @@ import {
   ChevronRight,
   Search,
   X,
-  ArrowUpDown,
-  Home,
-  Building2,
-  LandPlot,
-  Building,
+  RotateCcw,
 } from 'lucide-react';
-import { getProperties, getCategories, getSubcategories } from '@/lib/db';
-import { Property, Category, Subcategory, PropertyPurpose, PropertyType } from '@/lib/types';
+import { getProperties } from '@/lib/db';
+import { Property, PropertyPurpose, PropertyType } from '@/lib/types';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
 
@@ -36,7 +32,7 @@ export default function PropertyListContent({
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // Filters from URL or Props
+  // Filters State
   const [purpose, setPurpose] = useState<PropertyPurpose>(
     (searchParams.get('purpose') as PropertyPurpose) || initialPurpose || 'buy'
   );
@@ -47,6 +43,7 @@ export default function PropertyListContent({
     searchParams.get('city') || initialCity || 'Faisalabad'
   );
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+  const [priceRange, setPriceRange] = useState(searchParams.get('price') || '');
   const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '');
   const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
   const [bedrooms, setBedrooms] = useState(searchParams.get('beds') || '');
@@ -59,18 +56,37 @@ export default function PropertyListContent({
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [advancedFilterOpen, setAdvancedFilterOpen] = useState(false);
+
+  const getMinMaxFromBudget = (budget: string): { min?: number; max?: number } => {
+    switch (budget) {
+      case 'under-1-crore':
+        return { min: undefined, max: 10000000 };
+      case '1-to-3-crore':
+        return { min: 10000000, max: 30000000 };
+      case '3-to-5-crore':
+        return { min: 30000000, max: 50000000 };
+      case 'above-5-crore':
+        return { min: 50000000, max: undefined };
+      default:
+        return { min: undefined, max: undefined };
+    }
+  };
 
   const fetchListings = async () => {
     setLoading(true);
     try {
+      const budgetLimits = getMinMaxFromBudget(priceRange);
+      const effectiveMin = minPrice ? Number(minPrice) : budgetLimits.min;
+      const effectiveMax = maxPrice ? Number(maxPrice) : budgetLimits.max;
+
       const res = await getProperties({
         purpose,
         type: type as PropertyType,
         city: city !== 'All Cities' ? city : undefined,
         searchQuery: searchQuery.trim() || undefined,
-        minPrice: minPrice ? Number(minPrice) : undefined,
-        maxPrice: maxPrice ? Number(maxPrice) : undefined,
+        minPrice: effectiveMin,
+        maxPrice: effectiveMax,
         bedrooms: bedrooms ? Number(bedrooms) : undefined,
         page: currentPage,
         limit: 8, // Strictly 8 products per page as required
@@ -88,7 +104,7 @@ export default function PropertyListContent({
 
   useEffect(() => {
     fetchListings();
-  }, [purpose, type, city, minPrice, maxPrice, bedrooms, currentPage]);
+  }, [purpose, type, city, priceRange, minPrice, maxPrice, bedrooms, currentPage]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
@@ -96,8 +112,18 @@ export default function PropertyListContent({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setCurrentPage(1);
+    fetchListings();
+  };
+
   const handleResetFilters = () => {
+    setPurpose('buy');
+    setType('Homes');
+    setCity('Faisalabad');
     setSearchQuery('');
+    setPriceRange('');
     setMinPrice('');
     setMaxPrice('');
     setBedrooms('');
@@ -105,114 +131,68 @@ export default function PropertyListContent({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      {/* Header & Breadcrumb */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+      {/* Top Header & Breadcrumb */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
             {pageTitle || `${type} for ${purpose === 'buy' ? 'Sale' : 'Rent'} in ${city}`}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Showing strictly <strong className="text-slate-800">8 verified listings</strong> per page • Total {totalItems} properties found
           </p>
         </div>
 
-        {/* Mobile Filter Toggle */}
         <button
           type="button"
-          onClick={() => setMobileFilterOpen(true)}
-          className="lg:hidden flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-green-700 text-white font-bold text-xs shadow-md"
+          onClick={handleResetFilters}
+          className="self-start sm:self-auto inline-flex items-center gap-1.5 text-xs text-brand-green-700 hover:text-brand-green-900 font-bold px-3 py-1.5 rounded-lg hover:bg-emerald-50 transition-colors"
         >
-          <SlidersHorizontal className="w-4 h-4" />
-          <span>Filters & Budget</span>
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>Reset All</span>
         </button>
       </div>
 
-      {/* Main Grid: Sidebar Filters (Desktop) + Listings */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Desktop Sidebar Filters */}
-        <aside className="hidden lg:block space-y-6">
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6 sticky top-28">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <span className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                <Filter className="w-4 h-4 text-brand-green-700" />
-                Refine Search
-              </span>
-              <button
-                type="button"
-                onClick={handleResetFilters}
-                className="text-xs text-brand-green-700 hover:underline font-semibold"
-              >
-                Reset All
-              </button>
-            </div>
+      {/* HOME-SCREEN STYLE FILTER & SEARCH CARD (RESPONSIVE FOR MOBILE, TABLET & DESKTOP) */}
+      <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-200 text-left">
+        {/* Tabs: Buy vs Rent */}
+        <div className="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+          <button
+            type="button"
+            onClick={() => {
+              setPurpose('buy');
+              setCurrentPage(1);
+            }}
+            className={`px-5 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              purpose === 'buy'
+                ? 'bg-brand-green-700 text-white shadow-md shadow-brand-green-900/20'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            Buy (For Sale)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setPurpose('rent');
+              setCurrentPage(1);
+            }}
+            className={`px-5 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              purpose === 'rent'
+                ? 'bg-brand-green-700 text-white shadow-md shadow-brand-green-900/20'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            Rent (To Let)
+          </button>
+        </div>
 
-            {/* Purpose */}
+        {/* Filter Form Grid */}
+        <form onSubmit={handleSearchSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {/* City Selector */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                Purpose
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPurpose('buy');
-                    setCurrentPage(1);
-                  }}
-                  className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                    purpose === 'buy'
-                      ? 'bg-brand-green-700 text-white shadow'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  For Sale
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPurpose('rent');
-                    setCurrentPage(1);
-                  }}
-                  className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                    purpose === 'rent'
-                      ? 'bg-brand-green-700 text-white shadow'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  For Rent
-                </button>
-              </div>
-            </div>
-
-            {/* Property Type */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                Property Type
-              </label>
-              <div className="space-y-1.5 text-xs font-medium">
-                {(['Homes', 'Plots', 'Commercial', 'Flats'] as PropertyType[]).map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => {
-                      setType(t);
-                      setCurrentPage(1);
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
-                      type === t
-                        ? 'bg-emerald-50 text-brand-green-800 font-bold border border-emerald-200'
-                        : 'text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* City */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                 City / Region
               </label>
               <select
@@ -221,7 +201,7 @@ export default function PropertyListContent({
                   setCity(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
               >
                 <option value="Faisalabad">Faisalabad</option>
                 <option value="Gujranwala">Gujranwala</option>
@@ -233,219 +213,266 @@ export default function PropertyListContent({
               </select>
             </div>
 
-            {/* Bedrooms */}
-            {type === 'Homes' || type === 'Flats' ? (
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                  Min Bedrooms
-                </label>
-                <div className="grid grid-cols-5 gap-1 text-xs">
-                  {['', '1', '2', '3', '4+'].map((b) => (
-                    <button
-                      key={b || 'any'}
-                      type="button"
-                      onClick={() => {
-                        setBedrooms(b === '4+' ? '4' : b);
-                        setCurrentPage(1);
-                      }}
-                      className={`py-1.5 rounded-lg font-bold border transition-all ${
-                        bedrooms === (b === '4+' ? '4' : b)
-                          ? 'bg-brand-green-700 text-white border-brand-green-700'
-                          : 'border-slate-200 text-slate-700 hover:bg-slate-100'
-                      }`}
-                    >
-                      {b || 'All'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-
-            {/* Quick Price Ranges */}
+            {/* Property Type */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                Budget (PKR)
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                <input
-                  type="number"
-                  placeholder="Min Price"
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-xs"
-                />
-                <input
-                  type="number"
-                  placeholder="Max Price"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-xs"
-                />
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        {/* Listings Section (8 Items strictly + Pagination) */}
-        <main className="lg:col-span-3 space-y-8">
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <PropertyCardSkeleton key={i} />
-              ))}
-            </div>
-          ) : properties.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {properties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-4">
-              <p className="text-slate-500 text-sm">
-                No properties matched your exact criteria in {city}.
-              </p>
-              <button
-                type="button"
-                onClick={handleResetFilters}
-                className="px-5 py-2.5 rounded-xl bg-brand-green-700 text-white text-xs font-bold shadow"
-              >
-                Reset Filters & View All
-              </button>
-            </div>
-          )}
-
-          {/* Pagination Controls (Strict 8 Items/Page: Page 1, 2, 3, 4...) */}
-          {totalPages > 1 && (
-            <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <span className="text-xs text-slate-500">
-                Page <strong className="text-slate-900">{currentPage}</strong> of{' '}
-                <strong className="text-slate-900">{totalPages}</strong> (8 listings per page)
-              </span>
-
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  disabled={currentPage <= 1}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  className="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none"
-                  aria-label="Previous page"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => handlePageChange(p)}
-                    className={`w-9 h-9 rounded-lg text-xs font-bold transition-all ${
-                      currentPage === p
-                        ? 'bg-brand-green-700 text-white shadow-md'
-                        : 'border border-slate-200 text-slate-700 hover:bg-slate-100'
-                    }`}
-                  >
-                    {p}
-                  </button>
-                ))}
-
-                <button
-                  type="button"
-                  disabled={currentPage >= totalPages}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  className="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none"
-                  aria-label="Next page"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-        </main>
-      </div>
-
-      {/* Mobile Filters Slide-Over Modal */}
-      {mobileFilterOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-end animate-in fade-in duration-200">
-          <div className="w-full max-w-sm bg-white h-full p-6 overflow-y-auto space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-              <h3 className="font-bold text-base text-slate-900">Filters & Purpose</h3>
-              <button
-                type="button"
-                onClick={() => setMobileFilterOpen(false)}
-                className="p-1 rounded-lg text-slate-500 hover:bg-slate-100"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Purpose */}
-            <div>
-              <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
-                Purpose
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setPurpose('buy')}
-                  className={`py-2.5 text-xs font-bold rounded-xl ${
-                    purpose === 'buy'
-                      ? 'bg-brand-green-700 text-white'
-                      : 'bg-slate-100 text-slate-700'
-                  }`}
-                >
-                  For Sale
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPurpose('rent')}
-                  className={`py-2.5 text-xs font-bold rounded-xl ${
-                    purpose === 'rent'
-                      ? 'bg-brand-green-700 text-white'
-                      : 'bg-slate-100 text-slate-700'
-                  }`}
-                >
-                  For Rent
-                </button>
-              </div>
-            </div>
-
-            {/* Type */}
-            <div>
-              <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                 Property Type
               </label>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                {(['Homes', 'Plots', 'Commercial', 'Flats'] as PropertyType[]).map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setType(t)}
-                    className={`py-2.5 px-3 rounded-xl font-bold border text-left ${
-                      type === t
-                        ? 'bg-emerald-50 text-brand-green-800 border-brand-green-500'
-                        : 'border-slate-200 text-slate-700'
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
+              <select
+                value={type}
+                onChange={(e) => {
+                  setType(e.target.value as PropertyType);
+                  setCurrentPage(1);
+                }}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+              >
+                <option value="Homes">Houses / Homes</option>
+                <option value="Plots">Residential Plots</option>
+                <option value="Commercial">Commercial Properties</option>
+                <option value="Flats">Flats & Apartments</option>
+              </select>
             </div>
 
-            {/* Done Button */}
-            <div className="pt-4 border-t border-slate-200">
+            {/* Price Range Filter */}
+            <div>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                Budget / Price
+              </label>
+              <select
+                value={priceRange}
+                onChange={(e) => {
+                  setPriceRange(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+              >
+                <option value="">Any Budget</option>
+                <option value="under-1-crore">Under 1 Crore</option>
+                <option value="1-to-3-crore">1 to 3 Crore</option>
+                <option value="3-to-5-crore">3 to 5 Crore</option>
+                <option value="above-5-crore">Above 5 Crore</option>
+              </select>
+            </div>
+
+            {/* Keyword / Location Search */}
+            <div>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                Location / Phase
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="e.g. Sargodha Rd, Block A"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Popular Tags & Find Properties Submit Button */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 font-medium">
+              <span className="font-bold text-slate-700">Popular:</span>
               <button
                 type="button"
-                onClick={() => setMobileFilterOpen(false)}
-                className="w-full py-3.5 bg-brand-green-700 text-white rounded-xl font-bold text-xs shadow-lg"
+                onClick={() => {
+                  setType('Homes');
+                  setSearchQuery('5 Marla');
+                  setCurrentPage(1);
+                }}
+                className="text-brand-green-700 hover:underline font-semibold"
               >
-                Done ({totalItems} Properties)
+                5 Marla House
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setType('Plots');
+                  setSearchQuery('10 Marla');
+                  setCurrentPage(1);
+                }}
+                className="text-brand-green-700 hover:underline font-semibold"
+              >
+                10 Marla Plot
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery('Citi Gold Mark');
+                  setCurrentPage(1);
+                }}
+                className="text-brand-green-700 hover:underline font-semibold"
+              >
+                Citi Gold Mark
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => setAdvancedFilterOpen(!advancedFilterOpen)}
+                className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold flex items-center justify-center gap-1.5"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500" />
+                <span>More</span>
+              </button>
+
+              <button
+                type="submit"
+                className="flex-1 sm:flex-none px-6 sm:px-8 py-2.5 sm:py-3 bg-brand-green-700 hover:bg-brand-green-800 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-brand-green-900/30 flex items-center justify-center gap-2 active:scale-95 transition-all"
+              >
+                <Search className="w-4 h-4" />
+                <span>Find Properties</span>
               </button>
             </div>
           </div>
-        </div>
-      )}
+
+          {/* Optional Advanced Filters Bar (Bedrooms, Custom Price) */}
+          {advancedFilterOpen && (
+            <div className="pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-3 animate-in fade-in duration-150">
+              {(type === 'Homes' || type === 'Flats') && (
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                    Min Bedrooms
+                  </label>
+                  <div className="grid grid-cols-5 gap-1 text-xs">
+                    {['', '1', '2', '3', '4'].map((b) => (
+                      <button
+                        key={b || 'all'}
+                        type="button"
+                        onClick={() => {
+                          setBedrooms(b);
+                          setCurrentPage(1);
+                        }}
+                        className={`py-1.5 rounded-lg font-bold border transition-all ${
+                          bedrooms === b
+                            ? 'bg-brand-green-700 text-white border-brand-green-700'
+                            : 'border-slate-200 text-slate-700 hover:bg-slate-100'
+                        }`}
+                      >
+                        {b ? `${b}+` : 'All'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Custom Min (PKR)
+                </label>
+                <input
+                  type="number"
+                  placeholder="e.g. 5000000"
+                  value={minPrice}
+                  onChange={(e) => {
+                    setMinPrice(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Custom Max (PKR)
+                </label>
+                <input
+                  type="number"
+                  placeholder="e.g. 25000000"
+                  value={maxPrice}
+                  onChange={(e) => {
+                    setMaxPrice(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
+                />
+              </div>
+            </div>
+          )}
+        </form>
+      </div>
+
+      {/* PROPERTY LISTINGS GRID (Strict 8 items per page) */}
+      <section className="space-y-8">
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <PropertyCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : properties.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {properties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-4 shadow-sm">
+            <p className="text-slate-600 text-sm font-medium">
+              No properties matched your criteria in <strong className="text-slate-900">{city}</strong>.
+            </p>
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="px-6 py-2.5 rounded-xl bg-brand-green-700 text-white text-xs font-bold shadow hover:bg-brand-green-800 transition-colors"
+            >
+              Reset Filters & Show All
+            </button>
+          </div>
+        )}
+
+        {/* Pagination Controls (Strict 8 Items/Page: Page 1, 2, 3...) */}
+        {totalPages > 1 && (
+          <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs text-slate-500">
+              Page <strong className="text-slate-900">{currentPage}</strong> of{' '}
+              <strong className="text-slate-900">{totalPages}</strong> (8 listings per page)
+            </span>
+
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                disabled={currentPage <= 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+                className="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none"
+                aria-label="Previous page"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => handlePageChange(p)}
+                  className={`w-9 h-9 rounded-lg text-xs font-bold transition-all ${
+                    currentPage === p
+                      ? 'bg-brand-green-700 text-white shadow-md'
+                      : 'border border-slate-200 text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+
+              <button
+                type="button"
+                disabled={currentPage >= totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+                className="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none"
+                aria-label="Next page"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

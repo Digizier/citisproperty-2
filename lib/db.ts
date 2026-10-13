@@ -95,7 +95,8 @@ export async function getProperties(filter: PropertyFilter = {}): Promise<{
       query = query.gte('bedrooms', filter.bedrooms);
     }
     if (filter.searchQuery && filter.searchQuery.trim()) {
-      query = query.ilike('title', `%${filter.searchQuery.trim()}%`);
+      const q = filter.searchQuery.trim();
+      query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`);
     }
 
     // Order by featured first, then newest
@@ -128,6 +129,21 @@ export async function getProperties(filter: PropertyFilter = {}): Promise<{
         if (filter.type) all = all.filter((p) => p.type === filter.type);
         if (filter.city && filter.city !== 'All Cities')
           all = all.filter((p) => p.city.toLowerCase().includes(filter.city!.toLowerCase()));
+        if (filter.minPrice !== undefined && filter.minPrice > 0)
+          all = all.filter((p) => p.price >= filter.minPrice!);
+        if (filter.maxPrice !== undefined && filter.maxPrice > 0)
+          all = all.filter((p) => p.price <= filter.maxPrice!);
+        if (filter.bedrooms !== undefined && filter.bedrooms > 0)
+          all = all.filter((p) => p.bedrooms >= filter.bedrooms!);
+        if (filter.searchQuery && filter.searchQuery.trim()) {
+          const q = filter.searchQuery.trim().toLowerCase();
+          all = all.filter(
+            (p) =>
+              (p.title && p.title.toLowerCase().includes(q)) ||
+              (p.location && p.location.toLowerCase().includes(q)) ||
+              (p.city && p.city.toLowerCase().includes(q))
+          );
+        }
         const total = all.length;
         const totalPages = Math.ceil(total / limit) || 1;
         const sliced = all.slice(from, to + 1);

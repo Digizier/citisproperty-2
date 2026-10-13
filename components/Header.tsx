@@ -300,21 +300,12 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile Actions: Responsive '+ Post' pill and Hamburger */}
-          <div className="lg:hidden flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-            <Link
-              href="/post-listing"
-              prefetch={false}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-brand-green-700 hover:bg-brand-green-800 text-white text-[11px] font-black shadow-sm active:scale-95 transition-all"
-            >
-              <PlusCircle className="w-3.5 h-3.5" />
-              <span>Post</span>
-            </Link>
-
+          {/* Mobile Actions: Hamburger Menu Toggle (Post is accessible via Bottom Nav and Menu) */}
+          <div className="lg:hidden flex items-center flex-shrink-0">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 sm:p-2 rounded-xl text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
+              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
