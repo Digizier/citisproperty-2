@@ -94,9 +94,9 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-          {/* Official Accreditation Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold-500/20 border border-brand-gold-400/40 text-brand-gold-300 text-xs font-bold uppercase tracking-wider mb-6 animate-in fade-in duration-500">
-            <Sparkles className="w-3.5 h-3.5 text-brand-gold-400" />
+          {/* Official Accreditation Badge (High Contrast & Crystal Clear on Mobile) */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 text-slate-950 text-[11px] sm:text-xs md:text-sm font-black uppercase tracking-wider shadow-xl shadow-amber-500/25 mb-6 border border-amber-300">
+            <Sparkles className="w-4 h-4 text-slate-950 fill-slate-950 flex-shrink-0" />
             <span>Authorized Dealership — Property Bank Real Estate</span>
           </div>
 

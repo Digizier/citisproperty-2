@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   Phone,
   MessageCircle,
@@ -15,7 +14,6 @@ import {
   MapPin,
   PlusCircle,
   Star,
-  ExternalLink,
 } from 'lucide-react';
 import { getSiteSettings, DB_EVENTS } from '@/lib/db';
 import { SiteSettings } from '@/lib/types';
@@ -44,7 +42,7 @@ export default function Header() {
       {/* Dynamic Announcement Banner from Admin */}
       <AnnouncementBanner />
 
-      {/* Top Utility Bar */}
+      {/* Top Utility Bar (Desktop only) */}
       <div className="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 hidden md:block">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
@@ -101,33 +99,37 @@ export default function Header() {
       </div>
 
       {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo & Brand Identity */}
-          <Link href="/" prefetch={false} className="flex items-center gap-3 group">
-            <div className="relative w-14 h-14 flex-shrink-0 transition-transform group-hover:scale-105">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-2">
+          {/* Logo & Brand Identity (Mobile-optimized layout) */}
+          <Link
+            href="/"
+            prefetch={false}
+            className="flex items-center gap-2 sm:gap-3 group min-w-0 flex-shrink"
+          >
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex-shrink-0 transition-transform group-hover:scale-105">
               <img
                 src="/logo.png"
                 alt="City Housing (Pvt) Ltd - Property Bank Real Estate Logo"
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tight text-slate-900 uppercase leading-none group-hover:text-brand-green-700 transition-colors">
-                City Housing <span className="text-brand-gold-600 text-xs font-bold">(Pvt) Ltd</span>
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs sm:text-base md:text-lg font-black tracking-tight text-slate-900 uppercase leading-tight truncate group-hover:text-brand-green-700 transition-colors">
+                City Housing <span className="text-brand-gold-600 text-[10px] sm:text-xs font-bold">(Pvt) Ltd</span>
               </span>
-              <span className="text-[11px] font-bold text-brand-green-700 tracking-wider uppercase mt-1">
+              <span className="text-[9px] sm:text-[10px] md:text-[11px] font-extrabold text-brand-green-700 tracking-wider uppercase truncate mt-0.5">
                 Property Bank Real Estate
               </span>
             </div>
           </Link>
 
-          {/* Desktop Nav Items */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-700">
             <Link
               href="/"
               prefetch={false}
-              className="px-3.5 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
             >
               Home
             </Link>
@@ -140,14 +142,14 @@ export default function Header() {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 px-3.5 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
               >
                 <span>Buy</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
 
               {buyDropdownOpen && (
-                <div className="absolute top-full left-0 w-64 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2 duration-150">
+                <div className="absolute top-full left-0 w-64 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
                   <Link
                     href="/Homes/Faisalabad"
                     prefetch={false}
@@ -188,7 +190,7 @@ export default function Header() {
             <Link
               href="/Rentals/Faisalabad"
               prefetch={false}
-              className="px-3.5 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
             >
               Rent
             </Link>
@@ -197,7 +199,7 @@ export default function Header() {
             <Link
               href="/new-projects"
               prefetch={false}
-              className="px-3.5 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
             >
               Projects
             </Link>
@@ -210,14 +212,14 @@ export default function Header() {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 px-3.5 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
               >
                 <span>Calculators</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
 
               {toolsDropdownOpen && (
-                <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2 duration-150">
+                <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
                   <Link
                     href="/tools/construction-cost-calculator"
                     prefetch={false}
@@ -270,19 +272,19 @@ export default function Header() {
             <Link
               href="/society-maps"
               prefetch={false}
-              className="px-3.5 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
             >
               Maps
             </Link>
           </nav>
 
-          {/* Action CTAs */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Action CTAs (Desktop) */}
+          <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             <a
               href="https://wa.me/923218653500"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-colors"
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
               <span>WhatsApp</span>
@@ -291,26 +293,28 @@ export default function Header() {
             <Link
               href="/post-listing"
               prefetch={false}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white text-xs font-bold shadow-md shadow-brand-green-900/20 active:scale-95 transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white text-xs font-bold shadow-md shadow-brand-green-900/20 active:scale-95 transition-all"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Post Property</span>
             </Link>
           </div>
 
-          {/* Mobile Hamburger Button */}
-          <div className="lg:hidden flex items-center gap-2">
+          {/* Mobile Actions: Responsive '+ Post' pill and Hamburger */}
+          <div className="lg:hidden flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
             <Link
               href="/post-listing"
               prefetch={false}
-              className="px-2.5 py-1.5 rounded-lg bg-brand-green-700 text-white text-xs font-bold sm:hidden"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-brand-green-700 hover:bg-brand-green-800 text-white text-[11px] font-black shadow-sm active:scale-95 transition-all"
             >
-              + Post
+              <PlusCircle className="w-3.5 h-3.5" />
+              <span>Post</span>
             </Link>
+
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -321,7 +325,28 @@ export default function Header() {
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top duration-200 shadow-xl max-h-[85vh] overflow-y-auto">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-4 animate-in slide-in-from-top duration-200 shadow-xl max-h-[85vh] overflow-y-auto">
+          {/* Mobile Featured Post CTA */}
+          <Link
+            href="/post-listing"
+            prefetch={false}
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-brand-green-800 to-brand-green-700 text-white shadow-md active:scale-98 transition-all"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center font-bold text-white">
+                <PlusCircle className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="font-extrabold text-xs">Post Property for Sale / Rent</div>
+                <div className="text-[10px] text-emerald-200">Free Listing with Verified Property Bank Dealers</div>
+              </div>
+            </div>
+            <span className="text-xs font-black bg-brand-gold-500 text-slate-950 px-2 py-0.5 rounded-md">
+              FREE
+            </span>
+          </Link>
+
           {/* Quick Helpline Header */}
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
             <div className="font-bold text-slate-800 flex items-center justify-between">
@@ -340,7 +365,7 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="space-y-1 font-semibold text-sm text-slate-800">
+          <div className="space-y-1 font-semibold text-xs sm:text-sm text-slate-800">
             <Link
               href="/"
               prefetch={false}
@@ -400,7 +425,7 @@ export default function Header() {
           </div>
 
           <div className="pt-2 border-t border-slate-100">
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">
+            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">
               Calculators & Tools
             </div>
             <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
