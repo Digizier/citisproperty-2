@@ -28,6 +28,8 @@ import {
   FileText,
   Download,
   MapPin,
+  Share2,
+  Copy,
 } from 'lucide-react';
 import {
   adminGetAllProperties,
@@ -1210,6 +1212,22 @@ export default function AdminPage() {
                               )}
                               <button
                                 type="button"
+                                onClick={async () => {
+                                  const shareUrl = `${window.location.origin}/society-maps?map=${slugify(s.name)}&view=1`;
+                                  try {
+                                    await navigator.clipboard.writeText(shareUrl);
+                                    showToast(`Share link for "${s.name}" copied to clipboard!`);
+                                  } catch {
+                                    showToast(`Link: ${shareUrl}`);
+                                  }
+                                }}
+                                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-brand-gold-400 hover:text-brand-gold-300 transition cursor-pointer"
+                                title="Copy Public Share Link"
+                              >
+                                <Share2 className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
                                 onClick={() => setEditingSociety(s)}
                                 className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition cursor-pointer"
                                 title="Edit Society & PDF Details"
@@ -2269,6 +2287,37 @@ export default function AdminPage() {
                     </label>
                   </div>
                 </div>
+
+                {/* Live Share Link Preview for Client / Agents */}
+                {editingSociety.name && (
+                  <div className="sm:col-span-2 p-3.5 rounded-2xl bg-slate-950 border border-brand-gold-500/30 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-brand-gold-400">
+                        <Share2 className="w-3 h-3" />
+                        <span>Public Direct Share Link (Any device / WhatsApp ready)</span>
+                      </div>
+                      <div className="text-[11px] font-mono text-slate-300 truncate mt-0.5">
+                        {typeof window !== 'undefined' ? window.location.origin : ''}/society-maps?map={slugify(editingSociety.name)}&view=1
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        const url = `${window.location.origin}/society-maps?map=${slugify(editingSociety.name!)}&view=1`;
+                        try {
+                          await navigator.clipboard.writeText(url);
+                          showToast('Direct map share link copied!');
+                        } catch {
+                          showToast(`Link: ${url}`);
+                        }
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs shrink-0 flex items-center justify-center gap-1.5 shadow transition cursor-pointer"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy Share Link</span>
+                    </button>
+                  </div>
+                )}
 
                 {/* Visibility Toggles */}
                 <div className="sm:col-span-2 flex flex-wrap items-center gap-6 pt-2">
