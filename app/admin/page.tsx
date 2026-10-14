@@ -25,6 +25,9 @@ import {
   LogOut,
   FolderPlus,
   RefreshCw,
+  FileText,
+  Download,
+  MapPin,
 } from 'lucide-react';
 import {
   adminGetAllProperties,
@@ -43,9 +46,12 @@ import {
   adminUpdateInquiryStatus,
   getSiteSettings,
   adminSaveSiteSettings,
+  getSocieties,
+  adminSaveSociety,
+  adminDeleteSociety,
   DB_EVENTS,
 } from '@/lib/db';
-import { uploadPropertyImage } from '@/lib/image-compressor';
+import { uploadPropertyImage, uploadPdfToStorage } from '@/lib/image-compressor';
 import {
   Property,
   Category,
@@ -53,11 +59,14 @@ import {
   HeroBanner,
   Inquiry,
   SiteSettings,
+  Society,
   PropertyPurpose,
   PropertyType,
   AreaUnit,
 } from '@/lib/types';
 import { formatPKRPrice, slugify } from '@/lib/utils';
+
+const ADMIN_CITIES = ['Faisalabad', 'Lahore', 'Islamabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Sialkot'];
 
 export default function AdminPage() {
   // Auth PIN Gate
@@ -67,11 +76,12 @@ export default function AdminPage() {
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'properties' | 'categories' | 'banners' | 'inquiries' | 'settings'
+    'overview' | 'properties' | 'societies' | 'categories' | 'banners' | 'inquiries' | 'settings'
   >('overview');
 
   // Core Data States
   const [properties, setProperties] = useState<Property[]>([]);
+  const [societies, setSocieties] = useState<Society[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [banners, setBanners] = useState<HeroBanner[]>([]);
@@ -99,6 +109,19 @@ export default function AdminPage() {
   const [editingProperty, setEditingProperty] = useState<Partial<Property> | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
   const propertyFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Society & Map PDF State
+  const [editingSociety, setEditingSociety] = useState<Partial<Society> | null>(null);
+  const [uploadingPdf, setUploadingPdf] = useState(false);
+  const [uploadingSocietyImage, setUploadingSocietyImage] = useState(false);
+  const [societySearch, setSocietySearch] = useState('');
+  const [pdfPreviewModal, setPdfPreviewModal] = useState<{
+    isOpen: boolean;
+    url: string;
+    title: string;
+  }>({ isOpen: false, url: '', title: '' });
+  const societyPdfFileInputRef = useRef<HTMLInputElement>(null);
+  const societyImageFileInputRef = useRef<HTMLInputElement>(null);
 
   // Category & Subcategory Modal State
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -129,13 +152,14 @@ export default function AdminPage() {
   const loadAdminData = async () => {
     setLoading(true);
     try {
-      const [p, c, s, b, inq, sett] = await Promise.all([
+      const [p, c, s, b, inq, sett, socs] = await Promise.all([
         adminGetAllProperties(),
         getCategories(),
         getSubcategories(),
         adminGetAllBanners(),
         getInquiries(),
         getSiteSettings(),
+        getSocieties(),
       ]);
       setProperties(p);
       setCategories(c);
@@ -143,6 +167,7 @@ export default function AdminPage() {
       setBanners(b);
       setInquiries(inq);
       setSettings(sett);
+      setSocieties(socs);
     } catch (e) {
       console.error('Failed to load admin data:', e);
       showToast('Error syncing remote database', 'error');
@@ -156,12 +181,14 @@ export default function AdminPage() {
       loadAdminData();
       const handleSync = () => loadAdminData();
       window.addEventListener(DB_EVENTS.PROPERTIES_UPDATED, handleSync);
+      window.addEventListener(DB_EVENTS.SOCIETIES_UPDATED, handleSync);
       window.addEventListener(DB_EVENTS.CATEGORIES_UPDATED, handleSync);
       window.addEventListener(DB_EVENTS.BANNERS_UPDATED, handleSync);
       window.addEventListener(DB_EVENTS.INQUIRIES_UPDATED, handleSync);
       window.addEventListener(DB_EVENTS.SETTINGS_UPDATED, handleSync);
       return () => {
         window.removeEventListener(DB_EVENTS.PROPERTIES_UPDATED, handleSync);
+        window.removeEventListener(DB_EVENTS.SOCIETIES_UPDATED, handleSync);
         window.removeEventListener(DB_EVENTS.CATEGORIES_UPDATED, handleSync);
         window.removeEventListener(DB_EVENTS.BANNERS_UPDATED, handleSync);
         window.removeEventListener(DB_EVENTS.INQUIRIES_UPDATED, handleSync);
@@ -397,12 +424,126 @@ export default function AdminPage() {
     }
   };
 
+  /* ---------------- SOCIETY & MASTER PLAN PDF CRUD ---------------- */
+  const handleOpenNewSociety = () => {
+    setEditingSociety({
+      name: 'Citi Housing (Phase II) Samundri Road',
+      city: 'Faisalabad',
+      location: 'Samundri Road, Faisalabad',
+      description: 'Official high-definition master plan layout blueprint with residential and commercial sectors.',
+      master_plan_pdf_url: '/maps/property-bank-master-plan.pdf',
+      master_plan_image_url: '/maps/citi-housing-master-plan-hd.webp',
+      is_active: true,
+      is_featured: false,
+    });
+  };
+
+  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      showToast('Please select a valid PDF file (*.pdf)', 'error');
+      return;
+    }
+
+    if (file.size > 50 * 1024 * 1024) {
+      showToast('File size exceeds the 50MB limit', 'error');
+      return;
+    }
+
+    setUploadingPdf(true);
+    try {
+      const publicUrl = await uploadPdfToStorage(file);
+      setEditingSociety((prev) => ({
+        ...prev,
+        master_plan_pdf_url: publicUrl,
+      }));
+      showToast('PDF blueprint uploaded directly to Cloud Storage!');
+    } catch (err: any) {
+      console.error(err);
+      showToast(err.message || 'PDF upload failed', 'error');
+    } finally {
+      setUploadingPdf(false);
+      if (societyPdfFileInputRef.current) societyPdfFileInputRef.current.value = '';
+    }
+  };
+
+  const handleSocietyImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingSocietyImage(true);
+    try {
+      const publicUrl = await uploadPropertyImage(file);
+      setEditingSociety((prev) => ({
+        ...prev,
+        master_plan_image_url: publicUrl,
+      }));
+      showToast('Blueprint thumbnail compressed to WebP & uploaded!');
+    } catch (err: any) {
+      console.error(err);
+      showToast(err.message || 'Image upload failed', 'error');
+    } finally {
+      setUploadingSocietyImage(false);
+      if (societyImageFileInputRef.current) societyImageFileInputRef.current.value = '';
+    }
+  };
+
+  const handleSaveSocietySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingSociety?.name?.trim()) {
+      showToast('Please provide a Society / Map Title', 'error');
+      return;
+    }
+    if (!editingSociety?.city?.trim()) {
+      showToast('Please specify a City', 'error');
+      return;
+    }
+
+    try {
+      await adminSaveSociety(editingSociety);
+      setEditingSociety(null);
+      showToast('Society Master Plan PDF successfully saved & synced!');
+      loadAdminData();
+    } catch (err: any) {
+      console.error(err);
+      showToast(err.message || 'Error saving society map', 'error');
+    }
+  };
+
+  const handleDeleteSociety = (society: Society) => {
+    setDeleteConfirm({
+      isOpen: true,
+      title: 'Delete Master Plan PDF?',
+      description: `Are you sure you want to delete "${society.name}"? This master plan PDF layout will be permanently removed.`,
+      onConfirm: async () => {
+        try {
+          await adminDeleteSociety(society.id);
+          setDeleteConfirm((prev) => ({ ...prev, isOpen: false }));
+          showToast('Master Plan PDF deleted successfully');
+          loadAdminData();
+        } catch (err: any) {
+          showToast(err.message || 'Error deleting society map', 'error');
+        }
+      },
+    });
+  };
+
   // Filter properties in admin list
   const filteredProperties = properties.filter(
     (p) =>
       p.title.toLowerCase().includes(propertySearch.toLowerCase()) ||
       p.city.toLowerCase().includes(propertySearch.toLowerCase()) ||
       p.location.toLowerCase().includes(propertySearch.toLowerCase())
+  );
+
+  // Filter societies in admin list
+  const filteredSocieties = societies.filter(
+    (s) =>
+      s.name.toLowerCase().includes(societySearch.toLowerCase()) ||
+      s.city.toLowerCase().includes(societySearch.toLowerCase()) ||
+      (s.location && s.location.toLowerCase().includes(societySearch.toLowerCase()))
   );
 
   /* =========================================================================
@@ -573,6 +714,26 @@ export default function AdminPage() {
 
             <button
               type="button"
+              onClick={() => setActiveTab('societies')}
+              className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all ${
+                activeTab === 'societies'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <FileText className="w-4 h-4" />
+                <span>Plot & Society Maps</span>
+              </div>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                activeTab === 'societies' ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-300'
+              }`}>
+                {societies.length}
+              </span>
+            </button>
+
+            <button
+              type="button"
               onClick={() => setActiveTab('categories')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'categories'
@@ -668,13 +829,21 @@ export default function AdminPage() {
             </div>
 
             {/* Quick Metrics */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-1">
                 <span className="text-[11px] font-bold text-slate-400 uppercase">
                   Total Properties
                 </span>
                 <div className="text-3xl font-black text-white">{properties.length}</div>
                 <span className="text-[10px] text-emerald-400 font-bold">100% Verified</span>
+              </div>
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-1">
+                <span className="text-[11px] font-bold text-slate-400 uppercase">
+                  Master Plan Maps
+                </span>
+                <div className="text-3xl font-black text-brand-gold-400">{societies.length}</div>
+                <span className="text-[10px] text-emerald-400 font-bold">PDF Vector Ready</span>
               </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-1">
@@ -711,6 +880,14 @@ export default function AdminPage() {
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add New Property</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleOpenNewSociety}
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2"
+                >
+                  <FileText className="w-4 h-4 text-brand-gold-400" />
+                  <span>Upload Master Plan PDF</span>
                 </button>
                 <button
                   type="button"
@@ -866,7 +1043,200 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 3: CATEGORIES & SUBCATEGORIES MANAGER */}
+        {/* TAB 3: PLOT & SOCIETY MAPS (PDF) MANAGER */}
+        {activeTab === 'societies' && (
+          <div className="space-y-6 animate-in fade-in duration-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-black text-white">Plot & Society Master Plan Maps</h1>
+                <p className="text-xs text-slate-400 mt-1">
+                  Upload, manage, and distribute high-definition printable vector PDF layout maps for societies and sectors
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleOpenNewSociety}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Upload New PDF Map</span>
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative max-w-md">
+              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search master plans by society name, city, location..."
+                value={societySearch}
+                onChange={(e) => setSocietySearch(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-gold-500 transition-colors"
+              />
+            </div>
+
+            {/* Society PDF Maps Table */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+              <div className="p-4 sm:p-5 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-950/60">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-brand-gold-400" />
+                  <h3 className="font-extrabold text-sm text-white">
+                    Uploaded Society Map PDFs ({filteredSocieties.length})
+                  </h3>
+                </div>
+                <span className="text-[11px] text-slate-400">
+                  Synced directly with Cloud Database &amp; Storage
+                </span>
+              </div>
+
+              {filteredSocieties.length === 0 ? (
+                <div className="p-12 text-center space-y-3">
+                  <FileText className="w-10 h-10 text-slate-600 mx-auto" />
+                  <p className="text-sm font-bold text-slate-400">No Society Map PDFs Uploaded Yet</p>
+                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                    Attach high-res blueprints and official PDF maps for public download.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleOpenNewSociety}
+                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 text-xs font-black"
+                  >
+                    + Add First Master Plan PDF
+                  </button>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-800 bg-slate-950/40 text-slate-400 font-bold uppercase text-[10px] tracking-wider">
+                        <th className="p-3.5 sm:p-4">Map #</th>
+                        <th className="p-3.5 sm:p-4">Society / Title</th>
+                        <th className="p-3.5 sm:p-4">City &amp; Location</th>
+                        <th className="p-3.5 sm:p-4">Attached PDF File</th>
+                        <th className="p-3.5 sm:p-4">Status</th>
+                        <th className="p-3.5 sm:p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/60 font-medium">
+                      {filteredSocieties.map((s, idx) => (
+                        <tr key={s.id} className="hover:bg-slate-800/40 transition">
+                          <td className="p-3.5 sm:p-4">
+                            <span className="px-2.5 py-1 rounded-lg bg-brand-gold-500/15 text-brand-gold-400 font-extrabold text-[11px] border border-brand-gold-500/30">
+                              PDF #{idx + 1}
+                            </span>
+                          </td>
+                          <td className="p-3.5 sm:p-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 shrink-0">
+                                <img
+                                  src={s.master_plan_image_url || '/maps/citi-housing-master-plan-hd.webp'}
+                                  alt={s.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <div className="font-extrabold text-white text-sm">{s.name}</div>
+                                <div className="text-[11px] text-slate-400 line-clamp-1 max-w-xs">
+                                  {s.description || 'Master plan layout blueprint'}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="p-3.5 sm:p-4">
+                            <div className="font-bold text-slate-200">{s.city}</div>
+                            <div className="text-[11px] text-slate-400 line-clamp-1 flex items-center gap-1">
+                              <MapPin className="w-3 h-3 text-slate-500 shrink-0" />
+                              <span>{s.location || 'Faisalabad'}</span>
+                            </div>
+                          </td>
+                          <td className="p-3.5 sm:p-4 font-mono text-[11px]">
+                            {s.master_plan_pdf_url ? (
+                              <div className="flex items-center gap-1.5 max-w-xs truncate text-brand-gold-400">
+                                <FileText className="w-3.5 h-3.5 shrink-0" />
+                                <span className="truncate">{s.master_plan_pdf_url}</span>
+                              </div>
+                            ) : (
+                              <span className="text-red-400">No PDF Attached</span>
+                            )}
+                          </td>
+                          <td className="p-3.5 sm:p-4">
+                            <div className="flex flex-col gap-1">
+                              <span
+                                className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-extrabold w-fit ${
+                                  s.is_active
+                                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                    : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                }`}
+                              >
+                                {s.is_active ? 'Active' : 'Disabled'}
+                              </span>
+                              {s.is_featured && (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-brand-gold-500/20 text-brand-gold-400 border border-brand-gold-500/30 w-fit">
+                                  ★ Featured
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="p-3.5 sm:p-4 text-right">
+                            <div className="flex items-center justify-end gap-1.5">
+                              {s.master_plan_pdf_url && (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setPdfPreviewModal({
+                                        isOpen: true,
+                                        url: s.master_plan_pdf_url!,
+                                        title: s.name,
+                                      })
+                                    }
+                                    className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition cursor-pointer"
+                                    title="Preview PDF Map"
+                                  >
+                                    <Eye className="w-3.5 h-3.5 text-brand-gold-400" />
+                                  </button>
+                                  <a
+                                    href={s.master_plan_pdf_url}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition"
+                                    title="Download PDF"
+                                  >
+                                    <Download className="w-3.5 h-3.5 text-emerald-400" />
+                                  </a>
+                                </>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => setEditingSociety(s)}
+                                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition cursor-pointer"
+                                title="Edit Society & PDF Details"
+                              >
+                                <Edit3 className="w-3.5 h-3.5 text-slate-300" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteSociety(s)}
+                                className="p-2 rounded-xl bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white transition cursor-pointer"
+                                title="Delete Map"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: CATEGORIES & SUBCATEGORIES MANAGER */}
         {activeTab === 'categories' && (
           <div className="space-y-8 animate-in fade-in duration-200">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1721,6 +2091,272 @@ export default function AdminPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 5: ADD / EDIT SOCIETY MASTER PLAN PDF */}
+      {editingSociety && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-150">
+          <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center gap-2">
+                <FileText className="w-5 h-5 text-brand-gold-400" />
+                <h3 className="font-extrabold text-base text-white">
+                  {editingSociety.id ? `Edit PDF Map: ${editingSociety.name}` : 'Upload New Society Master Plan PDF'}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingSociety(null)}
+                className="text-slate-400 hover:text-white text-sm p-1.5"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveSocietySubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="sm:col-span-2">
+                  <label className="block font-bold text-slate-300 mb-1">
+                    Society / Map Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editingSociety.name || ''}
+                    onChange={(e) => setEditingSociety({ ...editingSociety, name: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold focus:outline-none focus:border-brand-gold-500"
+                    placeholder="e.g. Citi Housing (Phase II) Samundri Road or Property Bank Blueprint"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">City *</label>
+                  <input
+                    type="text"
+                    required
+                    list="admin-cities-list"
+                    value={editingSociety.city || ''}
+                    onChange={(e) => setEditingSociety({ ...editingSociety, city: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-semibold focus:outline-none focus:border-brand-gold-500"
+                    placeholder="e.g. Faisalabad"
+                  />
+                  <datalist id="admin-cities-list">
+                    {ADMIN_CITIES.map((c) => (
+                      <option key={c} value={c} />
+                    ))}
+                  </datalist>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">Location Address</label>
+                  <input
+                    type="text"
+                    value={editingSociety.location || ''}
+                    onChange={(e) => setEditingSociety({ ...editingSociety, location: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:border-brand-gold-500"
+                    placeholder="e.g. Samundri Road, Faisalabad"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block font-bold text-slate-300 mb-1">Overview Description</label>
+                  <textarea
+                    rows={2}
+                    value={editingSociety.description || ''}
+                    onChange={(e) => setEditingSociety({ ...editingSociety, description: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs leading-relaxed focus:outline-none focus:border-brand-gold-500"
+                    placeholder="Brief overview of blocks, roads, facilities, and master layout..."
+                  />
+                </div>
+
+                {/* PDF File Upload Section */}
+                <div className="sm:col-span-2 p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="block font-bold text-brand-gold-400">
+                      Master Plan PDF Document *
+                    </label>
+                    <span className="text-[10px] text-slate-400">PDF File up to 50MB</span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <input
+                      type="text"
+                      value={editingSociety.master_plan_pdf_url || ''}
+                      onChange={(e) => setEditingSociety({ ...editingSociety, master_plan_pdf_url: e.target.value })}
+                      className="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-brand-gold-300 font-mono text-[11px] focus:outline-none focus:border-brand-gold-500"
+                      placeholder="/maps/property-bank-master-plan.pdf or Cloud Storage URL"
+                    />
+
+                    <label className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl border border-dashed border-brand-gold-500/50 hover:border-brand-gold-400 bg-brand-gold-500/10 hover:bg-brand-gold-500/20 text-brand-gold-300 font-bold text-xs cursor-pointer transition shrink-0">
+                      <Upload className="w-3.5 h-3.5 text-brand-gold-400" />
+                      <span>{uploadingPdf ? 'Uploading...' : 'Upload PDF File'}</span>
+                      <input
+                        ref={societyPdfFileInputRef}
+                        type="file"
+                        accept="application/pdf,.pdf"
+                        disabled={uploadingPdf}
+                        onChange={handlePdfUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Quick Presets */}
+                  <div className="pt-1 flex flex-wrap items-center gap-2">
+                    <span className="text-[10px] text-slate-400 font-bold">Quick Presets:</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingSociety({
+                          ...editingSociety,
+                          master_plan_pdf_url: '/maps/property-bank-master-plan.pdf',
+                          master_plan_image_url: '/maps/citi-housing-master-plan-hd.webp',
+                        });
+                        showToast('Attached Property Bank Master Plan PDF (20.9 MB)!');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 text-[10px] font-bold border border-slate-700 transition"
+                    >
+                      Property Bank (1) PDF (20.9 MB)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingSociety({
+                          ...editingSociety,
+                          master_plan_pdf_url: '/maps/citi-housing-phase2-master-plan.pdf',
+                          master_plan_image_url: '/maps/citi-housing-master-plan-hd.webp',
+                        });
+                        showToast('Attached Citi Housing Phase II PDF (20.9 MB)!');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 text-[10px] font-bold border border-slate-700 transition"
+                    >
+                      Citi Housing Phase II PDF (20.9 MB)
+                    </button>
+                  </div>
+                </div>
+
+                {/* Blueprint Preview Thumbnail Image */}
+                <div className="sm:col-span-2 p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="block font-bold text-slate-300">
+                      Blueprint Thumbnail / Preview Image (Optional)
+                    </label>
+                    <span className="text-[10px] text-slate-400">WebP / JPG / PNG</span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <input
+                      type="text"
+                      value={editingSociety.master_plan_image_url || ''}
+                      onChange={(e) => setEditingSociety({ ...editingSociety, master_plan_image_url: e.target.value })}
+                      className="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 font-mono text-[11px] focus:outline-none focus:border-brand-gold-500"
+                      placeholder="/maps/citi-housing-master-plan-hd.webp"
+                    />
+
+                    <label className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl border border-dashed border-brand-gold-500/50 hover:border-brand-gold-400 bg-brand-gold-500/10 hover:bg-brand-gold-500/20 text-brand-gold-300 font-bold text-xs cursor-pointer transition shrink-0">
+                      <Upload className="w-3.5 h-3.5 text-brand-gold-400" />
+                      <span>{uploadingSocietyImage ? 'Uploading...' : 'Upload Image'}</span>
+                      <input
+                        ref={societyImageFileInputRef}
+                        type="file"
+                        accept="image/*"
+                        disabled={uploadingSocietyImage}
+                        onChange={handleSocietyImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {/* Visibility Toggles */}
+                <div className="sm:col-span-2 flex flex-wrap items-center gap-6 pt-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(editingSociety.is_active)}
+                      onChange={(e) => setEditingSociety({ ...editingSociety, is_active: e.target.checked })}
+                      className="w-4 h-4 rounded-md border-slate-700 text-brand-gold-500 focus:ring-0"
+                    />
+                    <span className="font-bold text-slate-200">Active (Visible for Public Download)</span>
+                  </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(editingSociety.is_featured)}
+                      onChange={(e) => setEditingSociety({ ...editingSociety, is_featured: e.target.checked })}
+                      className="w-4 h-4 rounded-md border-slate-700 text-brand-gold-500 focus:ring-0"
+                    />
+                    <span className="font-bold text-slate-200">★ Featured Map</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Modal Action Buttons */}
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingSociety(null)}
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs transition shadow cursor-pointer"
+                >
+                  Save Society Map PDF
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 6: ONLINE PDF BLUEPRINT PREVIEW */}
+      {pdfPreviewModal.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-150">
+          <div className="relative w-full max-w-5xl h-[90vh] bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col">
+            <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/70">
+              <div className="flex items-center gap-2.5">
+                <FileText className="w-5 h-5 text-brand-gold-400" />
+                <div>
+                  <h4 className="font-extrabold text-sm text-white">{pdfPreviewModal.title}</h4>
+                  <p className="text-[10px] text-slate-400 truncate max-w-xs sm:max-w-md">
+                    {pdfPreviewModal.url}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href={pdfPreviewModal.url}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black text-xs flex items-center gap-1.5"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setPdfPreviewModal({ isOpen: false, url: '', title: '' })}
+                  className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold"
+                >
+                  ✕ Close
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 bg-slate-950 p-1">
+              <iframe
+                src={pdfPreviewModal.url}
+                className="w-full h-full rounded-2xl border-0"
+                title={pdfPreviewModal.title}
+              />
+            </div>
           </div>
         </div>
       )}

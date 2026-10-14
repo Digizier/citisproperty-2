@@ -116,3 +116,36 @@ export async function uploadPropertyImage(file: File): Promise<string> {
     throw err;
   }
 }
+
+/**
+ * Uploads Master Plan PDF directly to Supabase Storage bucket 'master-plans'
+ * Returns the public CDN URL
+ */
+export async function uploadPdfToStorage(file: File): Promise<string> {
+  try {
+    const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+    const fileName = `${Date.now()}_${cleanName}.pdf`;
+
+    const { data, error } = await supabase.storage
+      .from('master-plans')
+      .upload(fileName, file, {
+        contentType: 'application/pdf',
+        cacheControl: '31536000',
+        upsert: true,
+      });
+
+    if (error) {
+      console.error('Supabase storage PDF upload error:', error.message);
+      throw new Error(`PDF upload failed: ${error.message}`);
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from('master-plans')
+      .getPublicUrl(data.path);
+
+    return publicUrlData.publicUrl;
+  } catch (err: any) {
+    console.error('Error during PDF upload pipeline:', err);
+    throw err;
+  }
+}

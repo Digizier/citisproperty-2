@@ -3,6 +3,7 @@ import {
   Property,
   Category,
   Subcategory,
+  Society,
   HeroBanner,
   Inquiry,
   SiteSettings,
@@ -16,6 +17,7 @@ export const DB_EVENTS = {
   BANNERS_UPDATED: 'citis_banners_updated',
   SETTINGS_UPDATED: 'citis_settings_updated',
   INQUIRIES_UPDATED: 'citis_inquiries_updated',
+  SOCIETIES_UPDATED: 'citis_societies_updated',
 };
 
 const dispatchDbEvent = (eventName: string) => {
@@ -639,6 +641,118 @@ export async function adminUpdateInquiryStatus(
     return true;
   } catch (err) {
     console.error('Update inquiry status error:', err);
+    return false;
+  }
+}
+
+/* =========================================================================
+   SOCIETIES & MASTER PLAN MAPS API
+   ========================================================================= */
+
+export const DEFAULT_SOCIETIES: Society[] = [
+  {
+    id: '0e39c94d-0cf5-4886-a186-64413c964b81',
+    name: 'Citi Housing (Phase II) Samundri Road',
+    slug: 'citi-housing-phase-ii-samundri-road',
+    city: 'Faisalabad',
+    location: 'Samundri Road, Faisalabad',
+    description:
+      'Citi Housing Faisalabad offers a gold standard lifestyle with wide road networks, underground utilities, magnificent themed entrance, Glow Park, central masjid, and gated 24/7 security.',
+    image_url: '/maps/citi-housing-master-plan-hd.webp',
+    master_plan_pdf_url: '/maps/property-bank-master-plan.pdf',
+    master_plan_image_url: '/maps/citi-housing-master-plan-hd.webp',
+    is_featured: true,
+    is_active: true,
+  },
+];
+
+export async function getSocieties(onlyActive = true): Promise<Society[]> {
+  try {
+    let query = supabase
+      .from('societies')
+      .select(
+        'id, name, slug, city, location, description, image_url, master_plan_pdf_url, master_plan_image_url, is_featured, is_active, created_at'
+      )
+      .order('is_featured', { ascending: false });
+
+    if (onlyActive) {
+      query = query.eq('is_active', true);
+    }
+
+    const { data, error } = await query;
+    if (error || !data || data.length === 0) {
+      return DEFAULT_SOCIETIES;
+    }
+    return data as Society[];
+  } catch (err) {
+    console.warn('Fetch societies error, using fallback:', err);
+    return DEFAULT_SOCIETIES;
+  }
+}
+
+export async function adminSaveSociety(
+  society: Partial<Society>
+): Promise<{ success: boolean; data?: any; error?: string }> {
+  try {
+    const payload: any = {};
+    const allowed = [
+      'name',
+      'slug',
+      'city',
+      'location',
+      'description',
+      'image_url',
+      'master_plan_pdf_url',
+      'master_plan_image_url',
+      'is_featured',
+      'is_active',
+    ];
+    for (const key of allowed) {
+      if ((society as any)[key] !== undefined) {
+        payload[key] = (society as any)[key];
+      }
+    }
+    if (!payload.slug && payload.name) {
+      payload.slug = payload.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    }
+
+    if (society.id) {
+      const { data, error } = await supabase
+        .from('societies')
+        .update(payload)
+        .eq('id', society.id)
+        .select()
+        .single();
+      if (error) throw error;
+      dispatchDbEvent(DB_EVENTS.SOCIETIES_UPDATED);
+      return { success: true, data };
+    } else {
+      const { data, error } = await supabase
+        .from('societies')
+        .insert([payload])
+        .select()
+        .single();
+      if (error) throw error;
+      dispatchDbEvent(DB_EVENTS.SOCIETIES_UPDATED);
+      return { success: true, data };
+    }
+  } catch (err: any) {
+    console.error('adminSaveSociety error:', err);
+    return { success: false, error: err.message || 'Failed to save society' };
+  }
+}
+
+export async function adminDeleteSociety(id: string): Promise<boolean> {
+  try {
+    const { error } = await supabase.from('societies').delete().eq('id', id);
+    if (error) throw error;
+    dispatchDbEvent(DB_EVENTS.SOCIETIES_UPDATED);
+    return true;
+  } catch (err) {
+    console.error('adminDeleteSociety error:', err);
     return false;
   }
 }

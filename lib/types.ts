@@ -20,6 +20,21 @@ export interface Subcategory {
   created_at?: string;
 }
 
+export interface Society {
+  id: string;
+  name: string;
+  slug: string;
+  city: string;
+  location: string;
+  description?: string;
+  image_url?: string;
+  master_plan_pdf_url?: string;
+  master_plan_image_url?: string;
+  is_featured: boolean;
+  is_active: boolean;
+  created_at?: string;
+}
+
 export interface Property {
   id: string;
   title: string;
