@@ -438,7 +438,7 @@ export default function AdminPage() {
                 className={`w-full bg-slate-950 border text-center text-sm font-bold tracking-widest rounded-2xl py-3 px-4 text-white focus:outline-none focus:ring-2 ${
                   pinError
                     ? 'border-red-500 focus:ring-red-500'
-                    : 'border-slate-800 focus:ring-brand-green-600'
+                    : 'border-slate-800 focus:ring-brand-gold-500'
                 }`}
               />
               {pinError && (
@@ -450,7 +450,7 @@ export default function AdminPage() {
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold text-xs rounded-2xl shadow-lg transition-all"
+              className="w-full py-3.5 bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs rounded-2xl shadow-lg transition-all"
             >
               Unlock Control Center
             </button>
@@ -543,7 +543,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('overview')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'overview'
-                  ? 'bg-brand-green-700 text-white shadow'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
@@ -556,7 +556,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('properties')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'properties'
-                  ? 'bg-brand-green-700 text-white shadow'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
@@ -564,7 +564,9 @@ export default function AdminPage() {
                 <Building className="w-4 h-4" />
                 <span>Properties Manager</span>
               </div>
-              <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-300">
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                activeTab === 'properties' ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-300'
+              }`}>
                 {properties.length}
               </span>
             </button>
@@ -574,7 +576,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('categories')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'categories'
-                  ? 'bg-brand-green-700 text-white shadow'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
@@ -587,7 +589,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('banners')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'banners'
-                  ? 'bg-brand-green-700 text-white shadow'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
@@ -600,7 +602,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('inquiries')}
               className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'inquiries'
-                  ? 'bg-brand-green-700 text-white shadow'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
@@ -620,7 +622,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('settings')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'settings'
-                  ? 'bg-brand-green-700 text-white shadow'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
@@ -705,7 +707,7 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={handleOpenNewProperty}
-                  className="px-4 py-2.5 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold text-xs flex items-center gap-2"
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs flex items-center gap-2 shadow"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add New Property</span>
@@ -751,7 +753,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={handleOpenNewProperty}
-                className="px-5 py-2.5 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold text-xs flex items-center justify-center gap-2 shadow"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow"
               >
                 <Plus className="w-4 h-4" />
                 <span>+ Add New Property</span>
@@ -766,7 +768,7 @@ export default function AdminPage() {
                 placeholder="Search listings by title, city, or block..."
                 value={propertySearch}
                 onChange={(e) => setPropertySearch(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
               />
             </div>
 
@@ -882,7 +884,7 @@ export default function AdminPage() {
                     setEditingCategory({ name: '', slug: '', icon: 'Folder' });
                     setCategoryModalOpen(true);
                   }}
-                  className="px-4 py-2.5 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold text-xs flex items-center gap-1.5"
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow"
                 >
                   <Plus className="w-4 h-4" />
                   <span>+ New Category</span>
@@ -991,7 +993,7 @@ export default function AdminPage() {
                   setEditingBanner({ title: '', subtitle: '', badge: '', link_url: '/' });
                   setBannerModalOpen(true);
                 }}
-                className="px-5 py-2.5 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold text-xs flex items-center gap-2"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs flex items-center gap-2 shadow"
               >
                 <Plus className="w-4 h-4" />
                 <span>+ Add New Banner</span>
@@ -1229,7 +1231,7 @@ export default function AdminPage() {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold text-xs rounded-xl shadow transition-all"
+                  className="px-6 py-3 bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs rounded-xl shadow transition-all"
                 >
                   Save All Settings
                 </button>
@@ -1507,7 +1509,7 @@ export default function AdminPage() {
                     onChange={(e) =>
                       setEditingProperty({ ...editingProperty, is_featured: e.target.checked })
                     }
-                    className="w-4 h-4 rounded accent-brand-green-700"
+                    className="w-4 h-4 rounded accent-brand-gold-500"
                   />
                   <span className="font-bold text-slate-300">Featured Property</span>
                 </label>
@@ -1519,7 +1521,7 @@ export default function AdminPage() {
                     onChange={(e) =>
                       setEditingProperty({ ...editingProperty, is_active: e.target.checked })
                     }
-                    className="w-4 h-4 rounded accent-brand-green-700"
+                    className="w-4 h-4 rounded accent-brand-gold-500"
                   />
                   <span className="font-bold text-slate-300">Active / Published</span>
                 </label>
@@ -1535,7 +1537,7 @@ export default function AdminPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black shadow"
                 >
                   Save Property
                 </button>
@@ -1580,7 +1582,7 @@ export default function AdminPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-brand-green-700 text-white font-bold"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black shadow"
                 >
                   Save Category
                 </button>
@@ -1642,7 +1644,7 @@ export default function AdminPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-brand-green-700 text-white font-bold"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black shadow"
                 >
                   Save Subcategory
                 </button>
@@ -1713,7 +1715,7 @@ export default function AdminPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-brand-green-700 text-white font-bold"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black shadow"
                 >
                   Save Banner
                 </button>

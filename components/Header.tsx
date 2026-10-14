@@ -54,14 +54,14 @@ export default function Header() {
                 href="tel:03218653500"
                 className="flex items-center gap-1.5 hover:text-white transition-colors"
               >
-                <Phone className="w-3 h-3 text-brand-green-500" />
+                <Phone className="w-3 h-3 text-brand-gold-400" />
                 <span>0321-8653500</span>
               </a>
               <a
                 href="tel:03028658450"
                 className="flex items-center gap-1.5 hover:text-white transition-colors"
               >
-                <Phone className="w-3 h-3 text-brand-green-500" />
+                <Phone className="w-3 h-3 text-brand-gold-400" />
                 <span>0302-8658450</span>
               </a>
             </div>
@@ -115,10 +115,10 @@ export default function Header() {
               />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-xs sm:text-base md:text-lg font-black tracking-tight text-slate-900 uppercase leading-tight truncate group-hover:text-brand-green-700 transition-colors">
+              <span className="text-xs sm:text-base md:text-lg font-black tracking-tight text-slate-900 uppercase leading-tight truncate group-hover:text-brand-gold-600 transition-colors">
                 City Housing <span className="text-brand-gold-600 text-[10px] sm:text-xs font-bold">(Pvt) Ltd</span>
               </span>
-              <span className="text-[9px] sm:text-[10px] md:text-[11px] font-extrabold text-brand-green-700 tracking-wider uppercase truncate mt-0.5">
+              <span className="text-[9px] sm:text-[10px] md:text-[11px] font-extrabold text-brand-gold-600 tracking-wider uppercase truncate mt-0.5">
                 Property Bank Real Estate
               </span>
             </div>
@@ -129,7 +129,7 @@ export default function Header() {
             <Link
               href="/"
               prefetch={false}
-              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-gold-600 hover:bg-slate-50 transition-colors"
             >
               Home
             </Link>
@@ -142,7 +142,7 @@ export default function Header() {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-brand-gold-600 hover:bg-slate-50 transition-colors"
               >
                 <span>Buy</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -153,7 +153,7 @@ export default function Header() {
                   <Link
                     href="/Homes/Faisalabad"
                     prefetch={false}
-                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
                     <span>Houses for Sale</span>
                     <span className="text-[10px] text-slate-400">5M, 10M, 1K</span>
@@ -161,7 +161,7 @@ export default function Header() {
                   <Link
                     href="/Plots/Faisalabad"
                     prefetch={false}
-                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
                     <span>Plots for Sale</span>
                     <span className="text-[10px] text-slate-400">On-ground & Files</span>
@@ -169,7 +169,7 @@ export default function Header() {
                   <Link
                     href="/Commercial/Faisalabad"
                     prefetch={false}
-                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
                     <span>Commercial Property</span>
                     <span className="text-[10px] text-slate-400">Shops & Plazas</span>
@@ -177,7 +177,7 @@ export default function Header() {
                   <Link
                     href="/Flats/Faisalabad"
                     prefetch={false}
-                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center justify-between px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
                     <span>Flats & Apartments</span>
                     <span className="text-[10px] text-slate-400">Luxury Towers</span>
@@ -190,7 +190,7 @@ export default function Header() {
             <Link
               href="/Rentals/Faisalabad"
               prefetch={false}
-              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-gold-600 hover:bg-slate-50 transition-colors"
             >
               Rent
             </Link>
@@ -199,7 +199,7 @@ export default function Header() {
             <Link
               href="/new-projects"
               prefetch={false}
-              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-gold-600 hover:bg-slate-50 transition-colors"
             >
               Projects
             </Link>
@@ -212,7 +212,7 @@ export default function Header() {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-brand-gold-600 hover:bg-slate-50 transition-colors"
               >
                 <span>Calculators</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -223,9 +223,9 @@ export default function Header() {
                   <Link
                     href="/tools/construction-cost-calculator"
                     prefetch={false}
-                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
-                    <Calculator className="w-4 h-4 text-brand-green-600" />
+                    <Calculator className="w-4 h-4 text-brand-gold-600" />
                     <div>
                       <div className="font-bold">Construction Cost Calculator</div>
                       <div className="text-[10px] text-slate-400">2026 Material Rates & Grey Structure</div>
@@ -234,9 +234,9 @@ export default function Header() {
                   <Link
                     href="/tools/home-loan-calculator"
                     prefetch={false}
-                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
-                    <Building className="w-4 h-4 text-brand-green-600" />
+                    <Building className="w-4 h-4 text-brand-gold-600" />
                     <div>
                       <div className="font-bold">Home Loan / Mortgage Calculator</div>
                       <div className="text-[10px] text-slate-400">Monthly Installment & Mark-up</div>
@@ -245,9 +245,9 @@ export default function Header() {
                   <Link
                     href="/tools/area-unit-converter"
                     prefetch={false}
-                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
-                    <HomeIcon className="w-4 h-4 text-brand-green-600" />
+                    <HomeIcon className="w-4 h-4 text-brand-gold-600" />
                     <div>
                       <div className="font-bold">Area Unit Converter</div>
                       <div className="text-[10px] text-slate-400">Marla, Kanal, Sq. Ft, Sq. Yds</div>
@@ -256,9 +256,9 @@ export default function Header() {
                   <Link
                     href="/tools/land-records"
                     prefetch={false}
-                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-green-50 hover:text-brand-green-800 font-medium"
+                    className="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
                   >
-                    <MapPin className="w-4 h-4 text-brand-green-600" />
+                    <MapPin className="w-4 h-4 text-brand-gold-600" />
                     <div>
                       <div className="font-bold">Land Records & Registry</div>
                       <div className="text-[10px] text-slate-400">Fard Malkiat & Transfer Verification</div>
@@ -272,7 +272,7 @@ export default function Header() {
             <Link
               href="/society-maps"
               prefetch={false}
-              className="px-3 py-2 rounded-lg hover:text-brand-green-700 hover:bg-slate-50 transition-colors"
+              className="px-3 py-2 rounded-lg hover:text-brand-gold-600 hover:bg-slate-50 transition-colors"
             >
               Maps
             </Link>
@@ -293,7 +293,7 @@ export default function Header() {
             <Link
               href="/post-listing"
               prefetch={false}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-green-700 hover:bg-brand-green-800 text-white text-xs font-bold shadow-md shadow-brand-green-900/20 active:scale-95 transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 text-xs font-black shadow-md shadow-brand-gold-500/20 active:scale-95 transition-all"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Post Property</span>
@@ -322,15 +322,15 @@ export default function Header() {
             href="/post-listing"
             prefetch={false}
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-brand-green-800 to-brand-green-700 text-white shadow-md active:scale-98 transition-all"
+            className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-brand-gold-500/30 text-white shadow-md active:scale-98 transition-all"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center font-bold text-white">
+              <div className="w-8 h-8 rounded-xl bg-brand-gold-500/20 text-brand-gold-400 flex items-center justify-center font-bold">
                 <PlusCircle className="w-5 h-5" />
               </div>
               <div>
                 <div className="font-extrabold text-xs">Post Property for Sale / Rent</div>
-                <div className="text-[10px] text-emerald-200">Free Listing with Verified Property Bank Dealers</div>
+                <div className="text-[10px] text-brand-gold-300">Free Listing with Verified Property Bank Dealers</div>
               </div>
             </div>
             <span className="text-xs font-black bg-brand-gold-500 text-slate-950 px-2 py-0.5 rounded-md">
@@ -346,12 +346,12 @@ export default function Header() {
                 Online
               </span>
             </div>
-            <div className="flex flex-wrap gap-3 font-semibold text-brand-green-700 pt-1">
+            <div className="flex flex-wrap gap-3 font-semibold text-brand-gold-700 pt-1">
               <a href="tel:03218653500" className="flex items-center gap-1">
-                <Phone className="w-3 h-3" /> 0321-8653500
+                <Phone className="w-3 h-3 text-brand-gold-600" /> 0321-8653500
               </a>
               <a href="tel:03028658450" className="flex items-center gap-1">
-                <Phone className="w-3 h-3" /> 0302-8658450
+                <Phone className="w-3 h-3 text-brand-gold-600" /> 0302-8658450
               </a>
             </div>
           </div>

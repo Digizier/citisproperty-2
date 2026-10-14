@@ -51,7 +51,7 @@ export default function AreaGuidesPage() {
             key={idx}
             className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-4"
           >
-            <div className="flex items-center gap-2 text-xs font-bold text-brand-green-700">
+            <div className="flex items-center gap-2 text-xs font-bold text-brand-gold-700">
               <MapPin className="w-4 h-4 text-brand-gold-600" />
               <span>{g.location}</span>
             </div>
@@ -76,7 +76,7 @@ export default function AreaGuidesPage() {
               <Link
                 href={g.link}
                 prefetch={false}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-green-700 hover:text-brand-green-800"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-gold-700 hover:text-brand-gold-800"
               >
                 <span>View Available Listings</span>
                 <ArrowRight className="w-3.5 h-3.5" />

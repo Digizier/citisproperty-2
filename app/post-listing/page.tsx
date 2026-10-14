@@ -84,7 +84,7 @@ export default function PostListingPage() {
                   onClick={() => setPurpose('buy')}
                   className={`py-3 rounded-xl font-bold text-xs transition-all ${
                     purpose === 'buy'
-                      ? 'bg-brand-green-700 text-white shadow'
+                      ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
@@ -95,7 +95,7 @@ export default function PostListingPage() {
                   onClick={() => setPurpose('rent')}
                   className={`py-3 rounded-xl font-bold text-xs transition-all ${
                     purpose === 'rent'
-                      ? 'bg-brand-green-700 text-white shadow'
+                      ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
@@ -245,7 +245,7 @@ export default function PostListingPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-4 bg-brand-green-700 hover:bg-brand-green-800 disabled:opacity-50 text-white font-bold text-sm rounded-xl shadow-lg transition-all"
+              className="w-full py-4 bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-brand-gold-700 disabled:opacity-50 text-slate-950 font-black text-sm rounded-xl shadow-lg transition-all"
             >
               {submitting ? 'Submitting Property...' : 'Submit Property for Verification & Publishing'}
             </button>

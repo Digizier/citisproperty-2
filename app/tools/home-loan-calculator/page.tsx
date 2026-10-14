@@ -29,8 +29,8 @@ export default function HomeLoanCalculatorPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-brand-green-800 text-xs font-bold uppercase tracking-wider">
-          <Landmark className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-brand-gold-50 text-brand-gold-800 border border-brand-gold-200/80 text-xs font-bold uppercase tracking-wider">
+          <Landmark className="w-3.5 h-3.5 text-brand-gold-600" />
           <span>Pakistani Banks & Mortgage Guidelines</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -50,7 +50,7 @@ export default function HomeLoanCalculatorPage() {
               <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Property Value
               </label>
-              <span className="text-lg font-black text-brand-green-800">
+              <span className="text-lg font-black text-brand-gold-700">
                 PKR {formatPKRPrice(propertyPrice)}
               </span>
             </div>
@@ -61,7 +61,7 @@ export default function HomeLoanCalculatorPage() {
               step="500000"
               value={propertyPrice}
               onChange={(e) => setPropertyPrice(Number(e.target.value))}
-              className="w-full accent-brand-green-700 h-2 bg-slate-200 rounded-lg cursor-pointer"
+              className="w-full accent-brand-gold-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
             />
           </div>
 
@@ -82,7 +82,7 @@ export default function HomeLoanCalculatorPage() {
               step="5"
               value={downPaymentPercent}
               onChange={(e) => setDownPaymentPercent(Number(e.target.value))}
-              className="w-full accent-brand-green-700 h-2 bg-slate-200 rounded-lg cursor-pointer"
+              className="w-full accent-brand-gold-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
             />
           </div>
 
@@ -103,7 +103,7 @@ export default function HomeLoanCalculatorPage() {
               step="1"
               value={tenureYears}
               onChange={(e) => setTenureYears(Number(e.target.value))}
-              className="w-full accent-brand-green-700 h-2 bg-slate-200 rounded-lg cursor-pointer"
+              className="w-full accent-brand-gold-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
             />
           </div>
 
@@ -124,14 +124,14 @@ export default function HomeLoanCalculatorPage() {
               step="0.5"
               value={markupRate}
               onChange={(e) => setMarkupRate(Number(e.target.value))}
-              className="w-full accent-brand-green-700 h-2 bg-slate-200 rounded-lg cursor-pointer"
+              className="w-full accent-brand-gold-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
             />
           </div>
         </div>
 
         {/* Results Card */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-brand-navy-950 via-slate-900 to-brand-green-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-6">
+          <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-brand-navy-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-6 border border-brand-gold-500/30">
             <div>
               <span className="text-[10px] font-black uppercase tracking-wider text-brand-gold-400 block">
                 Estimated Monthly Installment
@@ -162,7 +162,7 @@ export default function HomeLoanCalculatorPage() {
                 href="https://wa.me/923218653500?text=Assalam-o-Alaikum, I need guidance regarding Home Loan financing for Citi Housing property."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 bg-brand-green-700 hover:bg-brand-green-800 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all"
+                className="w-full py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all"
               >
                 <span>Bank Loan Advisory on WhatsApp</span>
               </a>

@@ -59,8 +59,8 @@ export default function ConstructionCostCalculatorPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-brand-green-800 text-xs font-bold uppercase tracking-wider">
-          <Calculator className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-brand-gold-50 text-brand-gold-800 border border-brand-gold-200/80 text-xs font-bold uppercase tracking-wider">
+          <Calculator className="w-3.5 h-3.5 text-brand-gold-600" />
           <span>Updated for 2026 Material Rates in Pakistan</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -86,7 +86,7 @@ export default function ConstructionCostCalculatorPage() {
                 onClick={() => handlePlotSelect('5m')}
                 className={`p-4 rounded-2xl border text-center transition-all ${
                   plotSize === '5m'
-                    ? 'border-brand-green-600 bg-emerald-50/60 text-brand-green-900 font-bold ring-2 ring-brand-green-600/30'
+                    ? 'border-brand-gold-500 bg-brand-gold-50/60 text-brand-gold-950 font-bold ring-2 ring-brand-gold-500/30'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
@@ -99,7 +99,7 @@ export default function ConstructionCostCalculatorPage() {
                 onClick={() => handlePlotSelect('10m')}
                 className={`p-4 rounded-2xl border text-center transition-all ${
                   plotSize === '10m'
-                    ? 'border-brand-green-600 bg-emerald-50/60 text-brand-green-900 font-bold ring-2 ring-brand-green-600/30'
+                    ? 'border-brand-gold-500 bg-brand-gold-50/60 text-brand-gold-950 font-bold ring-2 ring-brand-gold-500/30'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
@@ -112,7 +112,7 @@ export default function ConstructionCostCalculatorPage() {
                 onClick={() => handlePlotSelect('1k')}
                 className={`p-4 rounded-2xl border text-center transition-all ${
                   plotSize === '1k'
-                    ? 'border-brand-green-600 bg-emerald-50/60 text-brand-green-900 font-bold ring-2 ring-brand-green-600/30'
+                    ? 'border-brand-gold-500 bg-brand-gold-50/60 text-brand-gold-950 font-bold ring-2 ring-brand-gold-500/30'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
@@ -125,7 +125,7 @@ export default function ConstructionCostCalculatorPage() {
                 onClick={() => handlePlotSelect('custom')}
                 className={`p-4 rounded-2xl border text-center transition-all ${
                   plotSize === 'custom'
-                    ? 'border-brand-green-600 bg-emerald-50/60 text-brand-green-900 font-bold ring-2 ring-brand-green-600/30'
+                    ? 'border-brand-gold-500 bg-brand-gold-50/60 text-brand-gold-950 font-bold ring-2 ring-brand-gold-500/30'
                     : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
@@ -141,7 +141,7 @@ export default function ConstructionCostCalculatorPage() {
               <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 2. Total Covered Area (Square Feet)
               </label>
-              <span className="text-base font-extrabold text-brand-green-800">
+              <span className="text-base font-extrabold text-brand-gold-700">
                 {formatNumber(coveredArea)} Sq. Ft
               </span>
             </div>
@@ -155,7 +155,7 @@ export default function ConstructionCostCalculatorPage() {
                 setCoveredArea(Number(e.target.value));
                 setPlotSize('custom');
               }}
-              className="w-full accent-brand-green-700 h-2 bg-slate-200 rounded-lg cursor-pointer"
+              className="w-full accent-brand-gold-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
             />
             <div className="flex justify-between text-[11px] text-slate-400 mt-1">
               <span>800 sq ft</span>
@@ -175,12 +175,12 @@ export default function ConstructionCostCalculatorPage() {
                 onClick={() => setConstructionTier('grey')}
                 className={`p-4 rounded-2xl border text-left transition-all ${
                   constructionTier === 'grey'
-                    ? 'border-brand-green-600 bg-emerald-50/60 ring-2 ring-brand-green-600/30'
+                    ? 'border-brand-gold-500 bg-brand-gold-50/60 ring-2 ring-brand-gold-500/30'
                     : 'border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 <div className="font-extrabold text-sm text-slate-900">Grey Structure Only</div>
-                <div className="text-xs text-brand-green-700 font-bold mt-1">
+                <div className="text-xs text-brand-gold-700 font-bold mt-1">
                   ~Rs. {rates.grey} / sq. ft
                 </div>
                 <p className="text-[11px] text-slate-500 mt-2">
@@ -193,12 +193,12 @@ export default function ConstructionCostCalculatorPage() {
                 onClick={() => setConstructionTier('standard')}
                 className={`p-4 rounded-2xl border text-left transition-all ${
                   constructionTier === 'standard'
-                    ? 'border-brand-green-600 bg-emerald-50/60 ring-2 ring-brand-green-600/30'
+                    ? 'border-brand-gold-500 bg-brand-gold-50/60 ring-2 ring-brand-gold-500/30'
                     : 'border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 <div className="font-extrabold text-sm text-slate-900">Complete Standard</div>
-                <div className="text-xs text-brand-green-700 font-bold mt-1">
+                <div className="text-xs text-brand-gold-700 font-bold mt-1">
                   ~Rs. {rates.standard} / sq. ft
                 </div>
                 <p className="text-[11px] text-slate-500 mt-2">
@@ -211,12 +211,12 @@ export default function ConstructionCostCalculatorPage() {
                 onClick={() => setConstructionTier('luxury')}
                 className={`p-4 rounded-2xl border text-left transition-all ${
                   constructionTier === 'luxury'
-                    ? 'border-brand-green-600 bg-emerald-50/60 ring-2 ring-brand-green-600/30'
+                    ? 'border-brand-gold-500 bg-brand-gold-50/60 ring-2 ring-brand-gold-500/30'
                     : 'border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 <div className="font-extrabold text-sm text-slate-900">Premium Luxury / A+</div>
-                <div className="text-xs text-brand-green-700 font-bold mt-1">
+                <div className="text-xs text-brand-gold-700 font-bold mt-1">
                   ~Rs. {rates.luxury} / sq. ft
                 </div>
                 <p className="text-[11px] text-slate-500 mt-2">
@@ -229,7 +229,7 @@ export default function ConstructionCostCalculatorPage() {
 
         {/* Right Col: Cost Summary & Itemized Breakdown */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-brand-navy-950 via-slate-900 to-brand-green-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-6">
+          <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-brand-navy-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-6 border border-brand-gold-500/30">
             <div>
               <span className="text-[10px] font-black uppercase tracking-wider text-brand-gold-400 block">
                 Estimated Total Investment
@@ -266,7 +266,7 @@ export default function ConstructionCostCalculatorPage() {
             <div className="pt-2">
               <a
                 href="tel:03218653500"
-                className="w-full py-3 bg-brand-green-700 hover:bg-brand-green-800 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all"
+                className="w-full py-3 bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 rounded-xl font-black text-xs flex items-center justify-center gap-2 shadow-lg transition-all"
               >
                 <Phone className="w-4 h-4" />
                 <span>Consult with Construction Team</span>

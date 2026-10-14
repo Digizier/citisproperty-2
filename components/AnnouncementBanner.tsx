@@ -35,7 +35,7 @@ export default function AnnouncementBanner() {
   const current = banners[currentIndex];
 
   return (
-    <div className="bg-gradient-to-r from-brand-navy-950 via-brand-navy-900 to-brand-green-900 text-white text-xs py-2 px-4 border-b border-brand-gold-500/30">
+    <div className="bg-gradient-to-r from-brand-navy-950 via-slate-900 to-brand-navy-950 text-white text-xs py-2 px-4 border-b border-brand-gold-500/30">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 overflow-hidden truncate">
           {current.badge && (

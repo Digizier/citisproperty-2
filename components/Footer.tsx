@@ -34,7 +34,7 @@ export default function Footer() {
                 <h3 className="font-black text-white uppercase text-base tracking-tight leading-tight">
                   City Housing <span className="text-brand-gold-400 text-xs font-bold">(Pvt) Ltd</span>
                 </h3>
-                <p className="text-xs font-bold text-brand-green-500 uppercase tracking-wider mt-0.5">
+                <p className="text-xs font-bold text-brand-gold-400 uppercase tracking-wider mt-0.5">
                   Property Bank Real Estate
                 </p>
               </div>
@@ -156,7 +156,7 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
-              <Phone className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
+              <Phone className="w-4 h-4 text-brand-gold-400 flex-shrink-0" />
               <div className="space-x-2">
                 <a href="tel:03218653500" className="hover:text-white transition-colors">
                   0321-8653500

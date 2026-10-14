@@ -6,8 +6,8 @@ export default function PlotFinderPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-brand-green-800 text-xs font-bold uppercase tracking-wider">
-          <Compass className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-brand-gold-50 text-brand-gold-800 border border-brand-gold-200/80 text-xs font-bold uppercase tracking-wider">
+          <Compass className="w-3.5 h-3.5 text-brand-gold-600" />
           <span>Interactive Plot Locator</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -29,7 +29,7 @@ export default function PlotFinderPage() {
               href="https://wa.me/923218653500?text=Assalam-o-Alaikum, I want to find the exact plot location for Citi Housing."
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-brand-green-700 hover:bg-brand-green-800 text-white font-bold text-xs rounded-xl shadow"
+              className="px-6 py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold text-xs rounded-xl shadow transition-all"
             >
               WhatsApp Plot Details: 0321-8653500
             </a>

@@ -60,7 +60,7 @@ export default function ContactPage() {
           {/* Phones */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <h3 className="font-bold text-sm text-slate-900 uppercase tracking-wider flex items-center gap-2">
-              <Phone className="w-4 h-4 text-brand-green-700" />
+              <Phone className="w-4 h-4 text-brand-gold-600" />
               Direct Phone & WhatsApp Helplines
             </h3>
             <div className="space-y-3 text-xs">
@@ -69,7 +69,7 @@ export default function ContactPage() {
                   <span className="text-slate-500 block">Primary Helpline:</span>
                   <a
                     href="tel:03218653500"
-                    className="font-extrabold text-sm text-brand-green-800 hover:underline"
+                    className="font-extrabold text-sm text-brand-gold-700 hover:underline"
                   >
                     0321-8653500
                   </a>
@@ -89,7 +89,7 @@ export default function ContactPage() {
                   <span className="text-slate-500 block">Secondary Helpline:</span>
                   <a
                     href="tel:03028658450"
-                    className="font-extrabold text-sm text-brand-green-800 hover:underline"
+                    className="font-extrabold text-sm text-brand-gold-700 hover:underline"
                   >
                     0302-8658450
                   </a>
@@ -218,7 +218,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-3.5 bg-brand-green-700 hover:bg-brand-green-800 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-lg transition-all"
+                className="w-full py-3.5 bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-brand-gold-700 disabled:opacity-50 text-slate-950 font-black text-xs rounded-xl shadow-lg transition-all"
               >
                 {submitting ? 'Sending Message...' : 'Send Message to Property Bank'}
               </button>

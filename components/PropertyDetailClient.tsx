@@ -106,7 +106,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center space-y-4">
-        <div className="w-12 h-12 border-4 border-brand-green-600 border-t-transparent rounded-full animate-spin mx-auto" />
+        <div className="w-12 h-12 border-4 border-brand-gold-500 border-t-transparent rounded-full animate-spin mx-auto" />
         <p className="text-slate-500 text-sm font-semibold">Loading verified property details...</p>
       </div>
     );
@@ -122,7 +122,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
         <Link
           href="/properties"
           prefetch={false}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-green-700 text-white font-bold text-xs"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 font-black text-xs shadow-md transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Browse All Available Properties</span>
@@ -139,14 +139,14 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Breadcrumb Bar */}
       <nav className="flex items-center gap-2 text-xs text-slate-500 font-medium">
-        <Link href="/" prefetch={false} className="hover:text-brand-green-700">
+        <Link href="/" prefetch={false} className="hover:text-brand-gold-600">
           Home
         </Link>
         <span>/</span>
         <Link
           href={`/${property.type}/${property.city}`}
           prefetch={false}
-          className="hover:text-brand-green-700"
+          className="hover:text-brand-gold-600"
         >
           {property.type} in {property.city}
         </Link>
@@ -159,8 +159,8 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white ${
-                property.purpose === 'buy' ? 'bg-brand-green-700' : 'bg-blue-600'
+              className={`text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full text-white ${
+                property.purpose === 'buy' ? 'bg-gradient-to-r from-brand-gold-600 to-amber-600' : 'bg-blue-600'
               }`}
             >
               {property.purpose === 'buy' ? 'For Sale' : 'For Rent'}
@@ -173,8 +173,8 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 <Star className="w-3.5 h-3.5 fill-white" /> Featured
               </span>
             )}
-            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> 100% Document Verified
+            <span className="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-md flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-600" /> 100% Document Verified
             </span>
           </div>
 
@@ -191,11 +191,11 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
         </div>
 
         {/* Price Box */}
-        <div className="text-left md:text-right bg-emerald-50/70 p-4 rounded-2xl border border-emerald-100/80">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 block">
+        <div className="text-left md:text-right bg-brand-gold-50/70 p-4 rounded-2xl border border-brand-gold-200/80">
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-gold-900 block">
             Demand Price
           </span>
-          <div className="text-2xl sm:text-3xl font-black text-brand-green-800">
+          <div className="text-2xl sm:text-3xl font-black text-brand-gold-700">
             {property.price_prefix || 'PKR'} {formatPKRPrice(property.price)}
           </div>
           <span className="text-xs text-slate-500 font-medium">
@@ -227,7 +227,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                     onClick={() => setSelectedImage(img)}
                     className={`relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
                       selectedImage === img
-                        ? 'border-brand-green-600 ring-2 ring-brand-green-600/30'
+                        ? 'border-brand-gold-500 ring-2 ring-brand-gold-500/30'
                         : 'border-transparent opacity-70 hover:opacity-100'
                     }`}
                   >
@@ -296,7 +296,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                     key={i}
                     className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs font-semibold text-slate-800"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-brand-green-600 flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-brand-gold-600 flex-shrink-0" />
                     <span>{feat}</span>
                   </div>
                 ))}
@@ -307,7 +307,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
           {/* Embedded Home Loan Calculator for this Property */}
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
             <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-brand-green-700 flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-brand-gold-50 text-brand-gold-600 flex items-center justify-center font-bold">
                 <Calculator className="w-5 h-5" />
               </div>
               <div>
@@ -332,7 +332,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                   step="5"
                   value={downPaymentPercent}
                   onChange={(e) => setDownPaymentPercent(Number(e.target.value))}
-                  className="w-full accent-brand-green-700"
+                  className="w-full accent-brand-gold-600"
                 />
                 <span className="text-xs font-bold text-slate-800">
                   PKR {formatPKRPrice(downPaymentAmount)}
@@ -350,16 +350,16 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                   step="5"
                   value={loanTenureYears}
                   onChange={(e) => setLoanTenureYears(Number(e.target.value))}
-                  className="w-full accent-brand-green-700"
+                  className="w-full accent-brand-gold-600"
                 />
                 <span className="text-xs font-bold text-slate-800">{loanTenureYears} Years</span>
               </div>
 
-              <div className="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200 text-center flex flex-col justify-center">
-                <span className="text-[11px] font-bold text-emerald-800 uppercase">
+              <div className="bg-brand-gold-50 p-3.5 rounded-xl border border-brand-gold-200 text-center flex flex-col justify-center">
+                <span className="text-[11px] font-bold text-brand-gold-900 uppercase">
                   Monthly Installment
                 </span>
-                <span className="text-base sm:text-lg font-black text-brand-green-800">
+                <span className="text-base sm:text-lg font-black text-brand-gold-800">
                   PKR {monthlyInstallment.toLocaleString('en-PK')} / mo
                 </span>
               </div>
@@ -381,7 +381,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 <h4 className="font-extrabold text-sm text-slate-900 leading-tight">
                   {property.agent_name || 'Property Bank Real Estate'}
                 </h4>
-                <p className="text-xs text-brand-green-700 font-bold mt-0.5">
+                <p className="text-xs text-brand-gold-700 font-bold mt-0.5">
                   Citi Housing Specialist
                 </p>
               </div>
@@ -402,7 +402,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 href={phoneUrl}
                 className="w-full py-3 px-4 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50 font-bold text-xs flex items-center justify-center gap-2 transition-all"
               >
-                <Phone className="w-4 h-4 text-brand-green-600" />
+                <Phone className="w-4 h-4 text-brand-gold-600" />
                 <span>Call {property.agent_phone || '0321-8653500'}</span>
               </a>
             </div>
@@ -429,7 +429,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                       placeholder="Your Full Name *"
                       value={inquiryName}
                       onChange={(e) => setInquiryName(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                     />
                   </div>
 
@@ -440,7 +440,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                       placeholder="Mobile / WhatsApp Number *"
                       value={inquiryPhone}
                       onChange={(e) => setInquiryPhone(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                     />
                   </div>
 
@@ -450,7 +450,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                       placeholder="Email Address (Optional)"
                       value={inquiryEmail}
                       onChange={(e) => setInquiryEmail(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                     />
                   </div>
 
@@ -459,14 +459,14 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                       rows={3}
                       value={inquiryMessage}
                       onChange={(e) => setInquiryMessage(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={submittingInquiry}
-                    className="w-full py-3 bg-brand-green-700 hover:bg-brand-green-800 disabled:opacity-60 text-white font-bold text-xs rounded-xl shadow transition-all"
+                    className="w-full py-3.5 bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 disabled:opacity-60 text-slate-950 font-black text-xs rounded-xl shadow-lg shadow-brand-gold-500/25 active:scale-95 transition-all"
                   >
                     {submittingInquiry ? 'Sending Inquiry...' : 'Submit Inquiry & Request Visit'}
                   </button>

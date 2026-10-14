@@ -65,7 +65,7 @@ export default function SocietyMapsPage() {
                 href={m.image}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-green-700 hover:text-brand-green-800"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-gold-700 hover:text-brand-gold-800"
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>View Full Map</span>

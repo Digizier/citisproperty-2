@@ -108,7 +108,7 @@ export default function NewProjectsPage() {
           >
             <div className="lg:col-span-5 relative h-64 lg:h-auto bg-slate-900">
               <img src={proj.image} alt={proj.name} className="w-full h-full object-cover" />
-              <span className="absolute top-4 left-4 bg-brand-green-700 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow">
+              <span className="absolute top-4 left-4 bg-gradient-to-r from-brand-gold-600 to-amber-600 text-white text-[11px] font-black px-3.5 py-1 rounded-full shadow-md">
                 {proj.status}
               </span>
             </div>
@@ -149,7 +149,7 @@ export default function NewProjectsPage() {
               <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100">
                 <a
                   href="tel:03218653500"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-green-700 hover:text-brand-green-800"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-gold-700 hover:text-brand-gold-800"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   <span>Project Desk: 0321-8653500</span>

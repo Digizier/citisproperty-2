@@ -79,10 +79,10 @@ export default function MobileBottomNav() {
                 onClick={handleNavClick}
                 className="flex flex-col items-center -mt-6 group focus:outline-none"
               >
-                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-green-800 to-brand-green-600 text-white flex items-center justify-center shadow-lg shadow-brand-green-900/30 ring-4 ring-white active:scale-90 transition-transform">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-gold-600 via-amber-500 to-amber-400 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/30 ring-4 ring-white active:scale-90 transition-transform">
                   <Icon className="w-6 h-6 stroke-[2.5]" />
                 </div>
-                <span className="text-[10px] font-black text-brand-green-800 mt-1 uppercase tracking-tight">
+                <span className="text-[10px] font-black text-brand-gold-700 mt-1 uppercase tracking-tight">
                   + Post
                 </span>
               </Link>
@@ -114,13 +114,13 @@ export default function MobileBottomNav() {
               onClick={handleNavClick}
               className={`flex flex-col items-center py-1 px-2 transition-all active:scale-95 focus:outline-none ${
                 item.isActive
-                  ? 'text-brand-green-700 font-black'
+                  ? 'text-brand-gold-600 font-black'
                   : 'text-slate-500 hover:text-slate-800 font-medium'
               }`}
             >
               <Icon
                 className={`w-5 h-5 mb-0.5 ${
-                  item.isActive ? 'stroke-[2.5] text-brand-green-700' : 'text-slate-400'
+                  item.isActive ? 'stroke-[2.5] text-brand-gold-600' : 'text-slate-400'
                 }`}
               />
               <span className="text-[10px] tracking-tight">{item.name}</span>

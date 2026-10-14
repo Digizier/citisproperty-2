@@ -102,7 +102,7 @@ export default function HomePage() {
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
             Search Luxury Living in{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-brand-green-500 to-amber-300">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-brand-gold-400 to-yellow-200">
               Citi Housing
             </span>
           </h1>
@@ -119,7 +119,7 @@ export default function HomePage() {
                 onClick={() => setPurpose('buy')}
                 className={`px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                   purpose === 'buy'
-                    ? 'bg-brand-green-700 text-white shadow-md shadow-brand-green-900/20'
+                    ? 'bg-brand-gold-600 text-white shadow-md shadow-brand-gold-600/20'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
@@ -130,7 +130,7 @@ export default function HomePage() {
                 onClick={() => setPurpose('rent')}
                 className={`px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                   purpose === 'rent'
-                    ? 'bg-brand-green-700 text-white shadow-md shadow-brand-green-900/20'
+                    ? 'bg-brand-gold-600 text-white shadow-md shadow-brand-gold-600/20'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
@@ -149,7 +149,7 @@ export default function HomePage() {
                   <select
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                   >
                     <option value="Faisalabad">Faisalabad</option>
                     <option value="Gujranwala">Gujranwala</option>
@@ -169,7 +169,7 @@ export default function HomePage() {
                   <select
                     value={propertyType}
                     onChange={(e) => setPropertyType(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                   >
                     <option value="Homes">Houses / Homes</option>
                     <option value="Plots">Residential Plots</option>
@@ -186,7 +186,7 @@ export default function HomePage() {
                   <select
                     value={priceRange}
                     onChange={(e) => setPriceRange(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                   >
                     <option value="">Any Budget</option>
                     <option value="under-1-crore">Under 1 Crore</option>
@@ -207,7 +207,7 @@ export default function HomePage() {
                       placeholder="e.g. Sargodha Rd, Block A"
                       value={keyword}
                       onChange={(e) => setKeyword(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                     />
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function HomePage() {
                   <Link
                     href="/Homes/Faisalabad"
                     prefetch={false}
-                    className="text-brand-green-700 hover:underline"
+                    className="text-brand-gold-700 hover:underline font-bold"
                   >
                     5 Marla House
                   </Link>
@@ -228,7 +228,7 @@ export default function HomePage() {
                   <Link
                     href="/Plots/Faisalabad"
                     prefetch={false}
-                    className="text-brand-green-700 hover:underline"
+                    className="text-brand-gold-700 hover:underline font-bold"
                   >
                     10 Marla Plot
                   </Link>
@@ -236,7 +236,7 @@ export default function HomePage() {
                   <Link
                     href="/Commercial/Faisalabad"
                     prefetch={false}
-                    className="text-brand-green-700 hover:underline"
+                    className="text-brand-gold-700 hover:underline font-bold"
                   >
                     Citi Gold Mark
                   </Link>
@@ -244,7 +244,7 @@ export default function HomePage() {
 
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-8 py-3 bg-brand-green-700 hover:bg-brand-green-800 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-brand-green-900/30 flex items-center justify-center gap-2 active:scale-95 transition-all"
+                  className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-brand-gold-500/25 flex items-center justify-center gap-2 active:scale-95 transition-all"
                 >
                   <Search className="w-4 h-4" />
                   <span>Find Properties</span>
@@ -272,12 +272,12 @@ export default function HomePage() {
           <Link
             href="/Homes/Faisalabad"
             prefetch={false}
-            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-green-500/50 hover:shadow-lg transition-all"
+            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-gold-500/50 hover:shadow-lg transition-all"
           >
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-brand-green-700 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-xl bg-brand-gold-50 text-brand-gold-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <Home className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-green-700 transition-colors">
+            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-gold-700 transition-colors">
               Houses & Villas
             </h3>
             <p className="text-xs text-slate-500 mt-1">5M, 10M, 1 Kanal Ready Homes</p>
@@ -286,12 +286,12 @@ export default function HomePage() {
           <Link
             href="/Plots/Faisalabad"
             prefetch={false}
-            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-green-500/50 hover:shadow-lg transition-all"
+            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-gold-500/50 hover:shadow-lg transition-all"
           >
             <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <LandPlot className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-green-700 transition-colors">
+            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-gold-700 transition-colors">
               Residential Plots
             </h3>
             <p className="text-xs text-slate-500 mt-1">Possession plots & booking files</p>
@@ -300,12 +300,12 @@ export default function HomePage() {
           <Link
             href="/Commercial/Faisalabad"
             prefetch={false}
-            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-green-500/50 hover:shadow-lg transition-all"
+            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-gold-500/50 hover:shadow-lg transition-all"
           >
             <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <Building2 className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-green-700 transition-colors">
+            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-gold-700 transition-colors">
               Commercial
             </h3>
             <p className="text-xs text-slate-500 mt-1">Shops, plazas, and Main Blvd</p>
@@ -314,12 +314,12 @@ export default function HomePage() {
           <Link
             href="/Rentals/Faisalabad"
             prefetch={false}
-            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-green-500/50 hover:shadow-lg transition-all"
+            className="group bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-brand-gold-500/50 hover:shadow-lg transition-all"
           >
             <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <Building className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-green-700 transition-colors">
+            <h3 className="font-bold text-slate-900 text-sm group-hover:text-brand-gold-700 transition-colors">
               Rental Properties
             </h3>
             <p className="text-xs text-slate-500 mt-1">Furnished & unfurnished options</p>
@@ -343,7 +343,7 @@ export default function HomePage() {
           <Link
             href="/properties"
             prefetch={false}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-green-700 hover:text-brand-green-800 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-gold-700 hover:text-brand-gold-800 transition-colors"
           >
             <span>View All Listings</span>
             <ChevronRight className="w-4 h-4" />
@@ -405,7 +405,7 @@ export default function HomePage() {
                   alt="Citi Housing Faisalabad Sargodha Road"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <span className="absolute top-3 left-3 bg-brand-green-700 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded">
+                <span className="absolute top-3 left-3 bg-gradient-to-r from-brand-gold-600 to-amber-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded shadow-sm">
                   Phase 1 — Operational
                 </span>
               </div>
@@ -480,16 +480,16 @@ export default function HomePage() {
 
       {/* INTERACTIVE REAL ESTATE CALCULATORS STRIP */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-brand-green-900 via-brand-green-800 to-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border border-brand-gold-500/30">
           <div className="relative z-10 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold-500/20 text-brand-gold-300 text-xs font-bold uppercase mb-4">
-              <Calculator className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold-500/20 text-brand-gold-300 text-xs font-bold uppercase mb-4 border border-brand-gold-500/30">
+              <Calculator className="w-3.5 h-3.5 text-brand-gold-400" />
               <span>Smart Real Estate Tools</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-3">
               Calculate Construction Costs & Home Loans Instantly
             </h2>
-            <p className="text-xs sm:text-sm text-slate-200 mb-8 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-300 mb-8 leading-relaxed">
               Plan your home construction budget with accurate 2026 Pakistani material rates (Grey Structure vs Turnkey Finish), estimate monthly bank markups, and convert land units seamlessly.
             </p>
 
@@ -497,14 +497,14 @@ export default function HomePage() {
               <Link
                 href="/tools/construction-cost-calculator"
                 prefetch={false}
-                className="px-5 py-3 rounded-xl bg-white text-brand-green-900 text-xs font-bold hover:bg-slate-100 shadow transition-all"
+                className="px-5 py-3 rounded-xl bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 hover:from-brand-gold-600 hover:to-brand-gold-700 text-slate-950 text-xs font-black shadow transition-all"
               >
                 Construction Cost Calculator
               </Link>
               <Link
                 href="/tools/home-loan-calculator"
                 prefetch={false}
-                className="px-5 py-3 rounded-xl bg-brand-gold-500 hover:bg-brand-gold-600 text-slate-950 text-xs font-bold shadow transition-all"
+                className="px-5 py-3 rounded-xl bg-slate-800/90 hover:bg-slate-800 text-brand-gold-300 text-xs font-bold border border-brand-gold-500/30 shadow transition-all"
               >
                 Home Loan Calculator
               </Link>
@@ -533,7 +533,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-brand-green-700 flex items-center justify-center font-bold">
+            <div className="w-12 h-12 rounded-xl bg-brand-gold-50 text-brand-gold-700 flex items-center justify-center font-bold">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-base text-slate-900">100% Verified Documents</h3>
@@ -593,7 +593,7 @@ export default function HomePage() {
               href="tel:03218653500"
               className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-all flex items-center gap-2"
             >
-              <Phone className="w-3.5 h-3.5 text-brand-green-500" />
+              <Phone className="w-3.5 h-3.5 text-brand-gold-400" />
               <span>Call: 0321-8653500</span>
             </a>
           </div>

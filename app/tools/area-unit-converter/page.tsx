@@ -53,7 +53,7 @@ export default function AreaUnitConverterPage() {
               step="any"
               value={inputValue}
               onChange={(e) => setInputValue(Math.max(0, Number(e.target.value)))}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xl font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xl font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
             />
           </div>
 
@@ -64,7 +64,7 @@ export default function AreaUnitConverterPage() {
             <select
               value={fromUnit}
               onChange={(e) => setFromUnit(e.target.value as any)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-base font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-green-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-base font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
             >
               <option value="marla">Marla (225 sq ft)</option>
               <option value="kanal">Kanal (20 Marla / 4,500 sq ft)</option>
@@ -82,9 +82,9 @@ export default function AreaUnitConverterPage() {
             Converted Values Across All Units
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100">
-              <span className="text-[11px] font-bold uppercase text-emerald-800">Marla</span>
-              <div className="text-xl font-black text-brand-green-800 mt-1">
+            <div className="p-4 rounded-2xl bg-brand-gold-50/70 border border-brand-gold-200/80">
+              <span className="text-[11px] font-bold uppercase text-brand-gold-800">Marla</span>
+              <div className="text-xl font-black text-brand-gold-700 mt-1">
                 {conversions.marla.toFixed(conversions.marla % 1 === 0 ? 0 : 2)}
               </div>
             </div>

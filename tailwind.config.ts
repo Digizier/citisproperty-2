@@ -22,10 +22,14 @@ const config: Config = {
           gold: {
             50: '#fbf8ee',
             100: '#f6efd5',
+            200: '#eddcaa',
+            300: '#dfc47d',
             400: '#d4ad3f',
-            500: '#b8891a',
-            600: '#a37613',
-            700: '#835c10',
+            500: '#b8891a', // Official Citi Housing logo gold
+            600: '#9f7211',
+            700: '#7e570c',
+            800: '#5f4007',
+            900: '#422b04',
           },
           navy: {
             800: '#1e293b',
