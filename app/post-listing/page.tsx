@@ -26,6 +26,23 @@ export default function PostListingPage() {
 
     setSubmitting(true);
     try {
+      const numericPrice = parseFloat(price.replace(/[^0-9.]/g, '')) || 0;
+      const listingData = {
+        title: `${areaSize} ${areaUnit} ${propertyType} in ${location}`,
+        purpose,
+        type: propertyType,
+        city,
+        location,
+        price: numericPrice,
+        price_prefix: 'PKR',
+        area_size: parseFloat(areaSize) || 5,
+        area_unit: areaUnit,
+        description: details.trim() || `Client submitted listing in ${location}, ${city}. Demand: PKR ${price}.`,
+        agent_name: ownerName.trim(),
+        agent_phone: ownerPhone.trim(),
+        agent_whatsapp: ownerPhone.trim().replace(/^0/, '92').replace(/[^0-9]/g, ''),
+      };
+
       const summaryMsg = `[PROPERTY SUBMISSION] Purpose: ${purpose.toUpperCase()} | Type: ${propertyType} | City: ${city} | Location: ${location} | Demand: PKR ${price} | Size: ${areaSize} ${areaUnit} | Additional Notes: ${details}`;
       await submitInquiry({
         name: ownerName.trim(),
@@ -33,6 +50,8 @@ export default function PostListingPage() {
         message: summaryMsg,
         property_title: `Client Listing: ${areaSize} ${areaUnit} ${propertyType} in ${location}`,
         status: 'New',
+        type: 'Listing Submission',
+        listing_data: listingData,
       });
       setSubmitted(true);
     } catch (e) {

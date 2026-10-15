@@ -31,10 +31,10 @@ export const PAGE_SIZE = 8;
 
 // Selective projection strings - NEVER use SELECT *
 const PROPERTY_LIST_FIELDS =
-  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, thumbnail_url, is_featured, is_active, created_at';
+  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, thumbnail_url, youtube_url, is_featured, is_active, created_at';
 
 const PROPERTY_DETAIL_FIELDS =
-  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, description, features, thumbnail_url, images, is_featured, is_active, agent_name, agent_phone, agent_whatsapp, created_at, updated_at';
+  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, description, features, thumbnail_url, images, youtube_url, is_featured, is_active, agent_name, agent_phone, agent_whatsapp, created_at, updated_at';
 
 // Default Fallback Settings
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
@@ -192,7 +192,7 @@ export async function adminGetAllProperties(): Promise<Property[]> {
   try {
     const { data, error } = await supabase
       .from('properties')
-      .select(PROPERTY_LIST_FIELDS)
+      .select(PROPERTY_DETAIL_FIELDS)
       .order('created_at', { ascending: false });
 
     if (error) throw error;
@@ -242,6 +242,7 @@ export async function adminSaveProperty(property: Partial<Property>): Promise<Pr
     features: property.features || [],
     thumbnail_url: property.thumbnail_url || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop',
     images: property.images && property.images.length > 0 ? property.images : [property.thumbnail_url || ''],
+    youtube_url: property.youtube_url || '',
     is_featured: property.is_featured ?? false,
     is_active: property.is_active ?? true,
     agent_name: property.agent_name || 'Property Bank Real Estate',
@@ -599,7 +600,9 @@ export async function submitInquiry(inquiry: Partial<Inquiry>): Promise<Inquiry>
     message: inquiry.message || '',
     property_id: inquiry.property_id || '',
     property_title: inquiry.property_title || '',
-    status: 'New',
+    status: (inquiry.status as any) || 'New',
+    type: inquiry.type || 'Direct Inquiry',
+    listing_data: inquiry.listing_data || undefined,
     created_at: new Date().toISOString(),
   };
 
@@ -632,7 +635,7 @@ export async function getInquiries(): Promise<Inquiry[]> {
 
 export async function adminUpdateInquiryStatus(
   id: string,
-  status: 'New' | 'Contacted' | 'Closed'
+  status: string
 ): Promise<boolean> {
   try {
     const { error } = await supabase.from('inquiries').update({ status }).eq('id', id);
@@ -741,7 +744,7 @@ export async function adminSaveSociety(
     }
   } catch (err: any) {
     console.error('adminSaveSociety error:', err);
-    return { success: false, error: err.message || 'Failed to save society' };
+    throw new Error(err.message || 'Failed to save society');
   }
 }
 
@@ -751,8 +754,8 @@ export async function adminDeleteSociety(id: string): Promise<boolean> {
     if (error) throw error;
     dispatchDbEvent(DB_EVENTS.SOCIETIES_UPDATED);
     return true;
-  } catch (err) {
+  } catch (err: any) {
     console.error('adminDeleteSociety error:', err);
-    return false;
+    throw new Error(err.message || 'Failed to delete society');
   }
 }

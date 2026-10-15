@@ -1,6 +1,6 @@
-export type PropertyPurpose = 'buy' | 'rent';
-export type PropertyType = 'Homes' | 'Plots' | 'Commercial' | 'Flats';
-export type AreaUnit = 'Marla' | 'Kanal' | 'Sq. Ft' | 'Sq. Yds' | 'Acre';
+export type PropertyPurpose = 'buy' | 'rent' | (string & {});
+export type PropertyType = 'Homes' | 'Plots' | 'Commercial' | 'Flats' | (string & {});
+export type AreaUnit = 'Marla' | 'Kanal' | 'Sq. Ft' | 'Sq. Yds' | 'Acre' | (string & {});
 
 export interface Category {
   id: string;
@@ -55,6 +55,7 @@ export interface Property {
   features: string[];
   thumbnail_url: string;
   images: string[];
+  youtube_url?: string;
   is_featured: boolean;
   is_active: boolean;
   agent_name?: string;
@@ -85,7 +86,9 @@ export interface Inquiry {
   message: string;
   property_id?: string;
   property_title?: string;
-  status: 'New' | 'Contacted' | 'Closed';
+  status: 'New' | 'Contacted' | 'Closed' | 'Approved' | (string & {});
+  type?: 'Direct Inquiry' | 'Listing Submission' | (string & {});
+  listing_data?: Partial<Property>;
   created_at?: string;
 }
 

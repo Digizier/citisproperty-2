@@ -18,14 +18,33 @@ import {
   ArrowLeft,
   Star,
   Building,
+  Play,
 } from 'lucide-react';
 import { getPropertyById, getPropertyBySlug, submitInquiry } from '@/lib/db';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
 
+function getYouTubeEmbedUrl(url?: string): string | null {
+  if (!url) return null;
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
+  const match = trimmed.match(regExp);
+
+  if (match && match[2].length === 11) {
+    return `https://www.youtube-nocookie.com/embed/${match[2]}?rel=0`;
+  }
+  if (trimmed.includes('youtube.com/embed/')) {
+    return trimmed;
+  }
+  return null;
+}
+
 export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string }) {
   const [property, setProperty] = useState<Property | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>('');
+  const [mediaMode, setMediaMode] = useState<'video' | 'image'>('image');
   const [loading, setLoading] = useState(true);
 
   // Inquiry Form State
@@ -52,6 +71,12 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
         if (found) {
           setProperty(found);
           setSelectedImage(found.thumbnail_url || (found.images && found.images[0]) || '');
+          const ytEmbed = getYouTubeEmbedUrl(found.youtube_url);
+          if (ytEmbed) {
+            setMediaMode('video');
+          } else {
+            setMediaMode('image');
+          }
           setInquiryMessage(
             `Assalam-o-Alaikum, I am interested in "${found.title}" listed for ${formatPKRPrice(
               found.price
@@ -209,24 +234,55 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
         <div className="lg:col-span-2 space-y-8">
           {/* Gallery View */}
           <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm space-y-3 p-3">
-            <div className="relative h-80 sm:h-[450px] w-full rounded-xl overflow-hidden bg-slate-950">
-              <img
-                src={selectedImage || property.thumbnail_url}
-                alt={property.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            {mediaMode === 'video' && getYouTubeEmbedUrl(property.youtube_url) ? (
+              <div className="relative h-80 sm:h-[450px] w-full rounded-xl overflow-hidden bg-black shadow-inner">
+                <iframe
+                  src={getYouTubeEmbedUrl(property.youtube_url)!}
+                  title={`${property.title} - Video Tour`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full border-0"
+                />
+              </div>
+            ) : (
+              <div className="relative h-80 sm:h-[450px] w-full rounded-xl overflow-hidden bg-slate-950">
+                <img
+                  src={selectedImage || property.thumbnail_url}
+                  alt={property.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
 
-            {/* Thumbnail Strip */}
-            {property.images && property.images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-1">
-                {property.images.map((img, idx) => (
+            {/* Thumbnail Strip with Video Tour button */}
+            <div className="flex gap-2 overflow-x-auto pb-1 items-center">
+              {getYouTubeEmbedUrl(property.youtube_url) && (
+                <button
+                  type="button"
+                  onClick={() => setMediaMode('video')}
+                  className={`relative px-4 py-3 rounded-lg flex items-center gap-2 font-bold text-xs transition-all flex-shrink-0 ${
+                    mediaMode === 'video'
+                      ? 'bg-red-600 text-white shadow-md ring-2 ring-red-400'
+                      : 'bg-slate-900 text-slate-200 hover:bg-slate-800'
+                  }`}
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Video Tour</span>
+                </button>
+              )}
+
+              {property.images &&
+                property.images.length > 0 &&
+                property.images.map((img, idx) => (
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => setSelectedImage(img)}
+                    onClick={() => {
+                      setSelectedImage(img);
+                      setMediaMode('image');
+                    }}
                     className={`relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
-                      selectedImage === img
+                      mediaMode === 'image' && (selectedImage === img || (!selectedImage && idx === 0))
                         ? 'border-brand-gold-500 ring-2 ring-brand-gold-500/30'
                         : 'border-transparent opacity-70 hover:opacity-100'
                     }`}
@@ -234,8 +290,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                     <img src={img} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
-              </div>
-            )}
+            </div>
           </div>
 
           {/* Quick Specifications Strip */}
