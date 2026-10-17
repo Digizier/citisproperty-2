@@ -24,7 +24,7 @@ import {
   Star,
   CheckCircle2,
 } from 'lucide-react';
-import { getProperties, getCategories, DB_EVENTS } from '@/lib/db';
+import { getProperties, getCategories, getDistinctPropertyFilterOptions, DB_EVENTS } from '@/lib/db';
 import { Property, Category } from '@/lib/types';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
@@ -38,6 +38,15 @@ export default function HomePage() {
   const [propertyType, setPropertyType] = useState('Homes');
   const [keyword, setKeyword] = useState('');
   const [priceRange, setPriceRange] = useState('');
+  const [filterOptions, setFilterOptions] = useState<{
+    cities: string[];
+    types: string[];
+    units: string[];
+  }>({
+    cities: ['Faisalabad', 'Gujranwala', 'Sialkot', 'Jhelum', 'Lahore', 'Islamabad'],
+    types: ['Homes', 'Plots', 'Commercial', 'Flats'],
+    units: ['Marla', 'Kanal', 'Sq. Ft', 'Sq. Yd'],
+  });
 
   // Data State
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
@@ -47,12 +56,14 @@ export default function HomePage() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [propsRes, catsRes] = await Promise.all([
+      const [propsRes, catsRes, filterOpts] = await Promise.all([
         getProperties({ limit: 8 }), // Strictly 8 properties for zero-load efficiency
         getCategories(),
+        getDistinctPropertyFilterOptions(),
       ]);
       setFeaturedProperties(propsRes.data);
       setCategories(catsRes);
+      if (filterOpts) setFilterOptions(filterOpts);
     } catch (e) {
       console.error('Error loading homepage data:', e);
     } finally {
@@ -151,12 +162,11 @@ export default function HomePage() {
                     onChange={(e) => setCity(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                   >
-                    <option value="Faisalabad">Faisalabad</option>
-                    <option value="Gujranwala">Gujranwala</option>
-                    <option value="Sialkot">Sialkot</option>
-                    <option value="Jhelum">Jhelum</option>
-                    <option value="Lahore">Lahore</option>
-                    <option value="Islamabad">Islamabad</option>
+                    {filterOptions.cities.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
                     <option value="All Cities">All Cities</option>
                   </select>
                 </div>
@@ -171,10 +181,19 @@ export default function HomePage() {
                     onChange={(e) => setPropertyType(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
                   >
-                    <option value="Homes">Houses / Homes</option>
-                    <option value="Plots">Residential Plots</option>
-                    <option value="Commercial">Commercial Properties</option>
-                    <option value="Flats">Flats & Apartments</option>
+                    {filterOptions.types.map((t) => (
+                      <option key={t} value={t}>
+                        {t === 'Homes'
+                          ? 'Houses / Homes'
+                          : t === 'Plots'
+                          ? 'Residential Plots'
+                          : t === 'Commercial'
+                          ? 'Commercial Properties'
+                          : t === 'Flats'
+                          ? 'Flats & Apartments'
+                          : t}
+                      </option>
+                    ))}
                   </select>
                 </div>
 

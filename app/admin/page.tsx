@@ -927,15 +927,29 @@ export default function AdminPage() {
                         <tr key={prop.id} className="hover:bg-slate-800/40 transition-colors">
                           <td className="p-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-800 flex-shrink-0">
+                              <a
+                                href={`/property/${prop.slug || prop.id}/`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 rounded-xl overflow-hidden bg-slate-800 flex-shrink-0 block hover:opacity-80 transition-opacity"
+                                title="View Live on Website"
+                              >
                                 <img
                                   src={prop.thumbnail_url}
                                   alt={prop.title}
                                   className="w-full h-full object-cover"
                                 />
-                              </div>
+                              </a>
                               <div>
-                                <div className="font-bold text-white line-clamp-1">{prop.title}</div>
+                                <a
+                                  href={`/property/${prop.slug || prop.id}/`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="font-bold text-white line-clamp-1 hover:text-brand-gold-400 transition-colors"
+                                  title="View Live on Website"
+                                >
+                                  {prop.title}
+                                </a>
                                 <div className="text-[11px] text-slate-400 mt-0.5">
                                   {prop.area_size} {prop.area_unit}
                                 </div>
@@ -966,7 +980,16 @@ export default function AdminPage() {
                             </span>
                           </td>
                           <td className="p-4 text-right">
-                            <div className="flex items-center justify-end gap-2">
+                            <div className="flex items-center justify-end gap-1.5">
+                              <a
+                                href={`/property/${prop.slug || prop.id}/`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-1.5 rounded-lg text-brand-gold-400 hover:text-brand-gold-300 hover:bg-slate-800 transition-colors"
+                                title="View Live Listing on Website"
+                              >
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
                               <button
                                 type="button"
                                 onClick={() => handleEditProperty(prop)}
@@ -1361,18 +1384,18 @@ export default function AdminPage() {
                                         location: d.location || 'Citi Housing, Faisalabad',
                                         area_size: d.area_size || 5,
                                         area_unit: (d.area_unit as any) || 'Marla',
-                                        bedrooms: d.bedrooms || 3,
-                                        bathrooms: d.bathrooms || 3,
+                                        bedrooms: d.bedrooms ?? 3,
+                                        bathrooms: d.bathrooms ?? 3,
                                         description: d.description || inq.message,
-                                        features: ['Sui Gas', 'Electricity', 'Water Supply', '24/7 Security'],
-                                        thumbnail_url: '',
-                                        images: [],
-                                        youtube_url: '',
+                                        features: Array.isArray(d.features) && d.features.length > 0 ? d.features : ['Sui Gas', 'Electricity', 'Water Supply', '24/7 Security'],
+                                        thumbnail_url: d.thumbnail_url || (Array.isArray(d.images) && d.images[0]) || '',
+                                        images: Array.isArray(d.images) ? d.images : (d.thumbnail_url ? [d.thumbnail_url] : []),
+                                        youtube_url: d.youtube_url || '',
                                         is_featured: false,
                                         is_active: true,
-                                        agent_name: inq.name || 'Property Bank Real Estate',
-                                        agent_phone: inq.phone || '03218653500',
-                                        agent_whatsapp: inq.phone.replace(/^0/, '92').replace(/[^0-9]/g, '') || '923218653500',
+                                        agent_name: d.agent_name || inq.name || 'Property Bank Real Estate',
+                                        agent_phone: d.agent_phone || inq.phone || '03218653500',
+                                        agent_whatsapp: d.agent_whatsapp || inq.phone.replace(/^0/, '92').replace(/[^0-9]/g, '') || '923218653500',
                                       });
                                       setNewCustomFeature('');
                                       setCustomImageUrl('');

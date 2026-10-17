@@ -1,8 +1,38 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Home, ArrowLeft } from 'lucide-react';
+import PropertyDetailClient from '@/components/PropertyDetailClient';
 
 export default function NotFound() {
+  const [propertyIdOrSlug, setPropertyIdOrSlug] = useState<string | null>(null);
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const pathname = window.location.pathname || '';
+      // Intercept /property/:id or /property/:slug paths
+      const match = pathname.match(/^\/property\/([^/]+)/i);
+      if (match && match[1]) {
+        setPropertyIdOrSlug(decodeURIComponent(match[1]));
+      }
+      setIsChecking(false);
+    }
+  }, []);
+
+  if (propertyIdOrSlug) {
+    return <PropertyDetailClient idOrSlug={propertyIdOrSlug} />;
+  }
+
+  if (isChecking) {
+    return (
+      <div className="min-h-[70vh] flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-brand-gold-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 text-center">
       <div className="max-w-md space-y-5">

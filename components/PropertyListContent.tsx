@@ -11,7 +11,7 @@ import {
   X,
   RotateCcw,
 } from 'lucide-react';
-import { getProperties } from '@/lib/db';
+import { getProperties, getDistinctPropertyFilterOptions } from '@/lib/db';
 import { Property, PropertyPurpose, PropertyType } from '@/lib/types';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
@@ -57,6 +57,15 @@ export default function PropertyListContent({
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [advancedFilterOpen, setAdvancedFilterOpen] = useState(false);
+  const [filterOptions, setFilterOptions] = useState<{
+    cities: string[];
+    types: string[];
+    units: string[];
+  }>({
+    cities: ['Faisalabad', 'Gujranwala', 'Sialkot', 'Jhelum', 'Lahore', 'Islamabad'],
+    types: ['Homes', 'Plots', 'Commercial', 'Flats'],
+    units: ['Marla', 'Kanal', 'Sq. Ft', 'Sq. Yd'],
+  });
 
   const getMinMaxFromBudget = (budget: string): { min?: number; max?: number } => {
     switch (budget) {
@@ -105,6 +114,12 @@ export default function PropertyListContent({
   useEffect(() => {
     fetchListings();
   }, [purpose, type, city, priceRange, minPrice, maxPrice, bedrooms, currentPage]);
+
+  useEffect(() => {
+    getDistinctPropertyFilterOptions().then((opts) => {
+      if (opts) setFilterOptions(opts);
+    });
+  }, []);
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
@@ -203,12 +218,11 @@ export default function PropertyListContent({
                 }}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
               >
-                <option value="Faisalabad">Faisalabad</option>
-                <option value="Gujranwala">Gujranwala</option>
-                <option value="Sialkot">Sialkot</option>
-                <option value="Jhelum">Jhelum</option>
-                <option value="Lahore">Lahore</option>
-                <option value="Islamabad">Islamabad</option>
+                {filterOptions.cities.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
                 <option value="All Cities">All Cities</option>
               </select>
             </div>
@@ -226,10 +240,19 @@ export default function PropertyListContent({
                 }}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
               >
-                <option value="Homes">Houses / Homes</option>
-                <option value="Plots">Residential Plots</option>
-                <option value="Commercial">Commercial Properties</option>
-                <option value="Flats">Flats & Apartments</option>
+                {filterOptions.types.map((t) => (
+                  <option key={t} value={t}>
+                    {t === 'Homes'
+                      ? 'Houses / Homes'
+                      : t === 'Plots'
+                      ? 'Residential Plots'
+                      : t === 'Commercial'
+                      ? 'Commercial Properties'
+                      : t === 'Flats'
+                      ? 'Flats & Apartments'
+                      : t}
+                  </option>
+                ))}
               </select>
             </div>
 

@@ -121,7 +121,7 @@ export async function getProperties(filter: PropertyFilter = {}): Promise<{
       totalPages,
     };
   } catch (err) {
-    console.warn('Supabase fetch failed, checking localStorage cache:', err);
+    console.warn('Cloud database fetch failed, checking localStorage cache:', err);
     // LocalStorage fallback
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('citis_properties_cache');
@@ -286,10 +286,94 @@ export async function adminSaveProperty(property: Partial<Property>): Promise<Pr
   }
 }
 
+export function extractStoragePath(url?: string, bucketName?: string): string | null {
+  if (!url || typeof url !== 'string') return null;
+  const bucket = bucketName || 'property-images';
+  const marker = `/storage/v1/object/public/${bucket}/`;
+  const idx = url.indexOf(marker);
+  if (idx !== -1) {
+    return decodeURIComponent(url.substring(idx + marker.length));
+  }
+  if (!url.startsWith('http') && !url.startsWith('/') && url.includes('.')) {
+    return url;
+  }
+  return null;
+}
+
+export async function getDistinctPropertyFilterOptions(): Promise<{
+  cities: string[];
+  types: string[];
+  units: string[];
+}> {
+  const defaultCities = ['Faisalabad', 'Gujranwala', 'Sialkot', 'Jhelum', 'Lahore', 'Islamabad'];
+  const defaultTypes = ['Homes', 'Plots', 'Commercial', 'Flats'];
+  const defaultUnits = ['Marla', 'Kanal', 'Sq. Ft', 'Sq. Yd', 'Acre'];
+
+  try {
+    const { data, error } = await supabase
+      .from('properties')
+      .select('city, type, area_unit');
+
+    if (error || !data) {
+      return { cities: defaultCities, types: defaultTypes, units: defaultUnits };
+    }
+
+    const citySet = new Set<string>(defaultCities);
+    const typeSet = new Set<string>(defaultTypes);
+    const unitSet = new Set<string>(defaultUnits);
+
+    data.forEach((p) => {
+      if (p.city && p.city.trim()) citySet.add(p.city.trim());
+      if (p.type && p.type.trim()) typeSet.add(p.type.trim());
+      if (p.area_unit && p.area_unit.trim()) unitSet.add(p.area_unit.trim());
+    });
+
+    return {
+      cities: Array.from(citySet),
+      types: Array.from(typeSet),
+      units: Array.from(unitSet),
+    };
+  } catch (err) {
+    return { cities: defaultCities, types: defaultTypes, units: defaultUnits };
+  }
+}
+
 export async function adminDeleteProperty(id: string): Promise<boolean> {
   try {
+    // 1. Fetch property to identify storage files for complete cleanup
+    const { data: prop } = await supabase
+      .from('properties')
+      .select('thumbnail_url, images')
+      .eq('id', id)
+      .single();
+
+    // 2. Delete database record
     const { error } = await supabase.from('properties').delete().eq('id', id);
     if (error) throw error;
+
+    // 3. Delete binary photos from storage bucket (no trash left behind)
+    if (prop) {
+      const filesToRemove: string[] = [];
+      const allUrls = [
+        prop.thumbnail_url,
+        ...(Array.isArray(prop.images) ? prop.images : []),
+      ].filter(Boolean);
+
+      allUrls.forEach((url) => {
+        const path = extractStoragePath(url, 'property-images');
+        if (path && !filesToRemove.includes(path)) {
+          filesToRemove.push(path);
+        }
+      });
+
+      if (filesToRemove.length > 0) {
+        try {
+          await supabase.storage.from('property-images').remove(filesToRemove);
+        } catch (storageErr) {
+          console.warn('Storage image cleanup warning:', storageErr);
+        }
+      }
+    }
 
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('citis_properties_cache');
@@ -750,8 +834,43 @@ export async function adminSaveSociety(
 
 export async function adminDeleteSociety(id: string): Promise<boolean> {
   try {
+    // 1. Fetch society record to identify PDF and image storage files
+    const { data: soc } = await supabase
+      .from('societies')
+      .select('master_plan_pdf_url, master_plan_image_url, image_url')
+      .eq('id', id)
+      .single();
+
+    // 2. Delete database record
     const { error } = await supabase.from('societies').delete().eq('id', id);
     if (error) throw error;
+
+    // 3. Remove PDF file from master-plans bucket (no trash left behind)
+    if (soc) {
+      const pdfPath = extractStoragePath(soc.master_plan_pdf_url, 'master-plans');
+      if (pdfPath) {
+        try {
+          await supabase.storage.from('master-plans').remove([pdfPath]);
+        } catch (pdfErr) {
+          console.warn('PDF storage cleanup warning:', pdfErr);
+        }
+      }
+
+      // Remove blueprint thumbnail from property-images bucket
+      const imgPaths = [
+        extractStoragePath(soc.master_plan_image_url, 'property-images'),
+        extractStoragePath(soc.image_url, 'property-images'),
+      ].filter(Boolean) as string[];
+
+      if (imgPaths.length > 0) {
+        try {
+          await supabase.storage.from('property-images').remove(imgPaths);
+        } catch (imgErr) {
+          console.warn('Society image storage cleanup warning:', imgErr);
+        }
+      }
+    }
+
     dispatchDbEvent(DB_EVENTS.SOCIETIES_UPDATED);
     return true;
   } catch (err: any) {
