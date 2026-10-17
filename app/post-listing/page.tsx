@@ -188,6 +188,8 @@ export default function PostListingPage() {
         title.trim() ||
         `${areaSize} ${areaUnit} ${propertyType} in ${location}`;
 
+      const effectiveMapUrl = mapUrl.trim();
+
       const listingData = {
         title: effectiveTitle,
         purpose,
@@ -201,7 +203,7 @@ export default function PostListingPage() {
         bedrooms: typeof bedrooms === 'number' ? bedrooms : 0,
         bathrooms: typeof bathrooms === 'number' ? bathrooms : 0,
         youtube_url: youtubeUrl.trim(),
-        map_url: mapUrl.trim(),
+        map_url: effectiveMapUrl,
         features,
         thumbnail_url: thumbnailUrl || images[0] || '',
         images,

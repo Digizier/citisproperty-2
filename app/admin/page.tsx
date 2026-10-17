@@ -2157,8 +2157,8 @@ export default function AdminPage() {
                   </span>
                 </div>
                 <input
-                  type="url"
-                  placeholder="https://maps.app.goo.gl/... or https://maps.google.com/..."
+                  type="text"
+                  placeholder="Paste Google Maps URL or GPS Coordinates (e.g. 24.8910246, 66.9790203 or https://www.google.com/maps/...)"
                   value={editingProperty.map_url || ''}
                   onChange={(e) =>
                     setEditingProperty({ ...editingProperty, map_url: e.target.value })
@@ -2166,7 +2166,7 @@ export default function AdminPage() {
                   className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-mono text-xs focus:border-brand-gold-500"
                 />
                 <span className="text-[11px] text-slate-400 block">
-                  📍 If provided, the property page displays a live interactive Google Map with a direct &quot;Open Location on Google Maps&quot; navigation button.
+                  📍 If provided, the property page displays a live interactive Google Map with a direct &quot;Open Location on Google Maps&quot; navigation button. Supports full Google Maps URLs, place URLs, or direct GPS coordinates.
                 </span>
               </div>
 
