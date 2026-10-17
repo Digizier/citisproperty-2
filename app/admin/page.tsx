@@ -132,6 +132,8 @@ export default function AdminPage() {
 
   // Search filter inside admin
   const [propertySearch, setPropertySearch] = useState('');
+  const [inquirySearch, setInquirySearch] = useState('');
+  const [inquiryStatusFilter, setInquiryStatusFilter] = useState('all');
 
   // Initial Auth Check
   useEffect(() => {
@@ -249,6 +251,7 @@ export default function AdminPage() {
       features: Array.isArray(prop.features) ? prop.features : [],
       images: Array.isArray(prop.images) && prop.images.length > 0 ? prop.images : (prop.thumbnail_url ? [prop.thumbnail_url] : []),
       youtube_url: prop.youtube_url || '',
+      map_url: prop.map_url || '',
       agent_name: prop.agent_name || 'Property Bank Real Estate',
       agent_phone: prop.agent_phone || '03218653500',
       agent_whatsapp: prop.agent_whatsapp || '923218653500',
@@ -639,7 +642,7 @@ export default function AdminPage() {
      RENDER 2: MAIN DEDICATED ADMIN DASHBOARD (NO STOREFRONT HEADER/FOOTER)
      ========================================================================= */
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row">
+    <div className="min-h-screen md:h-screen md:overflow-hidden bg-slate-950 text-slate-100 flex flex-col md:flex-row">
       {/* Toast Notification Container */}
       {toast && (
         <div
@@ -686,7 +689,7 @@ export default function AdminPage() {
       )}
 
       {/* Admin Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 flex-shrink-0 flex flex-col justify-between p-4 sm:p-6">
+      <aside className="w-full md:w-64 bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 flex-shrink-0 flex flex-col justify-between p-4 sm:p-6 md:h-screen md:overflow-y-auto">
         <div className="space-y-6">
           {/* Logo & Identity */}
           <div className="flex items-center gap-3 pb-6 border-b border-slate-800">
@@ -828,7 +831,7 @@ export default function AdminPage() {
       </aside>
 
       {/* Admin Main Body */}
-      <main className="flex-1 p-4 sm:p-8 lg:p-10 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-8 lg:p-10 overflow-y-auto md:h-screen md:overflow-y-auto">
         {/* TAB 1: OVERVIEW */}
         {activeTab === 'overview' && (
           <div className="space-y-8 animate-in fade-in duration-200">
@@ -1335,188 +1338,492 @@ export default function AdminPage() {
         )}
 
         {/* TAB 5: INQUIRIES & LEADS */}
-        {activeTab === 'inquiries' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <h1 className="text-2xl font-black text-white">Customer Inquiries & Leads</h1>
-                <p className="text-xs text-slate-400 mt-1">
-                  Direct client inquiries submitted through website forms and property listing submissions
-                </p>
+        {activeTab === 'inquiries' && (() => {
+          const filteredInquiries = inquiries.filter((inq) => {
+            const q = inquirySearch.toLowerCase().trim();
+            const matchesSearch =
+              !q ||
+              inq.name.toLowerCase().includes(q) ||
+              inq.phone.includes(q) ||
+              (inq.property_title && inq.property_title.toLowerCase().includes(q)) ||
+              (inq.message && inq.message.toLowerCase().includes(q));
+            const matchesStatus =
+              inquiryStatusFilter === 'all' || inq.status?.toLowerCase() === inquiryStatusFilter.toLowerCase();
+            return matchesSearch && matchesStatus;
+          });
+
+          return (
+            <div className="space-y-6 animate-in fade-in duration-200">
+              {/* Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h1 className="text-2xl font-black text-white">Customer Inquiries & Leads</h1>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Direct client inquiries submitted through website forms and property listing submissions
+                  </p>
+                </div>
+
+                {inquiries.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearAllInquiries}
+                    className="px-4 py-2 bg-red-950/60 hover:bg-red-900 border border-red-700/60 text-red-300 font-bold text-xs rounded-xl inline-flex items-center gap-1.5 transition-all self-start sm:self-auto cursor-pointer"
+                    title="Permanently remove all inquiries and customer uploaded photos"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                    <span>Clear All Inquiries</span>
+                  </button>
+                )}
               </div>
 
-              {inquiries.length > 0 && (
-                <button
-                  type="button"
-                  onClick={handleClearAllInquiries}
-                  className="px-4 py-2 bg-red-950/60 hover:bg-red-900 border border-red-700/60 text-red-300 font-bold text-xs rounded-xl inline-flex items-center gap-1.5 transition-all self-start sm:self-auto cursor-pointer"
-                  title="Permanently remove all inquiries and customer uploaded photos"
-                >
-                  <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                  <span>Clear All Inquiries</span>
-                </button>
-              )}
-            </div>
+              {/* Search & Filter Bar */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search client by name, phone, city, or property title..."
+                    value={inquirySearch}
+                    onChange={(e) => setInquirySearch(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-9 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-gold-500"
+                  />
+                  {inquirySearch && (
+                    <button
+                      type="button"
+                      onClick={() => setInquirySearch('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
 
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-sm">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800">
-                    <tr>
-                      <th className="p-4">Customer</th>
-                      <th className="p-4">Phone / WhatsApp</th>
-                      <th className="p-4">Inquiry / Property</th>
-                      <th className="p-4">Message</th>
-                      <th className="p-4">Status</th>
-                      <th className="p-4 text-right">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60">
-                    {inquiries.length > 0 ? (
-                      inquiries.map((inq) => {
-                        const isListingSubmission =
-                          inq.type === 'Listing Submission' ||
-                          Boolean(inq.listing_data) ||
-                          Boolean(inq.message?.startsWith('[PROPERTY SUBMISSION]'));
-                        return (
-                          <tr key={inq.id} className="hover:bg-slate-800/40">
-                            <td className="p-4">
-                              <div className="font-bold text-white text-xs">{inq.name}</div>
-                              {isListingSubmission ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-gold-500/20 text-brand-gold-400 border border-brand-gold-500/40 text-[10px] font-black mt-1">
-                                  ★ Property Listing Submission
-                                </span>
-                              ) : (
-                                <span className="text-[10px] text-slate-500 font-medium">Direct Lead</span>
-                              )}
-                            </td>
-                            <td className="p-4">
-                              <a
-                                href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-emerald-400 hover:underline font-bold"
-                              >
-                                {inq.phone}
-                              </a>
-                            </td>
-                            <td className="p-4 text-slate-300 font-medium">
-                              {inq.property_title || 'General Consultation'}
-                            </td>
-                            <td className="p-4 text-slate-300 max-w-sm text-xs leading-relaxed">
-                              {inq.message}
-                            </td>
-                            <td className="p-4">
-                              <select
-                                value={inq.status}
-                                onChange={async (e) => {
-                                  await adminUpdateInquiryStatus(inq.id, e.target.value);
-                                  showToast(`Status updated to ${e.target.value}`);
-                                  loadAdminData();
-                                }}
-                                className="bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200"
-                              >
-                                <option value="New">New</option>
-                                <option value="Contacted">Contacted</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Closed">Closed</option>
-                              </select>
-                            </td>
-                            <td className="p-4 text-right">
-                              <div className="flex items-center justify-end gap-1.5 flex-wrap">
-                                {isListingSubmission && (
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const d = inq.listing_data || {};
-                                      setEditingProperty({
-                                        title: d.title || inq.property_title?.replace(/^Client Listing:\s*/, '') || `Property in ${d.location || 'Citi Housing'}`,
-                                        slug: slugify(d.title || inq.property_title || `property-${Date.now()}`),
-                                        purpose: (d.purpose as any) || 'buy',
-                                        type: (d.type as any) || 'Homes',
-                                        category_id: 'cat-homes',
-                                        subcategory_id: '',
-                                        price: d.price || 0,
-                                        price_prefix: 'PKR',
-                                        city: d.city || 'Faisalabad',
-                                        location: d.location || 'Citi Housing, Faisalabad',
-                                        area_size: d.area_size || 5,
-                                        area_unit: (d.area_unit as any) || 'Marla',
-                                        bedrooms: d.bedrooms ?? 3,
-                                        bathrooms: d.bathrooms ?? 3,
-                                        description: d.description || inq.message,
-                                        features: Array.isArray(d.features) && d.features.length > 0 ? d.features : ['Sui Gas', 'Electricity', 'Water Supply', '24/7 Security'],
-                                        thumbnail_url: d.thumbnail_url || (Array.isArray(d.images) && d.images[0]) || '',
-                                        images: Array.isArray(d.images) ? d.images : (d.thumbnail_url ? [d.thumbnail_url] : []),
-                                        youtube_url: d.youtube_url || '',
-                                        map_url: d.map_url || '',
-                                        is_featured: false,
-                                        is_active: true,
-                                        agent_name: d.agent_name || inq.name || 'Property Bank Real Estate',
-                                        agent_phone: d.agent_phone || inq.phone || '03218653500',
-                                        agent_whatsapp: d.agent_whatsapp || inq.phone.replace(/^0/, '92').replace(/[^0-9]/g, '') || '923218653500',
-                                      });
-                                      setNewCustomFeature('');
-                                      setCustomImageUrl('');
-                                      setPropertyModalOpen(true);
-                                      showToast('Loaded client submission into Property Manager for review!');
-                                    }}
-                                    className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-brand-gold-500 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 font-black text-[11px] inline-flex items-center gap-1 shadow cursor-pointer whitespace-nowrap"
-                                    title="Review & publish to Properties"
-                                  >
-                                    <span>Approve & Add</span>
-                                  </button>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={inquiryStatusFilter}
+                    onChange={(e) => setInquiryStatusFilter(e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-gold-500"
+                  >
+                    <option value="all">All Statuses ({inquiries.length})</option>
+                    <option value="new">New</option>
+                    <option value="contacted">Contacted</option>
+                    <option value="approved">Approved</option>
+                    <option value="closed">Closed</option>
+                  </select>
+
+                  <span className="text-xs font-bold text-slate-400 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 whitespace-nowrap">
+                    {filteredInquiries.length} {filteredInquiries.length === 1 ? 'Lead' : 'Leads'}
+                  </span>
+                </div>
+              </div>
+
+              {/* MOBILE VIEW (CARDS): block lg:hidden */}
+              <div className="block lg:hidden space-y-4">
+                {filteredInquiries.length > 0 ? (
+                  filteredInquiries.map((inq) => {
+                    const isListingSubmission =
+                      inq.type === 'Listing Submission' ||
+                      Boolean(inq.listing_data) ||
+                      Boolean(inq.message?.startsWith('[PROPERTY SUBMISSION]'));
+                    const d = inq.listing_data || {};
+
+                    return (
+                      <div
+                        key={inq.id}
+                        className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 shadow-sm"
+                      >
+                        {/* Header: Name, Badge, Status */}
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <div className="font-extrabold text-sm text-white">{inq.name}</div>
+                            {isListingSubmission ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-gold-500/20 text-brand-gold-400 border border-brand-gold-500/40 text-[10px] font-black mt-1">
+                                ★ Property Listing Submission
+                              </span>
+                            ) : (
+                              <span className="text-[10px] text-slate-500 font-medium">Direct Lead</span>
+                            )}
+                          </div>
+
+                          <select
+                            value={inq.status}
+                            onChange={async (e) => {
+                              await adminUpdateInquiryStatus(inq.id, e.target.value);
+                              showToast(`Status updated to ${e.target.value}`);
+                              loadAdminData();
+                            }}
+                            className={`rounded-lg px-2 py-1 text-xs font-bold border ${
+                              inq.status === 'New'
+                                ? 'bg-amber-950/40 border-amber-600/40 text-amber-300'
+                                : inq.status === 'Approved'
+                                ? 'bg-emerald-950/40 border-emerald-600/40 text-emerald-300'
+                                : inq.status === 'Contacted'
+                                ? 'bg-blue-950/40 border-blue-600/40 text-blue-300'
+                                : 'bg-slate-950 border-slate-800 text-slate-400'
+                            }`}
+                          >
+                            <option value="New">New</option>
+                            <option value="Contacted">Contacted</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Closed">Closed</option>
+                          </select>
+                        </div>
+
+                        {/* Phone & Property Target */}
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+                          <a
+                            href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-emerald-400 hover:underline font-bold inline-flex items-center gap-1"
+                          >
+                            <Phone className="w-3.5 h-3.5" />
+                            <span>{inq.phone}</span>
+                          </a>
+                          <span className="text-slate-400 truncate font-medium">
+                            {inq.property_title || 'General Consultation'}
+                          </span>
+                        </div>
+
+                        {/* Structured Chips for Listing Submissions */}
+                        {isListingSubmission && (
+                          <div className="flex flex-wrap gap-1.5 pt-1">
+                            {d.purpose && (
+                              <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-200 text-[10px] font-bold uppercase">
+                                {d.purpose === 'buy' ? 'For Sale' : 'For Rent'}
+                              </span>
+                            )}
+                            {d.type && (
+                              <span className="px-2 py-0.5 rounded-md bg-slate-800 text-brand-gold-300 text-[10px] font-bold">
+                                {d.type}
+                              </span>
+                            )}
+                            {d.city && (
+                              <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 text-[10px] font-medium">
+                                {d.city}
+                              </span>
+                            )}
+                            {d.price && (
+                              <span className="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 text-[10px] font-black">
+                                Demand: PKR {Number(d.price).toLocaleString('en-PK')}
+                              </span>
+                            )}
+                            {d.area_size && (
+                              <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 text-[10px]">
+                                {d.area_size} {d.area_unit || 'Marla'}
+                              </span>
+                            )}
+                            {Array.isArray(d.images) && d.images.length > 0 && (
+                              <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 text-[10px]">
+                                📷 {d.images.length} Photos
+                              </span>
+                            )}
+                            {d.map_url && (
+                              <span className="px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 text-[10px] font-bold">
+                                📍 Map Added
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Message body */}
+                        <div className="text-xs text-slate-300 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 leading-relaxed whitespace-pre-line">
+                          {inq.message}
+                        </div>
+
+                        {/* Action Buttons: Responsive Grid */}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 border-t border-slate-800/60">
+                          {isListingSubmission && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const d = inq.listing_data || {};
+                                setEditingProperty({
+                                  title: d.title || inq.property_title?.replace(/^Client Listing:\s*/, '') || `Property in ${d.location || 'Citi Housing'}`,
+                                  slug: slugify(d.title || inq.property_title || `property-${Date.now()}`),
+                                  purpose: (d.purpose as any) || 'buy',
+                                  type: (d.type as any) || 'Homes',
+                                  category_id: 'cat-homes',
+                                  subcategory_id: '',
+                                  price: d.price || 0,
+                                  price_prefix: 'PKR',
+                                  city: d.city || 'Faisalabad',
+                                  location: d.location || 'Citi Housing, Faisalabad',
+                                  area_size: d.area_size || 5,
+                                  area_unit: (d.area_unit as any) || 'Marla',
+                                  bedrooms: d.bedrooms ?? 3,
+                                  bathrooms: d.bathrooms ?? 3,
+                                  description: d.description || inq.message,
+                                  features: Array.isArray(d.features) && d.features.length > 0 ? d.features : ['Sui Gas', 'Electricity', 'Water Supply', '24/7 Security'],
+                                  thumbnail_url: d.thumbnail_url || (Array.isArray(d.images) && d.images[0]) || '',
+                                  images: Array.isArray(d.images) ? d.images : (d.thumbnail_url ? [d.thumbnail_url] : []),
+                                  youtube_url: d.youtube_url || '',
+                                  map_url: d.map_url || '',
+                                  is_featured: false,
+                                  is_active: true,
+                                  agent_name: d.agent_name || inq.name || 'Property Bank Real Estate',
+                                  agent_phone: d.agent_phone || inq.phone || '03218653500',
+                                  agent_whatsapp: d.agent_whatsapp || inq.phone.replace(/^0/, '92').replace(/[^0-9]/g, '') || '923218653500',
+                                });
+                                setNewCustomFeature('');
+                                setCustomImageUrl('');
+                                setPropertyModalOpen(true);
+                                showToast('Loaded client submission into Property Manager for review!');
+                              }}
+                              className="py-2 px-2.5 rounded-xl bg-gradient-to-r from-brand-gold-500 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 font-black text-xs inline-flex items-center justify-center gap-1 shadow cursor-pointer"
+                              title="Review & publish to Properties"
+                            >
+                              <span>Approve & Add</span>
+                            </button>
+                          )}
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              try {
+                                downloadInquiryInvoice(inq, settings);
+                                showToast('Invoice generated and ready for print/download!');
+                              } catch (e: any) {
+                                showToast('Failed to generate invoice', 'error');
+                              }
+                            }}
+                            className="py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-xs inline-flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                            title="Download official branded A4 PDF Invoice / Lead Slip"
+                          >
+                            <Printer className="w-3.5 h-3.5 text-brand-gold-400" />
+                            <span>Invoice</span>
+                          </button>
+
+                          <a
+                            href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="py-2 px-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs inline-flex items-center justify-center gap-1"
+                          >
+                            <span>WhatsApp</span>
+                          </a>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteInquiry(inq.id, inq.name)}
+                            className="py-2 px-2.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-red-400 hover:text-red-300 text-xs font-bold inline-flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                            title="Delete inquiry"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            <span>Delete</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center text-slate-500 text-xs">
+                    No matching inquiries found.
+                  </div>
+                )}
+              </div>
+
+              {/* DESKTOP VIEW (TABLE): hidden lg:block */}
+              <div className="hidden lg:block bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800">
+                      <tr>
+                        <th className="p-4">Customer</th>
+                        <th className="p-4">Phone / WhatsApp</th>
+                        <th className="p-4">Inquiry / Property</th>
+                        <th className="p-4">Message / Specs</th>
+                        <th className="p-4">Status</th>
+                        <th className="p-4 text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/60">
+                      {filteredInquiries.length > 0 ? (
+                        filteredInquiries.map((inq) => {
+                          const isListingSubmission =
+                            inq.type === 'Listing Submission' ||
+                            Boolean(inq.listing_data) ||
+                            Boolean(inq.message?.startsWith('[PROPERTY SUBMISSION]'));
+                          const d = inq.listing_data || {};
+
+                          return (
+                            <tr key={inq.id} className="hover:bg-slate-800/40">
+                              <td className="p-4">
+                                <div className="font-bold text-white text-xs">{inq.name}</div>
+                                {isListingSubmission ? (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-gold-500/20 text-brand-gold-400 border border-brand-gold-500/40 text-[10px] font-black mt-1">
+                                    ★ Property Listing Submission
+                                  </span>
+                                ) : (
+                                  <span className="text-[10px] text-slate-500 font-medium">Direct Lead</span>
                                 )}
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    try {
-                                      downloadInquiryInvoice(inq, settings);
-                                      showToast('Invoice generated and ready for print/download!');
-                                    } catch (e: any) {
-                                      showToast('Failed to generate invoice', 'error');
-                                    }
-                                  }}
-                                  className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-[11px] inline-flex items-center gap-1 cursor-pointer transition-colors"
-                                  title="Download official branded A4 PDF Invoice / Lead Slip"
-                                >
-                                  <Printer className="w-3.5 h-3.5 text-brand-gold-400" />
-                                  <span>Invoice</span>
-                                </button>
+                              </td>
+                              <td className="p-4">
                                 <a
                                   href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] inline-flex items-center gap-1"
+                                  className="text-emerald-400 hover:underline font-bold"
                                 >
-                                  WhatsApp
+                                  {inq.phone}
                                 </a>
-                                <button
-                                  type="button"
-                                  onClick={() => handleDeleteInquiry(inq.id, inq.name)}
-                                  className="p-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-red-400 hover:text-red-300 transition-colors cursor-pointer"
-                                  title="Delete inquiry and permanently remove client uploaded photos"
+                              </td>
+                              <td className="p-4 text-slate-300 font-medium">
+                                {inq.property_title || 'General Consultation'}
+                              </td>
+                              <td className="p-4 text-slate-300 max-w-sm text-xs leading-relaxed">
+                                {isListingSubmission ? (
+                                  <div className="space-y-1.5">
+                                    <div className="flex flex-wrap gap-1">
+                                      {d.purpose && (
+                                        <span className="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-bold uppercase text-slate-200">
+                                          {d.purpose === 'buy' ? 'Sale' : 'Rent'}
+                                        </span>
+                                      )}
+                                      {d.type && (
+                                        <span className="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-bold text-brand-gold-300">
+                                          {d.type}
+                                        </span>
+                                      )}
+                                      {d.city && (
+                                        <span className="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300">
+                                          {d.city}
+                                        </span>
+                                      )}
+                                      {d.price && (
+                                        <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-[10px] font-black text-amber-300">
+                                          PKR {Number(d.price).toLocaleString('en-PK')}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="line-clamp-2 text-slate-400 text-[11px]">
+                                      {d.description || inq.message}
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <p className="line-clamp-3">{inq.message}</p>
+                                )}
+                              </td>
+                              <td className="p-4">
+                                <select
+                                  value={inq.status}
+                                  onChange={async (e) => {
+                                    await adminUpdateInquiryStatus(inq.id, e.target.value);
+                                    showToast(`Status updated to ${e.target.value}`);
+                                    loadAdminData();
+                                  }}
+                                  className={`border rounded-lg p-1.5 text-xs font-semibold ${
+                                    inq.status === 'New'
+                                      ? 'bg-amber-950/40 border-amber-600/40 text-amber-300'
+                                      : inq.status === 'Approved'
+                                      ? 'bg-emerald-950/40 border-emerald-600/40 text-emerald-300'
+                                      : inq.status === 'Contacted'
+                                      ? 'bg-blue-950/40 border-blue-600/40 text-blue-300'
+                                      : 'bg-slate-950 border-slate-800 text-slate-300'
+                                  }`}
                                 >
-                                  <Trash2 className="w-3.5 h-3.5" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    ) : (
-                      <tr>
-                        <td colSpan={6} className="p-8 text-center text-slate-500">
-                          No inquiries received yet.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                                  <option value="New">New</option>
+                                  <option value="Contacted">Contacted</option>
+                                  <option value="Approved">Approved</option>
+                                  <option value="Closed">Closed</option>
+                                </select>
+                              </td>
+                              <td className="p-4 text-right">
+                                <div className="flex items-center justify-end gap-1.5 flex-wrap">
+                                  {isListingSubmission && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const d = inq.listing_data || {};
+                                        setEditingProperty({
+                                          title: d.title || inq.property_title?.replace(/^Client Listing:\s*/, '') || `Property in ${d.location || 'Citi Housing'}`,
+                                          slug: slugify(d.title || inq.property_title || `property-${Date.now()}`),
+                                          purpose: (d.purpose as any) || 'buy',
+                                          type: (d.type as any) || 'Homes',
+                                          category_id: 'cat-homes',
+                                          subcategory_id: '',
+                                          price: d.price || 0,
+                                          price_prefix: 'PKR',
+                                          city: d.city || 'Faisalabad',
+                                          location: d.location || 'Citi Housing, Faisalabad',
+                                          area_size: d.area_size || 5,
+                                          area_unit: (d.area_unit as any) || 'Marla',
+                                          bedrooms: d.bedrooms ?? 3,
+                                          bathrooms: d.bathrooms ?? 3,
+                                          description: d.description || inq.message,
+                                          features: Array.isArray(d.features) && d.features.length > 0 ? d.features : ['Sui Gas', 'Electricity', 'Water Supply', '24/7 Security'],
+                                          thumbnail_url: d.thumbnail_url || (Array.isArray(d.images) && d.images[0]) || '',
+                                          images: Array.isArray(d.images) ? d.images : (d.thumbnail_url ? [d.thumbnail_url] : []),
+                                          youtube_url: d.youtube_url || '',
+                                          map_url: d.map_url || '',
+                                          is_featured: false,
+                                          is_active: true,
+                                          agent_name: d.agent_name || inq.name || 'Property Bank Real Estate',
+                                          agent_phone: d.agent_phone || inq.phone || '03218653500',
+                                          agent_whatsapp: d.agent_whatsapp || inq.phone.replace(/^0/, '92').replace(/[^0-9]/g, '') || '923218653500',
+                                        });
+                                        setNewCustomFeature('');
+                                        setCustomImageUrl('');
+                                        setPropertyModalOpen(true);
+                                        showToast('Loaded client submission into Property Manager for review!');
+                                      }}
+                                      className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-brand-gold-500 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 font-black text-[11px] inline-flex items-center gap-1 shadow cursor-pointer whitespace-nowrap"
+                                      title="Review & publish to Properties"
+                                    >
+                                      <span>Approve & Add</span>
+                                    </button>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      try {
+                                        downloadInquiryInvoice(inq, settings);
+                                        showToast('Invoice generated and ready for print/download!');
+                                      } catch (e: any) {
+                                        showToast('Failed to generate invoice', 'error');
+                                      }
+                                    }}
+                                    className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-[11px] inline-flex items-center gap-1 cursor-pointer transition-colors"
+                                    title="Download official branded A4 PDF Invoice / Lead Slip"
+                                  >
+                                    <Printer className="w-3.5 h-3.5 text-brand-gold-400" />
+                                    <span>Invoice</span>
+                                  </button>
+                                  <a
+                                    href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] inline-flex items-center gap-1"
+                                  >
+                                    WhatsApp
+                                  </a>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDeleteInquiry(inq.id, inq.name)}
+                                    className="p-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+                                    title="Delete inquiry and permanently remove client uploaded photos"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={6} className="p-8 text-center text-slate-500">
+                            No matching inquiries found.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* TAB 6: SETTINGS */}
         {activeTab === 'settings' && settings && (

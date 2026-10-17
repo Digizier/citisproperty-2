@@ -31,10 +31,10 @@ export const PAGE_SIZE = 8;
 
 // Selective projection strings - NEVER use SELECT *
 const PROPERTY_LIST_FIELDS =
-  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, thumbnail_url, youtube_url, is_featured, is_active, created_at';
+  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, thumbnail_url, youtube_url, map_url, is_featured, is_active, created_at';
 
 const PROPERTY_DETAIL_FIELDS =
-  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, description, features, thumbnail_url, images, youtube_url, is_featured, is_active, agent_name, agent_phone, agent_whatsapp, created_at, updated_at';
+  'id, title, slug, purpose, type, category_id, subcategory_id, price, price_prefix, city, location, area_size, area_unit, bedrooms, bathrooms, description, features, thumbnail_url, images, youtube_url, map_url, is_featured, is_active, agent_name, agent_phone, agent_whatsapp, created_at, updated_at';
 
 // Default Fallback Settings
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {

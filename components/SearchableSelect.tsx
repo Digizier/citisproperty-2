@@ -76,7 +76,7 @@ export default function SearchableSelect({
   };
 
   return (
-    <div ref={containerRef} className={`relative w-full ${className}`} id={id}>
+    <div ref={containerRef} className={`relative w-full ${isOpen ? 'z-[65]' : ''} ${className}`} id={id}>
       {/* Trigger Button */}
       <button
         type="button"
@@ -100,7 +100,7 @@ export default function SearchableSelect({
       {/* Dropdown Panel */}
       {isOpen && (
         <div
-          className={`absolute left-0 right-0 top-full mt-1.5 z-50 rounded-2xl shadow-2xl border overflow-hidden animate-in fade-in zoom-in-95 duration-150 ${
+          className={`absolute left-0 right-0 top-full mt-1.5 z-[70] rounded-2xl shadow-2xl border overflow-hidden animate-in fade-in zoom-in-95 duration-150 ${
             dark ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-800'
           } ${dropdownClassName}`}
           style={{ minWidth: '220px' }}

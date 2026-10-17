@@ -334,12 +334,14 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
             </div>
           </div>
 
-          {/* Google Maps Location Box */}
-          <PropertyMapBox
-            location={property.location}
-            city={property.city}
-            mapUrl={property.map_url}
-          />
+          {/* Google Maps Location Box - Only show if map_url is provided */}
+          {Boolean(property.map_url && property.map_url.trim()) && (
+            <PropertyMapBox
+              location={property.location}
+              city={property.city}
+              mapUrl={property.map_url}
+            />
+          )}
 
           {/* Description */}
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">

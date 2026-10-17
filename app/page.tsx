@@ -103,9 +103,9 @@ export default function HomePage() {
   return (
     <div className="space-y-16 pb-20">
       {/* HERO SECTION */}
-      <section className="relative min-h-[580px] lg:min-h-[640px] flex items-center justify-center bg-slate-950 overflow-hidden">
+      <section className="relative z-20 min-h-[580px] lg:min-h-[640px] flex items-center justify-center bg-slate-950 pb-16 lg:pb-24">
         {/* Background Image with Dark Vignette */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1920&auto=format&fit=crop"
             alt="Luxury Citi Housing Real Estate"

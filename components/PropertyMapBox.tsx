@@ -14,22 +14,44 @@ export default function PropertyMapBox({
   city = '',
   mapUrl,
 }: PropertyMapBoxProps) {
-  const fullLocationText = [location, city, 'Pakistan'].filter(Boolean).join(', ');
-
-  // Compute the live embed URL
-  let embedSrc = '';
-  if (mapUrl && mapUrl.includes('/embed')) {
-    embedSrc = mapUrl;
-  } else {
-    const query = location ? `${location}, ${city}` : city || 'Citi Housing, Pakistan';
-    embedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+  // If no Google Map URL is provided, do NOT render Google Map box at all
+  if (!mapUrl || !mapUrl.trim()) {
+    return null;
   }
 
-  // Compute the external Google Maps navigation URL
-  const externalMapLink =
-    mapUrl && mapUrl.trim()
-      ? mapUrl
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullLocationText)}`;
+  const cleanMapUrl = mapUrl.trim();
+
+  // Compute live embed URL with intelligent coordinate/place extraction
+  let embedSrc = '';
+  if (cleanMapUrl.includes('/embed')) {
+    embedSrc = cleanMapUrl;
+  } else {
+    // 1. Check for exact pin coords (!3d(lat)!4d(lng)) in Google Maps place URLs
+    const pinMatch = cleanMapUrl.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+    // 2. Check for center/pin coords (@lat,lng)
+    const atMatch = cleanMapUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    // 3. Check for q=lat,lng or query=lat,lng
+    const qMatch = cleanMapUrl.match(/[?&](?:q|query|ll)=(-?\d+\.\d+),(-?\d+\.\d+)/);
+    // 4. Check for /place/Place+Name
+    const placeMatch = cleanMapUrl.match(/\/place\/([^/@?]+)/);
+
+    if (pinMatch) {
+      embedSrc = `https://maps.google.com/maps?q=${pinMatch[1]},${pinMatch[2]}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+    } else if (atMatch) {
+      embedSrc = `https://maps.google.com/maps?q=${atMatch[1]},${atMatch[2]}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+    } else if (qMatch) {
+      embedSrc = `https://maps.google.com/maps?q=${qMatch[1]},${qMatch[2]}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+    } else if (placeMatch) {
+      const placeName = decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
+      embedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(placeName)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+    } else {
+      const query = location ? `${location}, ${city}, Pakistan` : `${city || 'Citi Housing'}, Pakistan`;
+      embedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+    }
+  }
+
+  // The external link opens the EXACT URL provided by the admin/user
+  const externalMapLink = cleanMapUrl;
 
   return (
     <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
@@ -95,15 +117,9 @@ export default function PropertyMapBox({
           </span>
         </div>
 
-        {mapUrl ? (
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full self-start sm:self-auto">
-            ✓ Verified Location Pin Connected
-          </span>
-        ) : (
-          <span className="text-[11px] text-slate-400">
-            Sector & Society Pinpoint
-          </span>
-        )}
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full self-start sm:self-auto">
+          ✓ Verified Location Pin Connected
+        </span>
       </div>
     </div>
   );
