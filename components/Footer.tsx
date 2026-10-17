@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -13,8 +13,23 @@ import {
   Building,
   Lock,
 } from 'lucide-react';
+import { getSiteSettings, DB_EVENTS } from '@/lib/db';
+import { SiteSettings } from '@/lib/types';
 
 export default function Footer() {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const data = await getSiteSettings();
+      setSettings(data);
+    };
+    fetchSettings();
+
+    const handleUpdate = () => fetchSettings();
+    window.addEventListener(DB_EVENTS.SETTINGS_UPDATED, handleUpdate);
+    return () => window.removeEventListener(DB_EVENTS.SETTINGS_UPDATED, handleUpdate);
+  }, []);
   return (
     <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,7 +68,7 @@ export default function Footer() {
                 </div>
               </div>
               <a
-                href="https://g.page/r/CWPTsi4M7yUMEBE/review"
+                href={settings?.google_review_url || "https://g.page/r/CWPTsi4M7yUMEBE/review"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-brand-gold-400 hover:text-brand-gold-300 font-semibold transition-colors"
@@ -151,33 +166,37 @@ export default function Footer() {
             <div className="flex items-start gap-3 text-xs text-slate-400">
               <MapPin className="w-4 h-4 text-brand-gold-500 flex-shrink-0 mt-0.5" />
               <span>
-                Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan
+                {settings?.address || 'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan'}
               </span>
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
               <Phone className="w-4 h-4 text-brand-gold-400 flex-shrink-0" />
               <div className="space-x-2">
-                <a href="tel:03218653500" className="hover:text-white transition-colors">
-                  0321-8653500
-                </a>
-                <span>/</span>
-                <a href="tel:03028658450" className="hover:text-white transition-colors">
-                  0302-8658450
-                </a>
+                {(settings?.phones
+                  ? settings.phones.split(/[,/]/).map((s) => s.trim()).filter(Boolean)
+                  : ['0321-8653500', '0302-8658450']
+                ).map((p: string, idx: number, arr: string[]) => (
+                  <React.Fragment key={idx}>
+                    <a href={`tel:${p.replace(/[^0-9+]/g, '')}`} className="hover:text-white transition-colors">
+                      {p}
+                    </a>
+                    {idx < arr.length - 1 && <span className="text-slate-600"> / </span>}
+                  </React.Fragment>
+                ))}
               </div>
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
               <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
-              <a href="mailto:info@citisproperty.com" className="hover:text-white transition-colors">
-                info@citisproperty.com
+              <a href={`mailto:${settings?.email || 'info@citisproperty.com'}`} className="hover:text-white transition-colors">
+                {settings?.email || 'info@citisproperty.com'}
               </a>
             </div>
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs">
               <a
-                href="https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6"
+                href={settings?.google_maps_url || "https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
@@ -186,7 +205,7 @@ export default function Footer() {
                 <span>Google Maps</span>
               </a>
               <a
-                href="https://www.facebook.com/share/1EM79fibhT/"
+                href={settings?.facebook_url || "https://www.facebook.com/share/1EM79fibhT/"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"

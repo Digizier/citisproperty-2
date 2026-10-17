@@ -23,6 +23,7 @@ import {
 import { getPropertyById, getPropertyBySlug, submitInquiry } from '@/lib/db';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
+import PropertyMapBox from '@/components/PropertyMapBox';
 
 function getYouTubeEmbedUrl(url?: string): string | null {
   if (!url) return null;
@@ -332,6 +333,13 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
               </div>
             </div>
           </div>
+
+          {/* Google Maps Location Box */}
+          <PropertyMapBox
+            location={property.location}
+            city={property.city}
+            mapUrl={property.map_url}
+          />
 
           {/* Description */}
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">

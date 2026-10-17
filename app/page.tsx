@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -28,6 +28,8 @@ import { getProperties, getCategories, getDistinctPropertyFilterOptions, DB_EVEN
 import { Property, Category } from '@/lib/types';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
+import SearchableSelect from '@/components/SearchableSelect';
+import { PAKISTAN_CITIES, PROPERTY_TYPES } from '@/lib/constants';
 
 export default function HomePage() {
   const router = useRouter();
@@ -79,12 +81,20 @@ export default function HomePage() {
     return () => window.removeEventListener(DB_EVENTS.PROPERTIES_UPDATED, handleUpdate);
   }, []);
 
+  const combinedCities = useMemo(() => {
+    return ['All Cities', ...Array.from(new Set([...PAKISTAN_CITIES, ...(filterOptions.cities || [])]))];
+  }, [filterOptions.cities]);
+
+  const combinedTypes = useMemo(() => {
+    return ['All Types', ...Array.from(new Set([...PROPERTY_TYPES, ...(filterOptions.types || [])]))];
+  }, [filterOptions.types]);
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
     params.set('purpose', purpose);
     if (city && city !== 'All Cities') params.set('city', city);
-    if (propertyType) params.set('type', propertyType);
+    if (propertyType && propertyType !== 'All Types') params.set('type', propertyType);
     if (keyword.trim()) params.set('q', keyword.trim());
     if (priceRange) params.set('price', priceRange);
     router.push(`/properties?${params.toString()}`);
@@ -157,18 +167,14 @@ export default function HomePage() {
                   <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                     City / Region
                   </label>
-                  <select
+                  <SearchableSelect
                     value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
-                  >
-                    {filterOptions.cities.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                    <option value="All Cities">All Cities</option>
-                  </select>
+                    onChange={(val) => setCity(val)}
+                    options={combinedCities}
+                    placeholder="Select city..."
+                    searchPlaceholder="Search city across Pakistan..."
+                    allowCustom={true}
+                  />
                 </div>
 
                 {/* Property Type */}
@@ -176,25 +182,14 @@ export default function HomePage() {
                   <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                     Property Type
                   </label>
-                  <select
+                  <SearchableSelect
                     value={propertyType}
-                    onChange={(e) => setPropertyType(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
-                  >
-                    {filterOptions.types.map((t) => (
-                      <option key={t} value={t}>
-                        {t === 'Homes'
-                          ? 'Houses / Homes'
-                          : t === 'Plots'
-                          ? 'Residential Plots'
-                          : t === 'Commercial'
-                          ? 'Commercial Properties'
-                          : t === 'Flats'
-                          ? 'Flats & Apartments'
-                          : t}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setPropertyType(val)}
+                    options={combinedTypes}
+                    placeholder="Select property type..."
+                    searchPlaceholder="Search all property types..."
+                    allowCustom={true}
+                  />
                 </div>
 
                 {/* Price Range Filter */}

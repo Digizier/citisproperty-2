@@ -56,6 +56,7 @@ export interface Property {
   thumbnail_url: string;
   images: string[];
   youtube_url?: string;
+  map_url?: string;
   is_featured: boolean;
   is_active: boolean;
   agent_name?: string;

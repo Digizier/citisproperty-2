@@ -1,11 +1,30 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageCircle } from 'lucide-react';
+import { getSiteSettings, DB_EVENTS } from '@/lib/db';
+import { SiteSettings } from '@/lib/types';
 
 export default function WhatsAppFloatingButton() {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const data = await getSiteSettings();
+      setSettings(data);
+    };
+    fetchSettings();
+
+    const handleUpdate = () => fetchSettings();
+    window.addEventListener(DB_EVENTS.SETTINGS_UPDATED, handleUpdate);
+    return () => window.removeEventListener(DB_EVENTS.SETTINGS_UPDATED, handleUpdate);
+  }, []);
+
+  const rawWhatsapp = settings?.whatsapp || '923218653500';
+  const cleanWhatsapp = rawWhatsapp.replace(/[^0-9]/g, '');
+
   const whatsappUrl =
-    'https://wa.me/923218653500?text=' +
+    `https://wa.me/${cleanWhatsapp}?text=` +
     encodeURIComponent(
       'Assalam-o-Alaikum, I am inquiring about property listings and Citi Housing projects on citisproperty.com.'
     );
@@ -28,3 +47,4 @@ export default function WhatsAppFloatingButton() {
     </a>
   );
 }
+

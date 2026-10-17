@@ -47,29 +47,29 @@ export default function Header() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
             <span className="text-brand-gold-400 font-medium">
-              Official Dealer: <strong className="text-white">Property Bank Real Estate</strong>
+              Official Dealer: <strong className="text-white">{settings?.site_name || 'Property Bank Real Estate'}</strong>
             </span>
             <div className="flex items-center gap-4">
-              <a
-                href="tel:03218653500"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <Phone className="w-3 h-3 text-brand-gold-400" />
-                <span>0321-8653500</span>
-              </a>
-              <a
-                href="tel:03028658450"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <Phone className="w-3 h-3 text-brand-gold-400" />
-                <span>0302-8658450</span>
-              </a>
+              {(settings?.phones || '03218653500, 03028658450')
+                .split(',')
+                .map((phone) => phone.trim())
+                .filter(Boolean)
+                .map((phone, idx) => (
+                  <a
+                    key={idx}
+                    href={`tel:${phone.replace(/[^0-9]/g, '')}`}
+                    className="flex items-center gap-1.5 hover:text-white transition-colors"
+                  >
+                    <Phone className="w-3 h-3 text-brand-gold-400" />
+                    <span>{phone}</span>
+                  </a>
+                ))}
             </div>
           </div>
 
           <div className="flex items-center gap-5 text-slate-300">
             <a
-              href="https://g.page/r/CWPTsi4M7yUMEBE/review"
+              href={settings?.google_review_url || 'https://g.page/r/CWPTsi4M7yUMEBE/review'}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold transition-colors"
@@ -78,7 +78,7 @@ export default function Header() {
               <span>Review on Google</span>
             </a>
             <a
-              href="https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6"
+              href={settings?.google_maps_url || 'https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6'}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:text-white transition-colors"
@@ -87,7 +87,7 @@ export default function Header() {
               <span>Office Location</span>
             </a>
             <a
-              href="https://www.facebook.com/share/1EM79fibhT/"
+              href={settings?.facebook_url || 'https://www.facebook.com/share/1EM79fibhT/'}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"
@@ -281,7 +281,7 @@ export default function Header() {
           {/* Action CTAs (Desktop) */}
           <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             <a
-              href="https://wa.me/923218653500"
+              href={`https://wa.me/${(settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-colors"
@@ -347,12 +347,19 @@ export default function Header() {
               </span>
             </div>
             <div className="flex flex-wrap gap-3 font-semibold text-brand-gold-700 pt-1">
-              <a href="tel:03218653500" className="flex items-center gap-1">
-                <Phone className="w-3 h-3 text-brand-gold-600" /> 0321-8653500
-              </a>
-              <a href="tel:03028658450" className="flex items-center gap-1">
-                <Phone className="w-3 h-3 text-brand-gold-600" /> 0302-8658450
-              </a>
+              {(settings?.phones || '03218653500, 03028658450')
+                .split(',')
+                .map((phone) => phone.trim())
+                .filter(Boolean)
+                .map((phone, idx) => (
+                  <a
+                    key={idx}
+                    href={`tel:${phone.replace(/[^0-9]/g, '')}`}
+                    className="flex items-center gap-1 hover:underline"
+                  >
+                    <Phone className="w-3 h-3 text-brand-gold-600" /> {phone}
+                  </a>
+                ))}
             </div>
           </div>
 

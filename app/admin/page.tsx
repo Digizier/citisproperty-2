@@ -28,6 +28,7 @@ import {
   MapPin,
   Share2,
   Copy,
+  Printer,
 } from 'lucide-react';
 import {
   adminGetAllProperties,
@@ -39,6 +40,8 @@ import {
   adminDeleteBanner,
   getInquiries,
   adminUpdateInquiryStatus,
+  adminDeleteInquiry,
+  adminClearAllInquiries,
   getSiteSettings,
   adminSaveSiteSettings,
   getSocieties,
@@ -47,6 +50,9 @@ import {
   DB_EVENTS,
 } from '@/lib/db';
 import { uploadPropertyImage, uploadPdfToStorage } from '@/lib/image-compressor';
+import { downloadInquiryInvoice } from '@/lib/invoice-generator';
+import SearchableSelect from '@/components/SearchableSelect';
+import { PAKISTAN_CITIES, PROPERTY_TYPES, AREA_UNITS } from '@/lib/constants';
 import {
   Property,
   Category,
@@ -187,8 +193,8 @@ export default function AdminPage() {
   // Handle PIN Login
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const correctPin = settings?.admin_pin || 'admin123';
-    if (pinInput.trim() === correctPin || pinInput.trim() === 'admin123') {
+    const correctPin = settings?.admin_pin || 'asif@ciitisproperty.com_123@#';
+    if (pinInput.trim() === correctPin || pinInput.trim() === 'asif@ciitisproperty.com_123@#') {
       setIsAuthenticated(true);
       sessionStorage.setItem('citis_admin_auth', 'true');
       setPinError(false);
@@ -225,6 +231,7 @@ export default function AdminPage() {
       thumbnail_url: '',
       images: [],
       youtube_url: '',
+      map_url: '',
       is_featured: false,
       is_active: true,
       agent_name: 'Property Bank Real Estate',
@@ -372,12 +379,52 @@ export default function AdminPage() {
     });
   };
 
+  /* ---------------- INQUIRIES MANAGEMENT ---------------- */
+  const handleDeleteInquiry = (id: string, name: string) => {
+    setDeleteConfirm({
+      isOpen: true,
+      title: 'Delete Client Inquiry?',
+      description: `Are you sure you want to permanently delete the inquiry from "${name}"? All associated uploaded photos and records will be deleted from the database and storage.`,
+      onConfirm: async () => {
+        try {
+          await adminDeleteInquiry(id);
+          setDeleteConfirm((prev) => ({ ...prev, isOpen: false }));
+          showToast('Client inquiry and associated media deleted successfully');
+          loadAdminData();
+        } catch (e: any) {
+          showToast(e.message || 'Error deleting inquiry', 'error');
+        }
+      },
+    });
+  };
+
+  const handleClearAllInquiries = () => {
+    setDeleteConfirm({
+      isOpen: true,
+      title: 'CLEAR ALL INQUIRIES & MEDIA?',
+      description: 'WARNING: This will permanently delete ALL client inquiries and purge all uploaded customer images from cloud storage. This action CANNOT be undone.',
+      onConfirm: async () => {
+        try {
+          await adminClearAllInquiries();
+          setDeleteConfirm((prev) => ({ ...prev, isOpen: false }));
+          showToast('All client inquiries and media cleared successfully');
+          loadAdminData();
+        } catch (e: any) {
+          showToast(e.message || 'Error clearing inquiries', 'error');
+        }
+      },
+    });
+  };
+
   /* ---------------- SITE SETTINGS ---------------- */
   const handleSaveSettingsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!settings) return;
     try {
-      await adminSaveSiteSettings(settings);
+      await adminSaveSiteSettings({
+        ...settings,
+        admin_pin: settings.admin_pin || 'asif@ciitisproperty.com_123@#',
+      });
       showToast('Store & Company settings updated successfully');
     } catch (e: any) {
       showToast(e.message || 'Error saving settings', 'error');
@@ -506,24 +553,21 @@ export default function AdminPage() {
       (s.location && s.location.toLowerCase().includes(societySearch.toLowerCase()))
   );
 
-  // Dynamic autocomplete lists derived from current database
+  // Dynamic lists derived from comprehensive Pakistan constants + current database
   const availableTypes = useMemo(() => {
-    const defaultTypes = ['Homes', 'Plots', 'Commercial', 'Flats', 'Farmhouse', 'Penthouse', 'Villas', 'Shop', 'Office'];
     const fromProps = properties.map((p) => p.type).filter(Boolean);
-    return Array.from(new Set([...defaultTypes, ...fromProps]));
+    return Array.from(new Set([...PROPERTY_TYPES, ...fromProps]));
   }, [properties]);
 
   const availableCities = useMemo(() => {
-    const defaultCities = ['Faisalabad', 'Gujranwala', 'Sialkot', 'Jhelum', 'Lahore', 'Islamabad', 'Rawalpindi', 'Multan', 'Sheikhupura'];
     const fromProps = properties.map((p) => p.city).filter(Boolean);
     const fromSocs = societies.map((s) => s.city).filter(Boolean);
-    return Array.from(new Set([...defaultCities, ...fromProps, ...fromSocs]));
+    return Array.from(new Set([...PAKISTAN_CITIES, ...fromProps, ...fromSocs]));
   }, [properties, societies]);
 
   const availableUnits = useMemo(() => {
-    const defaultUnits = ['Marla', 'Kanal', 'Sq. Ft', 'Sq. Yds', 'Acre', 'Sq. Mtr'];
     const fromProps = properties.map((p) => p.area_unit).filter(Boolean);
-    return Array.from(new Set([...defaultUnits, ...fromProps]));
+    return Array.from(new Set([...AREA_UNITS, ...fromProps]));
   }, [properties]);
 
   /* =========================================================================
@@ -550,7 +594,7 @@ export default function AdminPage() {
             <div>
               <input
                 type="password"
-                placeholder="Enter Master PIN (Default: admin123)"
+                placeholder="Enter Master Admin PIN"
                 value={pinInput}
                 onChange={(e) => {
                   setPinInput(e.target.value);
@@ -1293,11 +1337,25 @@ export default function AdminPage() {
         {/* TAB 5: INQUIRIES & LEADS */}
         {activeTab === 'inquiries' && (
           <div className="space-y-6 animate-in fade-in duration-200">
-            <div>
-              <h1 className="text-2xl font-black text-white">Customer Inquiries & Leads</h1>
-              <p className="text-xs text-slate-400 mt-1">
-                Direct client inquiries submitted through website forms and mortgage calculators
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-black text-white">Customer Inquiries & Leads</h1>
+                <p className="text-xs text-slate-400 mt-1">
+                  Direct client inquiries submitted through website forms and property listing submissions
+                </p>
+              </div>
+
+              {inquiries.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleClearAllInquiries}
+                  className="px-4 py-2 bg-red-950/60 hover:bg-red-900 border border-red-700/60 text-red-300 font-bold text-xs rounded-xl inline-flex items-center gap-1.5 transition-all self-start sm:self-auto cursor-pointer"
+                  title="Permanently remove all inquiries and customer uploaded photos"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                  <span>Clear All Inquiries</span>
+                </button>
+              )}
             </div>
 
             <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-sm">
@@ -1391,6 +1449,7 @@ export default function AdminPage() {
                                         thumbnail_url: d.thumbnail_url || (Array.isArray(d.images) && d.images[0]) || '',
                                         images: Array.isArray(d.images) ? d.images : (d.thumbnail_url ? [d.thumbnail_url] : []),
                                         youtube_url: d.youtube_url || '',
+                                        map_url: d.map_url || '',
                                         is_featured: false,
                                         is_active: true,
                                         agent_name: d.agent_name || inq.name || 'Property Bank Real Estate',
@@ -1408,14 +1467,38 @@ export default function AdminPage() {
                                     <span>Approve & Add</span>
                                   </button>
                                 )}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    try {
+                                      downloadInquiryInvoice(inq, settings);
+                                      showToast('Invoice generated and ready for print/download!');
+                                    } catch (e: any) {
+                                      showToast('Failed to generate invoice', 'error');
+                                    }
+                                  }}
+                                  className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-[11px] inline-flex items-center gap-1 cursor-pointer transition-colors"
+                                  title="Download official branded A4 PDF Invoice / Lead Slip"
+                                >
+                                  <Printer className="w-3.5 h-3.5 text-brand-gold-400" />
+                                  <span>Invoice</span>
+                                </button>
                                 <a
                                   href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] inline-flex items-center gap-1"
+                                  className="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] inline-flex items-center gap-1"
                                 >
                                   WhatsApp
                                 </a>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteInquiry(inq.id, inq.name)}
+                                  className="p-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+                                  title="Delete inquiry and permanently remove client uploaded photos"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
                               </div>
                             </td>
                           </tr>
@@ -1535,18 +1618,6 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div className="pt-4 border-t border-slate-800">
-                <label className="block text-xs font-bold uppercase text-amber-400 mb-1">
-                  Change Master Admin PIN
-                </label>
-                <input
-                  type="text"
-                  value={settings.admin_pin}
-                  onChange={(e) => setSettings({ ...settings, admin_pin: e.target.value })}
-                  className="w-full max-w-xs bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white font-mono"
-                />
-              </div>
-
               <div className="pt-4">
                 <button
                   type="submit"
@@ -1617,49 +1688,37 @@ export default function AdminPage() {
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="block font-bold uppercase text-slate-400">Type *</label>
-                    <span className="text-[10px] text-brand-gold-400 font-semibold">Custom text allowed</span>
-                  </div>
-                  <input
-                    type="text"
-                    required
-                    list="admin-property-types"
+                  <label className="block font-bold uppercase text-slate-400 mb-1">
+                    Type *
+                  </label>
+                  <SearchableSelect
                     value={editingProperty.type || ''}
-                    onChange={(e) =>
-                      setEditingProperty({ ...editingProperty, type: e.target.value })
+                    onChange={(val) =>
+                      setEditingProperty({ ...editingProperty, type: val })
                     }
-                    placeholder="e.g. Homes, Plots, Farmhouse..."
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:border-brand-gold-500 font-semibold"
+                    options={availableTypes}
+                    placeholder="Select or search property type..."
+                    searchPlaceholder="Search property type..."
+                    allowCustom={true}
+                    dark={true}
                   />
-                  <datalist id="admin-property-types">
-                    {availableTypes.map((t) => (
-                      <option key={t} value={t} />
-                    ))}
-                  </datalist>
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="block font-bold uppercase text-slate-400">City *</label>
-                    <span className="text-[10px] text-brand-gold-400 font-semibold">Custom text allowed</span>
-                  </div>
-                  <input
-                    type="text"
-                    required
-                    list="admin-property-cities"
+                  <label className="block font-bold uppercase text-slate-400 mb-1">
+                    City *
+                  </label>
+                  <SearchableSelect
                     value={editingProperty.city || ''}
-                    onChange={(e) =>
-                      setEditingProperty({ ...editingProperty, city: e.target.value })
+                    onChange={(val) =>
+                      setEditingProperty({ ...editingProperty, city: val })
                     }
-                    placeholder="e.g. Faisalabad, Gujranwala, Jhelum..."
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:border-brand-gold-500 font-semibold"
+                    options={availableCities}
+                    placeholder="Select or search city..."
+                    searchPlaceholder="Search city across Pakistan..."
+                    allowCustom={true}
+                    dark={true}
                   />
-                  <datalist id="admin-property-cities">
-                    {availableCities.map((c) => (
-                      <option key={c} value={c} />
-                    ))}
-                  </datalist>
                 </div>
               </div>
 
@@ -1717,22 +1776,17 @@ export default function AdminPage() {
 
                 <div>
                   <label className="block font-bold uppercase text-slate-400 mb-1">Unit</label>
-                  <input
-                    type="text"
-                    required
-                    list="admin-property-units"
+                  <SearchableSelect
                     value={editingProperty.area_unit || 'Marla'}
-                    onChange={(e) =>
-                      setEditingProperty({ ...editingProperty, area_unit: e.target.value })
+                    onChange={(val) =>
+                      setEditingProperty({ ...editingProperty, area_unit: val })
                     }
-                    placeholder="Marla, Kanal..."
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:border-brand-gold-500 font-semibold"
+                    options={availableUnits}
+                    placeholder="Select unit..."
+                    searchPlaceholder="Search unit..."
+                    allowCustom={true}
+                    dark={true}
                   />
-                  <datalist id="admin-property-units">
-                    {availableUnits.map((u) => (
-                      <option key={u} value={u} />
-                    ))}
-                  </datalist>
                 </div>
 
                 <div>
@@ -1763,7 +1817,7 @@ export default function AdminPage() {
               {/* YouTube Video Tour URL */}
               <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="font-bold uppercase text-brand-gold-400">
+                  <label className="font-bold uppercase text-brand-gold-400 text-xs">
                     YouTube Video Tour URL (Optional)
                   </label>
                   <span className="text-[10px] text-slate-400 font-semibold">
@@ -1781,6 +1835,31 @@ export default function AdminPage() {
                 />
                 <span className="text-[11px] text-slate-400 block">
                   ▶ If added, this YouTube video will display <strong>first</strong> in the media viewer on the property page, followed by photo gallery thumbnails.
+                </span>
+              </div>
+
+              {/* Google Maps Location URL */}
+              <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="font-bold uppercase text-brand-gold-400 text-xs flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-brand-gold-500" />
+                    <span>Google Maps Location URL (Optional)</span>
+                  </label>
+                  <span className="text-[10px] text-slate-400 font-semibold">
+                    Live Map / Pin Link
+                  </span>
+                </div>
+                <input
+                  type="url"
+                  placeholder="https://maps.app.goo.gl/... or https://maps.google.com/..."
+                  value={editingProperty.map_url || ''}
+                  onChange={(e) =>
+                    setEditingProperty({ ...editingProperty, map_url: e.target.value })
+                  }
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-mono text-xs focus:border-brand-gold-500"
+                />
+                <span className="text-[11px] text-slate-400 block">
+                  📍 If provided, the property page displays a live interactive Google Map with a direct &quot;Open Location on Google Maps&quot; navigation button.
                 </span>
               </div>
 

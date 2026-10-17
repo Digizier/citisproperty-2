@@ -48,7 +48,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   google_maps_url: 'https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6',
   google_review_url: 'https://g.page/r/CWPTsi4M7yUMEBE/review',
   facebook_url: 'https://www.facebook.com/share/1EM79fibhT/',
-  admin_pin: 'admin123',
+  admin_pin: 'asif@ciitisproperty.com_123@#',
 };
 
 /* =========================================================================
@@ -243,6 +243,7 @@ export async function adminSaveProperty(property: Partial<Property>): Promise<Pr
     thumbnail_url: property.thumbnail_url || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop',
     images: property.images && property.images.length > 0 ? property.images : [property.thumbnail_url || ''],
     youtube_url: property.youtube_url || '',
+    map_url: property.map_url || '',
     is_featured: property.is_featured ?? false,
     is_active: property.is_active ?? true,
     agent_name: property.agent_name || 'Property Bank Real Estate',
@@ -729,6 +730,96 @@ export async function adminUpdateInquiryStatus(
   } catch (err) {
     console.error('Update inquiry status error:', err);
     return false;
+  }
+}
+
+export async function adminDeleteInquiry(id: string): Promise<boolean> {
+  try {
+    // 1. Fetch inquiry to clean up any submitted listing images from storage
+    const { data: inq } = await supabase
+      .from('inquiries')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (inq?.listing_data) {
+      const d = inq.listing_data;
+      const filesToRemove: string[] = [];
+      const allUrls = [
+        d.thumbnail_url,
+        ...(Array.isArray(d.images) ? d.images : []),
+      ].filter(Boolean);
+
+      allUrls.forEach((url: string) => {
+        const path = extractStoragePath(url, 'property-images');
+        if (path && !filesToRemove.includes(path)) {
+          filesToRemove.push(path);
+        }
+      });
+
+      if (filesToRemove.length > 0) {
+        try {
+          await supabase.storage.from('property-images').remove(filesToRemove);
+        } catch (storageErr) {
+          console.warn('Inquiry images cleanup warning:', storageErr);
+        }
+      }
+    }
+
+    // 2. Delete inquiry row from database
+    const { error } = await supabase.from('inquiries').delete().eq('id', id);
+    if (error) throw error;
+
+    dispatchDbEvent(DB_EVENTS.INQUIRIES_UPDATED);
+    return true;
+  } catch (err) {
+    console.error('Delete inquiry error:', err);
+    throw err;
+  }
+}
+
+export async function adminClearAllInquiries(): Promise<boolean> {
+  try {
+    // 1. Fetch all inquiries to clean up all uploaded listing photos
+    const { data: allInquiries } = await supabase.from('inquiries').select('*');
+
+    if (allInquiries && allInquiries.length > 0) {
+      const allFilesToRemove: string[] = [];
+      allInquiries.forEach((inq) => {
+        const d = inq.listing_data;
+        if (d) {
+          const allUrls = [
+            d.thumbnail_url,
+            ...(Array.isArray(d.images) ? d.images : []),
+          ].filter(Boolean);
+
+          allUrls.forEach((url: string) => {
+            const path = extractStoragePath(url, 'property-images');
+            if (path && !allFilesToRemove.includes(path)) {
+              allFilesToRemove.push(path);
+            }
+          });
+        }
+      });
+
+      if (allFilesToRemove.length > 0) {
+        try {
+          await supabase.storage.from('property-images').remove(allFilesToRemove);
+        } catch (storageErr) {
+          console.warn('Batch inquiry images cleanup warning:', storageErr);
+        }
+      }
+    }
+
+    // 2. Delete all records from inquiries table
+    const { error } = await supabase.from('inquiries').delete().not('id', 'is', null);
+    if (error) throw error;
+
+    dispatchDbEvent(DB_EVENTS.INQUIRIES_UPDATED);
+    return true;
+  } catch (err) {
+    console.error('Clear all inquiries error:', err);
+    throw err;
   }
 }
 

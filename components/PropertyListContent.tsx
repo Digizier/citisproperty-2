@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
   Filter,
@@ -15,6 +15,8 @@ import { getProperties, getDistinctPropertyFilterOptions } from '@/lib/db';
 import { Property, PropertyPurpose, PropertyType } from '@/lib/types';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
+import SearchableSelect from '@/components/SearchableSelect';
+import { PAKISTAN_CITIES, PROPERTY_TYPES } from '@/lib/constants';
 
 interface PropertyListContentProps {
   initialPurpose?: PropertyPurpose;
@@ -121,6 +123,14 @@ export default function PropertyListContent({
     });
   }, []);
 
+  const combinedCities = useMemo(() => {
+    return ['All Cities', ...Array.from(new Set([...PAKISTAN_CITIES, ...(filterOptions.cities || [])]))];
+  }, [filterOptions.cities]);
+
+  const combinedTypes = useMemo(() => {
+    return ['All Types', ...Array.from(new Set([...PROPERTY_TYPES, ...(filterOptions.types || [])]))];
+  }, [filterOptions.types]);
+
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
     setCurrentPage(newPage);
@@ -210,21 +220,17 @@ export default function PropertyListContent({
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                 City / Region
               </label>
-              <select
+              <SearchableSelect
                 value={city}
-                onChange={(e) => {
-                  setCity(e.target.value);
+                onChange={(val) => {
+                  setCity(val);
                   setCurrentPage(1);
                 }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
-              >
-                {filterOptions.cities.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-                <option value="All Cities">All Cities</option>
-              </select>
+                options={combinedCities}
+                placeholder="Select city..."
+                searchPlaceholder="Search city across Pakistan..."
+                allowCustom={true}
+              />
             </div>
 
             {/* Property Type */}
@@ -232,28 +238,17 @@ export default function PropertyListContent({
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
                 Property Type
               </label>
-              <select
+              <SearchableSelect
                 value={type}
-                onChange={(e) => {
-                  setType(e.target.value as PropertyType);
+                onChange={(val) => {
+                  setType(val === 'All Types' ? '' : (val as PropertyType));
                   setCurrentPage(1);
                 }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
-              >
-                {filterOptions.types.map((t) => (
-                  <option key={t} value={t}>
-                    {t === 'Homes'
-                      ? 'Houses / Homes'
-                      : t === 'Plots'
-                      ? 'Residential Plots'
-                      : t === 'Commercial'
-                      ? 'Commercial Properties'
-                      : t === 'Flats'
-                      ? 'Flats & Apartments'
-                      : t}
-                  </option>
-                ))}
-              </select>
+                options={combinedTypes}
+                placeholder="Select property type..."
+                searchPlaceholder="Search property type..."
+                allowCustom={true}
+              />
             </div>
 
             {/* Price Range Filter */}

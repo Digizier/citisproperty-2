@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import {
   CheckCircle2,
@@ -12,11 +12,14 @@ import {
   Building,
   Home,
   ShieldCheck,
+  MapPin,
 } from 'lucide-react';
 import { submitInquiry, getDistinctPropertyFilterOptions } from '@/lib/db';
 import { uploadPropertyImage } from '@/lib/image-compressor';
 import { formatPKRPrice } from '@/lib/utils';
 import { PropertyPurpose } from '@/lib/types';
+import SearchableSelect from '@/components/SearchableSelect';
+import { PAKISTAN_CITIES, PROPERTY_TYPES, AREA_UNITS } from '@/lib/constants';
 
 const DEFAULT_AMENITIES = [
   'Sui Gas',
@@ -46,6 +49,7 @@ export default function PostListingPage() {
   const [bedrooms, setBedrooms] = useState<number | ''>(3);
   const [bathrooms, setBathrooms] = useState<number | ''>(3);
   const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [mapUrl, setMapUrl] = useState('');
   const [features, setFeatures] = useState<string[]>([
     'Sui Gas',
     'Electricity',
@@ -75,6 +79,18 @@ export default function PostListingPage() {
     types: ['Homes', 'Plots', 'Commercial', 'Flats'],
     units: ['Marla', 'Kanal', 'Sq. Ft', 'Sq. Yd', 'Acre'],
   });
+
+  const combinedCities = useMemo(() => {
+    return Array.from(new Set([...PAKISTAN_CITIES, ...(filterOptions.cities || [])]));
+  }, [filterOptions.cities]);
+
+  const combinedTypes = useMemo(() => {
+    return Array.from(new Set([...PROPERTY_TYPES, ...(filterOptions.types || [])]));
+  }, [filterOptions.types]);
+
+  const combinedUnits = useMemo(() => {
+    return Array.from(new Set([...AREA_UNITS, ...(filterOptions.units || [])]));
+  }, [filterOptions.units]);
 
   // Submission State
   const [submitting, setSubmitting] = useState(false);
@@ -185,6 +201,7 @@ export default function PostListingPage() {
         bedrooms: typeof bedrooms === 'number' ? bedrooms : 0,
         bathrooms: typeof bathrooms === 'number' ? bathrooms : 0,
         youtube_url: youtubeUrl.trim(),
+        map_url: mapUrl.trim(),
         features,
         thumbnail_url: thumbnailUrl || images[0] || '',
         images,
@@ -196,7 +213,7 @@ export default function PostListingPage() {
         agent_whatsapp: ownerWhatsapp.trim() || ownerPhone.trim().replace(/^0/, '92').replace(/[^0-9]/g, ''),
       };
 
-      const summaryMsg = `[PROPERTY SUBMISSION] Title: ${effectiveTitle} | Purpose: ${purpose.toUpperCase()} | Type: ${propertyType} | City: ${city} | Location: ${location} | Demand: PKR ${price} | Size: ${areaSize} ${areaUnit} | Beds: ${bedrooms} | Baths: ${bathrooms} | Photos: ${images.length} | Notes: ${description}`;
+      const summaryMsg = `[PROPERTY SUBMISSION] Title: ${effectiveTitle} | Purpose: ${purpose.toUpperCase()} | Type: ${propertyType} | City: ${city} | Location: ${location} | Demand: PKR ${price} | Size: ${areaSize} ${areaUnit} | Beds: ${bedrooms} | Baths: ${bathrooms} | Map URL: ${mapUrl.trim() || 'N/A'} | Photos: ${images.length} | Notes: ${description}`;
 
       await submitInquiry({
         name: ownerName.trim(),
@@ -322,49 +339,31 @@ export default function PostListingPage() {
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
-                    Type *
-                  </label>
-                  <span className="text-[10px] text-brand-gold-600 font-semibold">Custom text allowed</span>
-                </div>
-                <input
-                  type="text"
-                  required
-                  list="post-property-types"
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Property Type *
+                </label>
+                <SearchableSelect
                   value={propertyType}
-                  onChange={(e) => setPropertyType(e.target.value)}
-                  placeholder="e.g. Homes, Plots, Farmhouse..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
+                  onChange={(val) => setPropertyType(val)}
+                  options={combinedTypes}
+                  placeholder="Select or search property type..."
+                  searchPlaceholder="Type to search property type..."
+                  allowCustom={true}
                 />
-                <datalist id="post-property-types">
-                  {filterOptions.types.map((t) => (
-                    <option key={t} value={t} />
-                  ))}
-                </datalist>
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
-                    City *
-                  </label>
-                  <span className="text-[10px] text-brand-gold-600 font-semibold">Custom text allowed</span>
-                </div>
-                <input
-                  type="text"
-                  required
-                  list="post-property-cities"
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  City / Region *
+                </label>
+                <SearchableSelect
                   value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  placeholder="e.g. Faisalabad, karachi..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
+                  onChange={(val) => setCity(val)}
+                  options={combinedCities}
+                  placeholder="Select or search city across Pakistan..."
+                  searchPlaceholder="Type to search city across Pakistan..."
+                  allowCustom={true}
                 />
-                <datalist id="post-property-cities">
-                  {filterOptions.cities.map((c) => (
-                    <option key={c} value={c} />
-                  ))}
-                </datalist>
               </div>
             </div>
 
@@ -420,20 +419,14 @@ export default function PostListingPage() {
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                   Unit
                 </label>
-                <input
-                  type="text"
-                  required
-                  list="post-property-units"
+                <SearchableSelect
                   value={areaUnit}
-                  onChange={(e) => setAreaUnit(e.target.value)}
-                  placeholder="Marla, Kanal, Nadir..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
+                  onChange={(val) => setAreaUnit(val)}
+                  options={combinedUnits}
+                  placeholder="Select unit..."
+                  searchPlaceholder="Search unit..."
+                  allowCustom={true}
                 />
-                <datalist id="post-property-units">
-                  {filterOptions.units.map((u) => (
-                    <option key={u} value={u} />
-                  ))}
-                </datalist>
               </div>
 
               <div>
@@ -464,7 +457,7 @@ export default function PostListingPage() {
             {/* 5. YouTube Video Tour URL (Optional) */}
             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
               <div className="flex items-center justify-between">
-                <label className="font-bold uppercase text-brand-gold-800">
+                <label className="font-bold uppercase text-brand-gold-800 text-xs">
                   YouTube Video Tour URL (Optional)
                 </label>
                 <span className="text-[10px] text-slate-500 font-semibold">
@@ -480,6 +473,29 @@ export default function PostListingPage() {
               />
               <span className="text-[11px] text-slate-500 block">
                 ▶ If added, this YouTube video will display <strong>first</strong> in the media viewer on the property page, followed by photo gallery thumbnails.
+              </span>
+            </div>
+
+            {/* 6. Google Maps Location URL (Optional) */}
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="font-bold uppercase text-brand-gold-800 text-xs flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-brand-gold-600" />
+                  <span>Google Maps Location URL (Optional)</span>
+                </label>
+                <span className="text-[10px] text-slate-500 font-semibold">
+                  Share link / Pin location
+                </span>
+              </div>
+              <input
+                type="url"
+                placeholder="https://maps.app.goo.gl/... or https://maps.google.com/..."
+                value={mapUrl}
+                onChange={(e) => setMapUrl(e.target.value)}
+                className="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-slate-900 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-brand-gold-500"
+              />
+              <span className="text-[11px] text-slate-500 block">
+                📍 Paste the Google Maps link for your property so buyers can see the live interactive map and navigate directly.
               </span>
             </div>
 

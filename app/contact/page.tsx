@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Phone,
   Mail,
@@ -11,15 +11,29 @@ import {
   CheckCircle2,
   Clock,
 } from 'lucide-react';
-import { submitInquiry } from '@/lib/db';
+import { submitInquiry, getSiteSettings, DB_EVENTS } from '@/lib/db';
+import { SiteSettings } from '@/lib/types';
 
 export default function ContactPage() {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const data = await getSiteSettings();
+      setSettings(data);
+    };
+    fetchSettings();
+
+    const handleUpdate = () => fetchSettings();
+    window.addEventListener(DB_EVENTS.SETTINGS_UPDATED, handleUpdate);
+    return () => window.removeEventListener(DB_EVENTS.SETTINGS_UPDATED, handleUpdate);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,6 +57,11 @@ export default function ContactPage() {
     }
   };
 
+  const whatsappClean = (settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '');
+  const phonesList: string[] = settings?.phones
+    ? settings.phones.split(/[,/]/).map((s) => s.trim()).filter(Boolean)
+    : ['0321-8653500', '0302-8658450'];
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
       <div className="text-center max-w-2xl mx-auto space-y-3">
@@ -64,43 +83,41 @@ export default function ContactPage() {
               Direct Phone & WhatsApp Helplines
             </h3>
             <div className="space-y-3 text-xs">
-              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <div>
-                  <span className="text-slate-500 block">Primary Helpline:</span>
-                  <a
-                    href="tel:03218653500"
-                    className="font-extrabold text-sm text-brand-gold-700 hover:underline"
-                  >
-                    0321-8653500
-                  </a>
-                </div>
-                <a
-                  href="https://wa.me/923218653500"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs"
-                >
-                  WhatsApp
-                </a>
-              </div>
-
-              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <div>
-                  <span className="text-slate-500 block">Secondary Helpline:</span>
-                  <a
-                    href="tel:03028658450"
-                    className="font-extrabold text-sm text-brand-gold-700 hover:underline"
-                  >
-                    0302-8658450
-                  </a>
-                </div>
-                <a
-                  href="tel:03028658450"
-                  className="px-3 py-1.5 rounded-lg border border-slate-300 text-slate-800 font-bold text-xs hover:bg-slate-100"
-                >
-                  Call
-                </a>
-              </div>
+              {phonesList.map((p, idx) => {
+                const clean = p.replace(/[^0-9+]/g, '');
+                return (
+                  <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <div>
+                      <span className="text-slate-500 block">
+                        {idx === 0 ? 'Primary Helpline:' : `Helpline ${idx + 1}:`}
+                      </span>
+                      <a
+                        href={`tel:${clean}`}
+                        className="font-extrabold text-sm text-brand-gold-700 hover:underline"
+                      >
+                        {p}
+                      </a>
+                    </div>
+                    {idx === 0 ? (
+                      <a
+                        href={`https://wa.me/${whatsappClean}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition-colors"
+                      >
+                        WhatsApp
+                      </a>
+                    ) : (
+                      <a
+                        href={`tel:${clean}`}
+                        className="px-3 py-1.5 rounded-lg border border-slate-300 text-slate-800 font-bold text-xs hover:bg-slate-100 transition-colors"
+                      >
+                        Call
+                      </a>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -111,7 +128,7 @@ export default function ContactPage() {
               Official Office Locations
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan.
+              {settings?.address || 'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan.'}
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <Clock className="w-4 h-4 text-slate-400" />
@@ -120,19 +137,19 @@ export default function ContactPage() {
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs">
               <a
-                href="https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6"
+                href={settings?.google_maps_url || "https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold inline-flex items-center gap-1.5 hover:bg-slate-800 transition-colors"
               >
                 <MapPin className="w-3.5 h-3.5 text-red-400" />
                 <span>Open in Google Maps</span>
               </a>
               <a
-                href="https://g.page/r/CWPTsi4M7yUMEBE/review"
+                href={settings?.google_review_url || "https://g.page/r/CWPTsi4M7yUMEBE/review"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold inline-flex items-center gap-1.5 hover:bg-amber-400 transition-colors"
               >
                 <Star className="w-3.5 h-3.5 fill-slate-950" />
                 <span>Rate Us on Google</span>
