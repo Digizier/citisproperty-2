@@ -57,7 +57,6 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
         {/* Top Header Bar */}
         <div
           style={{
-            height: '80px',
             backgroundColor: '#020617',
             borderRadius: '16px',
             padding: '12px 20px',
@@ -110,7 +109,7 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
                   textTransform: 'uppercase',
                   color: '#fbbf24',
                   display: 'block',
-                  lineHeight: 1.2,
+                  lineHeight: 1.3,
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -122,8 +121,9 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
                   fontWeight: 900,
                   color: '#ffffff',
                   letterSpacing: '-0.2px',
-                  margin: '2px 0 0 0',
-                  lineHeight: 1.2,
+                  margin: '3px 0 2px 0',
+                  lineHeight: 1.35,
+                  paddingBottom: '2px',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -138,7 +138,7 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
                   color: '#cbd5e1',
                   fontWeight: 500,
                   margin: '2px 0 0 0',
-                  lineHeight: 1.2,
+                  lineHeight: 1.3,
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -151,7 +151,7 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
           <div
             style={{
               minWidth: '150px',
-              padding: '6px 14px',
+              padding: '8px 16px',
               borderRadius: '10px',
               background: 'linear-gradient(135deg, #f59e0b, #d97706)',
               textAlign: 'right',
@@ -160,10 +160,10 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
               marginLeft: '10px',
             }}
           >
-            <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase', color: '#020617', display: 'block', lineHeight: 1 }}>
+            <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase', color: '#020617', display: 'block', lineHeight: 1.2 }}>
               Demand Price
             </span>
-            <div style={{ fontSize: '16px', fontWeight: 900, color: '#020617', lineHeight: 1.2, marginTop: '2px', whiteSpace: 'nowrap' }}>
+            <div style={{ fontSize: '16px', fontWeight: 900, color: '#020617', lineHeight: 1.3, marginTop: '2px', whiteSpace: 'nowrap' }}>
               PKR {priceText}
             </div>
           </div>
@@ -283,11 +283,10 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
         {/* Bottom Contact Strip */}
         <div
           style={{
-            height: '66px',
             backgroundColor: '#f8fafc',
             border: '1px solid #e2e8f0',
             borderRadius: '12px',
-            padding: '10px 16px',
+            padding: '12px 18px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -295,25 +294,25 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
           }}
         >
           <div>
-            <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#d97706', display: 'block', lineHeight: 1 }}>
+            <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#d97706', display: 'block', lineHeight: 1.2 }}>
               Authorized Citi Housing Dealer
             </span>
-            <div style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.2, marginTop: '2px' }}>
+            <div style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.35, marginTop: '2px', paddingBottom: '1px' }}>
               {property.agent_name || 'Property Bank Real Estate'}
             </div>
-            <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 500, lineHeight: 1.2, marginTop: '2px' }}>
+            <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 500, lineHeight: 1.35, marginTop: '2px', paddingBottom: '1px' }}>
               Citi Housing Sargodha Road & Samundri Road, Faisalabad
             </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 700, color: '#1e293b', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '8px' }}>
-              <Phone style={{ width: '13px', height: '13px', color: '#d97706' }} />
-              <span>{property.agent_phone || '03218653500'}</span>
+              <Phone style={{ width: '13px', height: '13px', color: '#d97706', flexShrink: 0 }} />
+              <span style={{ lineHeight: 1.3 }}>{property.agent_phone || '03218653500'}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 700, color: '#166534', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', padding: '6px 12px', borderRadius: '8px' }}>
-              <MessageCircle style={{ width: '13px', height: '13px', color: '#16a34a' }} />
-              <span>{property.agent_whatsapp || '923218653500'}</span>
+              <MessageCircle style={{ width: '13px', height: '13px', color: '#16a34a', flexShrink: 0 }} />
+              <span style={{ lineHeight: 1.3 }}>{property.agent_whatsapp || '923218653500'}</span>
             </div>
           </div>
         </div>
@@ -321,11 +320,10 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
         {/* Footer Bar */}
         <div
           style={{
-            height: '36px',
             backgroundColor: '#020617',
             color: '#ffffff',
             borderRadius: '10px',
-            padding: '0 16px',
+            padding: '10px 18px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -338,7 +336,7 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#cbd5e1' }}>
             <span style={{ color: '#fbbf24', fontWeight: 900 }}>citisproperty.com</span>
             <span>•</span>
-            <span>Official Verified Listing Record</span>
+            <span style={{ lineHeight: 1.3 }}>Official Verified Listing Record</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ color: '#fbbf24', fontWeight: 900 }}>100% Document Verified</span>

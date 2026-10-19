@@ -17,7 +17,7 @@ async function preloadImages(element: HTMLElement): Promise<void> {
         img.onload = () => resolve();
         img.onerror = () => resolve();
         // Timeout safeguard
-        setTimeout(() => resolve(), 3000);
+        setTimeout(() => resolve(), 2500);
       });
     })
   );
@@ -42,16 +42,28 @@ export async function generateFlyerCanvas(element: HTMLElement): Promise<HTMLCan
     y: 0,
     scrollX: 0,
     scrollY: 0,
-    windowWidth: 1280,
-    windowHeight: 1800,
-    onclone: (clonedDoc: Document) => {
-      const wrapper = clonedDoc.getElementById('flyer-offscreen-wrapper');
-      if (wrapper) {
-        wrapper.style.transform = 'none';
-        wrapper.style.position = 'static';
-        wrapper.style.zIndex = '1';
-        wrapper.style.display = 'block';
-      }
+    windowWidth: 794,
+    windowHeight: 1123,
+    onclone: (clonedDoc: Document, clonedEl: HTMLElement) => {
+      // Clear all other elements from cloned document to isolate clonedEl at (0, 0)
+      clonedDoc.body.innerHTML = '';
+      clonedDoc.body.style.margin = '0px';
+      clonedDoc.body.style.padding = '0px';
+      clonedDoc.body.style.backgroundColor = '#ffffff';
+
+      clonedEl.style.position = 'absolute';
+      clonedEl.style.left = '0px';
+      clonedEl.style.top = '0px';
+      clonedEl.style.margin = '0px';
+      clonedEl.style.transform = 'none';
+      clonedEl.style.width = '794px';
+      clonedEl.style.height = '1123px';
+      clonedEl.style.display = 'flex';
+      clonedEl.style.flexDirection = 'column';
+      clonedEl.style.justifyContent = 'space-between';
+      clonedEl.style.visibility = 'visible';
+
+      clonedDoc.body.appendChild(clonedEl);
     },
   });
 }
@@ -81,13 +93,13 @@ export async function saveFlyerImage(element: HTMLElement, filename: string): Pr
 }
 
 /**
- * Share A4 Flyer Image via Web Share API or download fallback
+ * Share A4 Flyer Image via Web Share API or download + native share sheet fallback
  */
 export async function shareFlyerImage(
   element: HTMLElement,
   property: Property,
   shareUrl: string
-): Promise<{ method: 'native' | 'download_whatsapp' }> {
+): Promise<{ method: 'native' | 'download' }> {
   const canvas = await generateFlyerCanvas(element);
   return new Promise((resolve, reject) => {
     canvas.toBlob(async (blob) => {
@@ -99,7 +111,7 @@ export async function shareFlyerImage(
       const fileName = `${property.slug || property.id}-flyer.png`;
       const file = new File([blob], fileName, { type: 'image/png' });
 
-      // Check if native Web Share with files is supported
+      // 1. Try native Web Share with the image file
       if (
         typeof navigator !== 'undefined' &&
         navigator.canShare &&
@@ -118,10 +130,11 @@ export async function shareFlyerImage(
             resolve({ method: 'native' });
             return;
           }
+          console.warn('Native image file share failed, trying text share fallback', err);
         }
       }
 
-      // Fallback: download the image and launch WhatsApp share
+      // 2. Download the image file to device
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -131,10 +144,25 @@ export async function shareFlyerImage(
       document.body.removeChild(link);
       setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-      const msg = `Assalam-o-Alaikum, check out this property brochure from Citi Housing (Property Bank Real Estate):\n\n🏡 *${property.title}*\n💰 *Demand:* PKR ${formatPKRPrice(property.price)}\n📍 *Location:* ${property.location}, ${property.city}\n📏 *Area:* ${property.area_size} ${property.area_unit}\n\n🔗 *Listing URL:* ${shareUrl}`;
-      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+      // 3. If native share is available (without files), open native share sheet with title/text/url
+      if (typeof navigator !== 'undefined' && navigator.share) {
+        try {
+          await navigator.share({
+            title: property.title,
+            text: `🏡 *${property.title}*\n🖼️ High-Res Flyer image saved.\n💰 Demand: PKR ${formatPKRPrice(property.price)}\n📍 ${property.location}, ${property.city}\n\n🔗 ${shareUrl}`,
+            url: shareUrl,
+          });
+          resolve({ method: 'native' });
+          return;
+        } catch (err: any) {
+          if (err.name === 'AbortError') {
+            resolve({ method: 'native' });
+            return;
+          }
+        }
+      }
 
-      resolve({ method: 'download_whatsapp' });
+      resolve({ method: 'download' });
     }, 'image/png');
   });
 }
@@ -154,9 +182,11 @@ export async function saveMultiPageFlyerPdf(
     format: 'a4',
   });
 
-  for (let i = 0; i < pageElements.length; i++) {
-    const el = pageElements[i];
-    const canvas = await generateFlyerCanvas(el);
+  // Render all page canvases concurrently
+  const canvases = await Promise.all(pageElements.map((el) => generateFlyerCanvas(el)));
+
+  for (let i = 0; i < canvases.length; i++) {
+    const canvas = canvases[i];
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
     if (i > 0) {
@@ -170,13 +200,13 @@ export async function saveMultiPageFlyerPdf(
 }
 
 /**
- * Share Multi-Page A4 PDF Document via Web Share API or download fallback
+ * Share Multi-Page A4 PDF Document via Web Share API or download + native share sheet fallback
  */
 export async function shareMultiPageFlyerPdf(
   pageElements: HTMLElement[],
   property: Property,
   shareUrl: string
-): Promise<{ method: 'native' | 'download_whatsapp' }> {
+): Promise<{ method: 'native' | 'download' }> {
   const { jsPDF } = await import('jspdf');
 
   const pdf = new jsPDF({
@@ -185,9 +215,11 @@ export async function shareMultiPageFlyerPdf(
     format: 'a4',
   });
 
-  for (let i = 0; i < pageElements.length; i++) {
-    const el = pageElements[i];
-    const canvas = await generateFlyerCanvas(el);
+  // Render all page canvases concurrently (fast parallel execution preserves user gesture token)
+  const canvases = await Promise.all(pageElements.map((el) => generateFlyerCanvas(el)));
+
+  for (let i = 0; i < canvases.length; i++) {
+    const canvas = canvases[i];
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
     if (i > 0) {
@@ -198,9 +230,9 @@ export async function shareMultiPageFlyerPdf(
 
   const pdfBlob = pdf.output('blob');
   const fileName = `${property.slug || property.id}-brochure.pdf`;
-  const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+  const file = new File([pdfBlob], fileName, { type: 'application/pdf', lastModified: Date.now() });
 
-  // Native share check
+  // 1. Try native Web Share with the PDF file (opens phone's native app chooser)
   if (
     typeof navigator !== 'undefined' &&
     navigator.canShare &&
@@ -217,13 +249,28 @@ export async function shareMultiPageFlyerPdf(
       if (err.name === 'AbortError') {
         return { method: 'native' };
       }
+      console.warn('Native PDF file share failed, falling back to download + share sheet', err);
     }
   }
 
-  // Fallback: download PDF and launch WhatsApp
+  // 2. Download the PDF directly to device
   pdf.save(fileName);
-  const msg = `Assalam-o-Alaikum, I have downloaded the official multi-page PDF brochure for:\n\n🏡 *${property.title}*\n💰 *Demand:* PKR ${formatPKRPrice(property.price)}\n📍 *Location:* ${property.location}, ${property.city}\n\n🔗 *View full listing online:* ${shareUrl}`;
-  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
 
-  return { method: 'download_whatsapp' };
+  // 3. Open native system share sheet (showing all apps: WhatsApp, Gmail, Drive, Messages, etc.)
+  if (typeof navigator !== 'undefined' && navigator.share) {
+    try {
+      await navigator.share({
+        title: `${property.title} - Official PDF Brochure`,
+        text: `🏡 *${property.title}*\n📄 Official PDF brochure downloaded.\n💰 Demand: PKR ${formatPKRPrice(property.price)}\n📍 ${property.location}, ${property.city}\n\n🔗 ${shareUrl}`,
+        url: shareUrl,
+      });
+      return { method: 'native' };
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        return { method: 'native' };
+      }
+    }
+  }
+
+  return { method: 'download' };
 }

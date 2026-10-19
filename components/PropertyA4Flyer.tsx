@@ -95,7 +95,6 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
         {/* Top Header Bar */}
         <div
           style={{
-            height: '84px',
             backgroundColor: '#020617',
             borderRadius: '16px',
             padding: '12px 20px',
@@ -108,15 +107,15 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1, minWidth: 0 }}>
-            {/* Strictly Clamped Logo Container */}
+            {/* Clamped Logo */}
             <div
               style={{
-                width: '56px',
-                height: '56px',
-                minWidth: '56px',
-                maxWidth: '56px',
-                minHeight: '56px',
-                maxHeight: '56px',
+                width: '54px',
+                height: '54px',
+                minWidth: '54px',
+                maxWidth: '54px',
+                minHeight: '54px',
+                maxHeight: '54px',
                 borderRadius: '12px',
                 backgroundColor: '#ffffff',
                 padding: '6px',
@@ -132,10 +131,10 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                 src="/logo.png"
                 alt="Property Bank Logo"
                 style={{
-                  width: '44px',
-                  height: '44px',
-                  maxWidth: '44px',
-                  maxHeight: '44px',
+                  width: '42px',
+                  height: '42px',
+                  maxWidth: '42px',
+                  maxHeight: '42px',
                   objectFit: 'contain',
                   display: 'block',
                 }}
@@ -153,7 +152,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   textTransform: 'uppercase',
                   color: '#fbbf24',
                   display: 'block',
-                  lineHeight: 1.2,
+                  lineHeight: 1.3,
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -166,7 +165,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   color: '#ffffff',
                   letterSpacing: '-0.3px',
                   margin: '2px 0 0 0',
-                  lineHeight: 1.2,
+                  lineHeight: 1.3,
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -178,7 +177,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   color: '#cbd5e1',
                   fontWeight: 500,
                   margin: '2px 0 0 0',
-                  lineHeight: 1.2,
+                  lineHeight: 1.3,
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -210,7 +209,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                 letterSpacing: '0.6px',
                 color: '#020617',
                 display: 'block',
-                lineHeight: 1,
+                lineHeight: 1.2,
               }}
             >
               Demand Price
@@ -220,7 +219,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                 fontSize: '19px',
                 fontWeight: 900,
                 color: '#020617',
-                lineHeight: 1.2,
+                lineHeight: 1.3,
                 marginTop: '2px',
                 whiteSpace: 'nowrap',
               }}
@@ -233,7 +232,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                 fontWeight: 700,
                 color: '#1e293b',
                 display: 'block',
-                lineHeight: 1,
+                lineHeight: 1.2,
                 marginTop: '2px',
               }}
             >
@@ -245,7 +244,6 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
         {/* Main Property Showcase Block */}
         <div
           style={{
-            height: '240px',
             display: 'flex',
             gap: '16px',
             alignItems: 'stretch',
@@ -256,7 +254,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           <div
             style={{
               width: '320px',
-              height: '240px',
+              height: '225px',
               minWidth: '320px',
               maxWidth: '320px',
               borderRadius: '16px',
@@ -314,13 +312,12 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              height: '240px',
               boxSizing: 'border-box',
             }}
           >
             <div>
               {/* Badges Row */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                 <span
                   style={{
                     fontSize: '10px',
@@ -352,22 +349,22 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                 </span>
               </div>
 
-              {/* Title */}
+              {/* Title - Fully Unclipped */}
               <h1
                 style={{
                   fontSize: '18px',
                   fontWeight: 900,
                   color: '#0f172a',
-                  lineHeight: 1.25,
-                  margin: '0 0 6px 0',
-                  maxHeight: '46px',
-                  overflow: 'hidden',
+                  lineHeight: 1.4,
+                  margin: '4px 0 6px 0',
+                  padding: '0 0 4px 0',
+                  wordBreak: 'break-word',
                 }}
               >
                 {property.title}
               </h1>
 
-              {/* Location */}
+              {/* Location - Fully Unclipped */}
               <div
                 style={{
                   display: 'flex',
@@ -376,38 +373,39 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   fontSize: '12px',
                   fontWeight: 600,
                   color: '#475569',
+                  lineHeight: 1.45,
+                  padding: '2px 0 4px 0',
                 }}
               >
                 <MapPin style={{ width: '14px', height: '14px', color: '#d97706', flexShrink: 0 }} />
-                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <span>
                   {property.location}, {property.city}
                 </span>
               </div>
             </div>
 
-            {/* 4-Box Key Metrics Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+            {/* 4-Box Key Metrics Grid - No Fixed Height, Zero Clipping */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginTop: '8px' }}>
               {/* Box 1: Type */}
               <div
                 style={{
                   backgroundColor: '#f8fafc',
                   border: '1px solid #e2e8f0',
                   borderRadius: '12px',
-                  padding: '8px 4px',
+                  padding: '10px 4px 12px 4px',
                   textAlign: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '66px',
                   boxSizing: 'border-box',
                 }}
               >
-                <Home style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
-                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                <Home style={{ width: '16px', height: '16px', color: '#d97706', marginBottom: '3px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1.3, display: 'block' }}>
                   TYPE
                 </span>
-                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.4, marginTop: '2px', paddingBottom: '2px', display: 'block' }}>
                   {property.type}
                 </span>
               </div>
@@ -418,21 +416,20 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   backgroundColor: '#f8fafc',
                   border: '1px solid #e2e8f0',
                   borderRadius: '12px',
-                  padding: '8px 4px',
+                  padding: '10px 4px 12px 4px',
                   textAlign: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '66px',
                   boxSizing: 'border-box',
                 }}
               >
-                <Maximize2 style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
-                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                <Maximize2 style={{ width: '16px', height: '16px', color: '#d97706', marginBottom: '3px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1.3, display: 'block' }}>
                   SIZE
                 </span>
-                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.4, marginTop: '2px', paddingBottom: '2px', display: 'block' }}>
                   {property.area_size} {property.area_unit}
                 </span>
               </div>
@@ -443,21 +440,20 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   backgroundColor: '#f8fafc',
                   border: '1px solid #e2e8f0',
                   borderRadius: '12px',
-                  padding: '8px 4px',
+                  padding: '10px 4px 12px 4px',
                   textAlign: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '66px',
                   boxSizing: 'border-box',
                 }}
               >
-                <Bed style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
-                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                <Bed style={{ width: '16px', height: '16px', color: '#d97706', marginBottom: '3px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1.3, display: 'block' }}>
                   BEDS
                 </span>
-                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.4, marginTop: '2px', paddingBottom: '2px', display: 'block' }}>
                   {property.bedrooms > 0 ? `${property.bedrooms} Bed` : '-'}
                 </span>
               </div>
@@ -468,21 +464,20 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   backgroundColor: '#f8fafc',
                   border: '1px solid #e2e8f0',
                   borderRadius: '12px',
-                  padding: '8px 4px',
+                  padding: '10px 4px 12px 4px',
                   textAlign: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '66px',
                   boxSizing: 'border-box',
                 }}
               >
-                <Bath style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
-                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                <Bath style={{ width: '16px', height: '16px', color: '#d97706', marginBottom: '3px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1.3, display: 'block' }}>
                   BATHS
                 </span>
-                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.4, marginTop: '2px', paddingBottom: '2px', display: 'block' }}>
                   {property.bathrooms > 0 ? `${property.bathrooms} Bath` : '-'}
                 </span>
               </div>
@@ -490,9 +485,9 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
         </div>
 
-        {/* Amenities & Infrastructure Section */}
+        {/* Amenities & Infrastructure Section - Completely Unclipped */}
         <div style={{ boxSizing: 'border-box' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
             <span
               style={{
                 backgroundColor: '#0f172a',
@@ -510,26 +505,25 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
             <div style={{ height: '1px', backgroundColor: '#e2e8f0', flex: 1 }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
             {amenities.slice(0, 12).map((feature, idx) => (
               <div
                 key={idx}
                 style={{
                   backgroundColor: '#f8fafc',
                   border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '8px 12px',
+                  borderRadius: '10px',
+                  padding: '10px 14px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  gap: '10px',
                   boxSizing: 'border-box',
-                  height: '38px',
                 }}
               >
                 <div
                   style={{
-                    width: '16px',
-                    height: '16px',
+                    width: '18px',
+                    height: '18px',
                     borderRadius: '50%',
                     backgroundColor: '#fef3c7',
                     display: 'flex',
@@ -538,17 +532,15 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                     flexShrink: 0,
                   }}
                 >
-                  <Check style={{ width: '10px', height: '10px', color: '#b45309', strokeWidth: 3 }} />
+                  <Check style={{ width: '11px', height: '11px', color: '#b45309', strokeWidth: 3 }} />
                 </div>
                 <span
                   style={{
-                    fontSize: '11px',
+                    fontSize: '12px',
                     fontWeight: 700,
                     color: '#1e293b',
-                    lineHeight: 1.2,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
+                    lineHeight: 1.4,
+                    display: 'block',
                   }}
                 >
                   {feature}
@@ -560,7 +552,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
 
         {/* Photos & Property Views Section */}
         <div style={{ boxSizing: 'border-box' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span
                 style={{
@@ -586,7 +578,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   color: '#b45309',
                   backgroundColor: '#fef3c7',
                   border: '1px solid #fde68a',
-                  padding: '2px 8px',
+                  padding: '3px 10px',
                   borderRadius: '6px',
                 }}
               >
@@ -643,7 +635,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
         </div>
 
-        {/* Dealer Contact & Trust Details */}
+        {/* Dealer Contact & Trust Details - Fully Unclipped */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', boxSizing: 'border-box' }}>
           {/* Left Card: Agent Contact */}
           <div
@@ -651,46 +643,50 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
               backgroundColor: '#f8fafc',
               border: '1px solid #e2e8f0',
               borderRadius: '14px',
-              padding: '12px 14px',
+              padding: '14px 18px',
               boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '6px',
             }}
           >
             <span
               style={{
-                fontSize: '9px',
+                fontSize: '10px',
                 fontWeight: 900,
                 textTransform: 'uppercase',
                 letterSpacing: '0.6px',
                 color: '#d97706',
                 display: 'block',
-                lineHeight: 1,
+                lineHeight: 1.2,
               }}
             >
               Authorized Dealership
             </span>
             <h4
               style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 fontWeight: 900,
                 color: '#0f172a',
-                margin: '4px 0 6px 0',
-                lineHeight: 1.2,
+                margin: '2px 0 4px 0',
+                lineHeight: 1.3,
               }}
             >
               {property.agent_name || 'Property Bank Real Estate'}
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '11px', fontWeight: 600, color: '#334155' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Phone style={{ width: '13px', height: '13px', color: '#d97706', flexShrink: 0 }} />
-                <span>Call: {property.agent_phone || '03218653500'}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '12px', fontWeight: 600, color: '#334155' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Phone style={{ width: '14px', height: '14px', color: '#d97706', flexShrink: 0 }} />
+                <span style={{ lineHeight: 1.4 }}>Call: {property.agent_phone || '03218653500'}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <MessageCircle style={{ width: '13px', height: '13px', color: '#16a34a', flexShrink: 0 }} />
-                <span>WhatsApp: {property.agent_whatsapp || '923218653500'}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <MessageCircle style={{ width: '14px', height: '14px', color: '#16a34a', flexShrink: 0 }} />
+                <span style={{ lineHeight: 1.4 }}>WhatsApp: {property.agent_whatsapp || '923218653500'}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: '#64748b' }}>
-                <MapPin style={{ width: '12px', height: '12px', color: '#94a3b8', flexShrink: 0 }} />
-                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#64748b' }}>
+                <MapPin style={{ width: '13px', height: '13px', color: '#94a3b8', flexShrink: 0 }} />
+                <span style={{ lineHeight: 1.4 }}>
                   Citi Housing Sargodha & Samundri Road, Faisalabad
                 </span>
               </div>
@@ -702,7 +698,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
             style={{
               background: 'linear-gradient(135deg, #0f172a, #020617)',
               borderRadius: '14px',
-              padding: '12px 14px',
+              padding: '14px 18px',
               border: '1px solid #1e293b',
               color: '#ffffff',
               display: 'flex',
@@ -712,13 +708,13 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
             }}
           >
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Building2 style={{ width: '15px', height: '15px', color: '#fbbf24', flexShrink: 0 }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Building2 style={{ width: '16px', height: '16px', color: '#fbbf24', flexShrink: 0 }} />
                 <span style={{ fontSize: '11px', fontWeight: 900, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
                   Your Trusted Partner in Real Estate
                 </span>
               </div>
-              <p style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: 500, margin: '4px 0 0 0', lineHeight: 1.3 }}>
+              <p style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: 500, margin: '6px 0 0 0', lineHeight: 1.4 }}>
                 Official marketing & investment consultants for Citi Housing developments across Pakistan.
               </p>
             </div>
@@ -737,11 +733,10 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
         {/* Footer Bar */}
         <div
           style={{
-            height: '36px',
             backgroundColor: '#020617',
             color: '#ffffff',
             borderRadius: '10px',
-            padding: '0 16px',
+            padding: '10px 18px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -754,7 +749,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#cbd5e1' }}>
             <span style={{ color: '#fbbf24', fontWeight: 900 }}>citisproperty.com</span>
             <span>•</span>
-            <span>Pakistan Luxury Living & Dealership</span>
+            <span style={{ lineHeight: 1.4 }}>Pakistan Luxury Living & Dealership</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ color: '#fbbf24', fontWeight: 900 }}>100% Document Verified Property</span>

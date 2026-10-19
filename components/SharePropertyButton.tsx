@@ -130,11 +130,15 @@ export default function SharePropertyButton({
     if (!page1Ref.current) return;
     setLoadingAction('share_image');
     try {
-      await shareFlyerImage(page1Ref.current, property, shareUrl);
-      showStatus('Flyer image ready & shared!');
+      const result = await shareFlyerImage(page1Ref.current, property, shareUrl);
+      if (result.method === 'native') {
+        showStatus('✓ Share options opened!');
+      } else {
+        showStatus('✓ Flyer image saved to your device!');
+      }
     } catch (err) {
       console.error('Error sharing flyer image:', err);
-      showStatus('Unable to share image. Trying download...');
+      showStatus('Unable to share image. Please try downloading.');
     } finally {
       setLoadingAction(null);
     }
@@ -162,11 +166,15 @@ export default function SharePropertyButton({
     if (elements.length === 0) return;
     setLoadingAction('share_pdf');
     try {
-      await shareMultiPageFlyerPdf(elements, property, shareUrl);
-      showStatus('PDF brochure ready & shared!');
+      const result = await shareMultiPageFlyerPdf(elements, property, shareUrl);
+      if (result.method === 'native') {
+        showStatus('✓ Share options opened!');
+      } else {
+        showStatus('✓ PDF brochure downloaded to your device!');
+      }
     } catch (err) {
       console.error('Error sharing flyer PDF:', err);
-      showStatus('Unable to share PDF. Trying download...');
+      showStatus('Unable to share PDF. Please try downloading.');
     } finally {
       setLoadingAction(null);
     }
