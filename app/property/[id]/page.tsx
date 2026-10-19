@@ -177,6 +177,96 @@ export async function generateStaticParams() {
   return fallbacks.map((id) => ({ id }));
 }
 
-export default function PropertyPage({ params }: PageProps) {
-  return <PropertyDetailClient idOrSlug={params.id} />;
+export default async function PropertyPage({ params }: PageProps) {
+  let property: Property | null = null;
+  const idOrSlug = params.id;
+  try {
+    if (idOrSlug.startsWith('prop-')) {
+      property = await getPropertyById(idOrSlug);
+      if (!property) property = await getPropertyBySlug(idOrSlug);
+    } else {
+      property = await getPropertyBySlug(idOrSlug);
+      if (!property) property = await getPropertyById(idOrSlug);
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  const rawImage = property ? getValidPropertyImage(property) : '';
+  const imageUrl = getAbsoluteImageUrl(rawImage);
+  const pageUrl = property
+    ? `https://citisproperty.com/property/${property.slug || property.id}/`
+    : `https://citisproperty.com/property/${params.id}/`;
+
+  const schemaData = property
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': property.type === 'Plots' ? 'Accommodation' : 'SingleFamilyResidence',
+            name: property.title,
+            description: property.description || property.title,
+            url: pageUrl,
+            image: imageUrl,
+            numberOfBedrooms: property.bedrooms || 0,
+            numberOfBathroomsTotal: property.bathrooms || 0,
+            floorSize: {
+              '@type': 'QuantitativeValue',
+              value: property.area_size,
+              unitText: property.area_unit,
+            },
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: property.city,
+              streetAddress: property.location,
+              addressCountry: 'PK',
+            },
+            offers: {
+              '@type': 'Offer',
+              price: property.price,
+              priceCurrency: 'PKR',
+              availability: 'https://schema.org/InStock',
+              url: pageUrl,
+            },
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://citisproperty.com/',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: `${property.type} in ${property.city}`,
+                item: `https://citisproperty.com/${property.type}/${property.city}/`,
+              },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: property.title,
+                item: pageUrl,
+              },
+            ],
+          },
+        ],
+      }
+    : null;
+
+  return (
+    <>
+      {schemaData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schemaData),
+          }}
+        />
+      )}
+      <PropertyDetailClient idOrSlug={params.id} />
+    </>
+  );
 }

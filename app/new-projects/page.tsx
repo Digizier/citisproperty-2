@@ -1,6 +1,23 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Building, MapPin, CheckCircle2, ArrowRight, Phone } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'New Projects & Phases — Citi Housing Developments | citisproperty.com',
+  description:
+    'Discover upcoming and ongoing residential and commercial developments in Citi Housing Faisalabad (Sargodha & Samundri Road), Gujranwala, Sialkot, and Jhelum.',
+  alternates: {
+    canonical: 'https://citisproperty.com/new-projects/',
+  },
+  openGraph: {
+    title: 'New Projects & Phases — Citi Housing Developments | citisproperty.com',
+    description:
+      'Discover upcoming and ongoing residential and commercial developments in Citi Housing Faisalabad (Sargodha & Samundri Road), Gujranwala, Sialkot, and Jhelum.',
+    url: 'https://citisproperty.com/new-projects/',
+    images: ['https://citisproperty.com/logo.png'],
+  },
+};
 
 export default function NewProjectsPage() {
   const projects = [

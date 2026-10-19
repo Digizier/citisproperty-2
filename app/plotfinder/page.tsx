@@ -1,6 +1,23 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Compass, MapPin, Search, ArrowRight } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Plot Finder & Sector Locator — Citi Housing | Property Bank',
+  description:
+    'Pinpoint exact 5 Marla, 10 Marla & 1 Kanal plot locations by Block, Street, and Sector in Citi Housing Faisalabad, Gujranwala, Sialkot, and Jhelum.',
+  alternates: {
+    canonical: 'https://citisproperty.com/plotfinder/',
+  },
+  openGraph: {
+    title: 'Plot Finder & Sector Locator — Citi Housing | Property Bank',
+    description:
+      'Pinpoint exact 5 Marla, 10 Marla & 1 Kanal plot locations by Block, Street, and Sector in Citi Housing.',
+    url: 'https://citisproperty.com/plotfinder/',
+    images: ['https://citisproperty.com/logo.png'],
+  },
+};
 
 export default function PlotFinderPage() {
   return (

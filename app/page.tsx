@@ -613,6 +613,65 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ & KNOWLEDGE BASE SECTION (AEO & GEO SEARCH OPTIMIZATION) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-800 text-[11px] font-extrabold uppercase tracking-wider">
+              <span>Frequently Asked Questions</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Citi Housing & Property Bank FAQs
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500">
+              Essential answers to help you navigate property purchases, transfers, and investments.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black shrink-0">1</span>
+                Who is the authorized dealer for Citi Housing Faisalabad?
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                <strong>Property Bank Real Estate</strong> (citisproperty.com) is the official authorized dealership representing Citi Housing Faisalabad (Sargodha Road & Samundri Road), Gujranwala, Sialkot, and Jhelum. All transactions feature 100% verified documentation directly confirmed with developer records.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black shrink-0">2</span>
+                What plot and house sizes are available?
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                Citi Housing developments feature <strong>5 Marla, 10 Marla, 1 Kanal, and 2 Kanal</strong> residential plots and designer luxury villas, as well as prime commercial plots in <strong>Citi Gold Mark</strong> with immediate possession and utility connections (Sui Gas, underground electricity, water).
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black shrink-0">3</span>
+                How can Overseas Pakistanis invest safely?
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                We provide a dedicated <strong>Overseas Desk</strong> with live video walk-throughs of on-ground plots, biometric verification guidance, power of attorney facilitation, and safe bank-to-bank transactions with zero ambiguity.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black shrink-0">4</span>
+                How can I check society maps and location pins?
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                Visit our <Link href="/society-maps" className="text-amber-700 font-bold hover:underline">Society Maps</Link> section to view and download official high-definition master plans for Phase 1 & Phase 2, or check exact Google Map pins on every listing page.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

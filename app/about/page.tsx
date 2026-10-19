@@ -1,6 +1,23 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Award, ShieldCheck, Users, Building, Phone, ArrowRight } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'About Us — Property Bank Real Estate & City Housing (Pvt) Ltd',
+  description:
+    'Learn about Property Bank Real Estate, the premier authorized dealership dedicated to Citi Housing developments across Faisalabad, Gujranwala, Sialkot, and Jhelum.',
+  alternates: {
+    canonical: 'https://citisproperty.com/about/',
+  },
+  openGraph: {
+    title: 'About Us — Property Bank Real Estate & City Housing (Pvt) Ltd',
+    description:
+      'Learn about Property Bank Real Estate, the premier authorized dealership dedicated to Citi Housing developments across Faisalabad, Gujranwala, Sialkot, and Jhelum.',
+    url: 'https://citisproperty.com/about/',
+    images: ['https://citisproperty.com/logo.png'],
+  },
+};
 
 export default function AboutPage() {
   return (
