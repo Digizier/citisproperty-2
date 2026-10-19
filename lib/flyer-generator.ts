@@ -4,19 +4,52 @@ import { Property } from './types';
 import { formatPKRPrice } from './utils';
 
 /**
+ * Pre-load all <img> tags inside an element before canvas capture
+ */
+async function preloadImages(element: HTMLElement): Promise<void> {
+  const images = Array.from(element.querySelectorAll('img'));
+  await Promise.all(
+    images.map((img) => {
+      if (img.complete && img.naturalWidth > 0) {
+        return Promise.resolve();
+      }
+      return new Promise<void>((resolve) => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+      });
+    })
+  );
+}
+
+/**
  * Generate a high-resolution HTML5 canvas from a flyer DOM element
+ * Uses desktop windowWidth to prevent mobile viewports from compressing or clipping fonts
  */
 export async function generateFlyerCanvas(element: HTMLElement): Promise<HTMLCanvasElement> {
+  await preloadImages(element);
   const html2canvas = (await import('html2canvas')).default;
+
   return await html2canvas(element, {
-    scale: 2, // 2x high resolution (approx 1600x2250px) for crystal-clear prints & galleries
+    scale: 2, // 2x high resolution for crisp, readable text and photos
     useCORS: true,
     allowTaint: false,
     backgroundColor: '#ffffff',
     logging: false,
-    scrollX: 0,
-    scrollY: 0,
-    windowWidth: 794,
+    width: 794,
+    height: 1123,
+    windowWidth: 1280, // Emulates desktop viewport so Tailwind media queries never trigger mobile squeezing
+    windowHeight: 1800,
+    onclone: (clonedDoc: Document) => {
+      // Find the flyer in the cloned document and ensure full dimensions
+      const clonedFlyer = clonedDoc.getElementById('property-flyer-capture');
+      if (clonedFlyer) {
+        clonedFlyer.style.position = 'static';
+        clonedFlyer.style.display = 'flex';
+        clonedFlyer.style.width = '794px';
+        clonedFlyer.style.height = '1123px';
+        clonedFlyer.style.overflow = 'hidden';
+      }
+    },
   });
 }
 
@@ -104,10 +137,12 @@ export async function shareFlyerImage(
 }
 
 /**
- * Save A4 Flyer as PDF Document directly to user's gallery / downloads
+ * Save Multi-Page A4 PDF Document (Handles 15+ images and descriptions across pages)
  */
-export async function saveFlyerPdf(element: HTMLElement, filename: string): Promise<void> {
-  const canvas = await generateFlyerCanvas(element);
+export async function saveMultiPageFlyerPdf(
+  pageElements: HTMLElement[],
+  filename: string
+): Promise<void> {
   const { jsPDF } = await import('jspdf');
 
   const pdf = new jsPDF({
@@ -116,21 +151,29 @@ export async function saveFlyerPdf(element: HTMLElement, filename: string): Prom
     format: 'a4',
   });
 
-  const imgData = canvas.toDataURL('image/jpeg', 0.95);
-  // A4 dimensions: 210 x 297 mm
-  pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+  for (let i = 0; i < pageElements.length; i++) {
+    const el = pageElements[i];
+    const canvas = await generateFlyerCanvas(el);
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    if (i > 0) {
+      pdf.addPage('a4', 'portrait');
+    }
+    // A4 dimensions: 210 x 297 mm
+    pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+  }
+
   pdf.save(filename.endsWith('.pdf') ? filename : `${filename}.pdf`);
 }
 
 /**
- * Share A4 Flyer as PDF Document via Web Share API or download fallback
+ * Share Multi-Page A4 PDF Document via Web Share API or download fallback
  */
-export async function shareFlyerPdf(
-  element: HTMLElement,
+export async function shareMultiPageFlyerPdf(
+  pageElements: HTMLElement[],
   property: Property,
   shareUrl: string
 ): Promise<{ method: 'native' | 'download_whatsapp' }> {
-  const canvas = await generateFlyerCanvas(element);
   const { jsPDF } = await import('jspdf');
 
   const pdf = new jsPDF({
@@ -139,8 +182,16 @@ export async function shareFlyerPdf(
     format: 'a4',
   });
 
-  const imgData = canvas.toDataURL('image/jpeg', 0.95);
-  pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+  for (let i = 0; i < pageElements.length; i++) {
+    const el = pageElements[i];
+    const canvas = await generateFlyerCanvas(el);
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    if (i > 0) {
+      pdf.addPage('a4', 'portrait');
+    }
+    pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+  }
 
   const pdfBlob = pdf.output('blob');
   const fileName = `${property.slug || property.id}-brochure.pdf`;
@@ -156,7 +207,7 @@ export async function shareFlyerPdf(
       await navigator.share({
         files: [file],
         title: `${property.title} - Official Brochure`,
-        text: `Official PDF brochure for *${property.title}* (Demand: PKR ${formatPKRPrice(property.price)}). View listing: ${shareUrl}`,
+        text: `Official multi-page brochure for *${property.title}* (Demand: PKR ${formatPKRPrice(property.price)}). View listing: ${shareUrl}`,
       });
       return { method: 'native' };
     } catch (err: any) {
@@ -168,7 +219,7 @@ export async function shareFlyerPdf(
 
   // Fallback: download PDF and launch WhatsApp
   pdf.save(fileName);
-  const msg = `Assalam-o-Alaikum, I have downloaded the official PDF brochure for:\n\n🏡 *${property.title}*\n💰 *Demand:* PKR ${formatPKRPrice(property.price)}\n📍 *Location:* ${property.location}, ${property.city}\n\n🔗 *View full listing online:* ${shareUrl}`;
+  const msg = `Assalam-o-Alaikum, I have downloaded the official multi-page PDF brochure for:\n\n🏡 *${property.title}*\n💰 *Demand:* PKR ${formatPKRPrice(property.price)}\n📍 *Location:* ${property.location}, ${property.city}\n\n🔗 *View full listing online:* ${shareUrl}`;
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
 
   return { method: 'download_whatsapp' };

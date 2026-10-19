@@ -13,6 +13,7 @@ import {
   Bath,
   Maximize2,
   Check,
+  Tag,
 } from 'lucide-react';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
@@ -20,25 +21,27 @@ import { formatPKRPrice } from '@/lib/utils';
 interface PropertyA4FlyerProps {
   property: Property;
   className?: string;
+  pageNumber?: number;
+  totalPages?: number;
 }
 
 const DEFAULT_AMENITIES = [
-  'Electricity (24/7)',
-  'Sui Gas Supply',
-  'Clean Water Supply',
+  'Electricity (24/7 Supply)',
+  'Sui Gas Connection',
+  'Clean Drinking Water',
   'Underground Sewerage',
   '24/7 Security & CCTV',
   'Gated Community',
-  'Near Mosque',
-  'Near Commercial Area',
-  'Parks & Green Belts',
+  'Near Jamia Mosque',
+  'Commercial Hub Access',
+  'Lush Green Parks',
   'Boundary Wall',
   'Wide Carpeted Roads',
-  'Street Lights',
+  'Modern Street Lights',
 ];
 
 const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
-  ({ property, className = '' }, ref) => {
+  ({ property, className = '', pageNumber = 1, totalPages = 1 }, ref) => {
     const priceText = formatPKRPrice(property.price);
     const mainImage =
       property.thumbnail_url ||
@@ -46,16 +49,19 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
       '/logo.png';
 
     // Additional gallery images (photos 2, 3, 4, 5)
-    const galleryImages = Array.isArray(property.images)
-      ? property.images
-          .filter((img) => img && typeof img === 'string' && img.trim().length > 0 && img !== mainImage)
-          .slice(0, 4)
+    const allValidImages = Array.isArray(property.images)
+      ? property.images.filter((img) => img && typeof img === 'string' && img.trim().length > 0)
       : [];
 
-    // Fallback if gallery is empty: repeat main or show clean placeholders
+    const otherImages = allValidImages.filter((img) => img !== mainImage);
+    const galleryImages = otherImages.slice(0, 4);
+
+    // Fallback if gallery has fewer photos
     const displayGallery =
       galleryImages.length > 0
         ? galleryImages
+        : otherImages.length > 0
+        ? otherImages.slice(0, 4)
         : [mainImage];
 
     // Amenities list (property.features or default)
@@ -67,13 +73,33 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
     return (
       <div
         ref={ref}
-        style={{ width: '794px', minHeight: '1123px', boxSizing: 'border-box' }}
-        className={`bg-white text-slate-900 font-sans p-6 flex flex-col justify-between space-y-4 shadow-2xl ${className}`}
+        id="property-flyer-capture"
+        style={{
+          width: '794px',
+          height: '1123px',
+          minWidth: '794px',
+          minHeight: '1123px',
+          maxWidth: '794px',
+          maxHeight: '1123px',
+          boxSizing: 'border-box',
+          backgroundColor: '#ffffff',
+          color: '#0f172a',
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          overflow: 'hidden',
+        }}
+        className={`p-6 flex flex-col justify-between select-none ${className}`}
       >
         {/* Top Header Bar */}
-        <div className="bg-slate-950 rounded-2xl p-4 text-white border-b-4 border-amber-500 shadow-sm flex items-center justify-between">
+        <div
+          style={{
+            height: '84px',
+            boxSizing: 'border-box',
+          }}
+          className="bg-slate-950 rounded-2xl px-5 py-3 text-white border-b-4 border-amber-500 shadow-sm flex items-center justify-between"
+        >
           <div className="flex items-center gap-3.5">
-            <div className="w-14 h-14 rounded-xl bg-white p-1.5 flex items-center justify-center flex-shrink-0 shadow-inner">
+            <div className="w-13 h-13 rounded-xl bg-white p-1.5 flex items-center justify-center flex-shrink-0 shadow-inner">
               <img
                 src="/logo.png"
                 alt="Property Bank"
@@ -82,36 +108,42 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
               />
             </div>
             <div>
-              <span className="text-[11px] font-black tracking-widest uppercase text-amber-400 block">
+              <span className="text-[11px] font-black tracking-widest uppercase text-amber-400 block leading-tight">
                 CITY HOUSING (PVT) LTD
               </span>
-              <h2 className="text-lg font-black text-white tracking-tight leading-tight">
+              <h2 className="text-[17px] font-black text-white tracking-tight leading-snug">
                 PROPERTY BANK REAL ESTATE
               </h2>
-              <p className="text-[10px] text-slate-300 font-medium">
+              <p className="text-[10px] text-slate-300 font-medium leading-normal">
                 Authorized Citi Housing Dealership • Faisalabad | Gujranwala | Sialkot | Jhelum
               </p>
             </div>
           </div>
 
           {/* Demand Price Badge */}
-          <div className="bg-gradient-to-r from-amber-500 via-brand-gold-500 to-amber-600 px-5 py-2.5 rounded-xl shadow-md text-right border border-amber-300/40">
-            <span className="text-[9px] font-black uppercase tracking-wider text-slate-950 block">
+          <div
+            style={{ minWidth: '170px' }}
+            className="bg-gradient-to-r from-amber-500 via-brand-gold-500 to-amber-600 px-4 py-2 rounded-xl shadow-md text-right border border-amber-300/40"
+          >
+            <span className="text-[9px] font-black uppercase tracking-wider text-slate-950 block leading-none">
               Demand Price
             </span>
-            <div className="text-xl font-black text-slate-950 leading-tight">
+            <div className="text-[19px] font-black text-slate-950 leading-tight mt-0.5">
               PKR {priceText}
             </div>
-            <span className="text-[9px] font-bold text-slate-900 block">
+            <span className="text-[9px] font-bold text-slate-900 block leading-none">
               ({property.area_size} {property.area_unit})
             </span>
           </div>
         </div>
 
         {/* Main Property Showcase Block */}
-        <div className="grid grid-cols-12 gap-4 items-stretch">
+        <div
+          style={{ height: '240px', boxSizing: 'border-box' }}
+          className="grid grid-cols-12 gap-4 items-stretch"
+        >
           {/* Main Cover Image */}
-          <div className="col-span-5 relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 flex items-center justify-center h-[230px]">
+          <div className="col-span-5 relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 flex items-center justify-center h-full">
             <img
               src={mainImage}
               alt={property.title}
@@ -128,9 +160,9 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
 
           {/* Property Info & Key Specs */}
-          <div className="col-span-7 flex flex-col justify-between space-y-2 p-1">
-            <div>
-              <div className="flex items-center gap-2 mb-1.5">
+          <div className="col-span-7 flex flex-col justify-between py-0.5">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
                 <span
                   className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-md text-white ${
                     property.purpose === 'buy' ? 'bg-amber-600' : 'bg-blue-600'
@@ -146,48 +178,95 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                 </span>
               </div>
 
-              <h1 className="text-lg font-black text-slate-900 leading-snug">
+              <h1
+                style={{ lineHeight: '1.3' }}
+                className="text-[17px] font-black text-slate-900 leading-snug line-clamp-2"
+              >
                 {property.title}
               </h1>
 
-              <div className="flex items-center gap-1.5 text-xs text-slate-600 font-semibold mt-1">
+              <div className="flex items-center gap-1.5 text-xs text-slate-600 font-semibold">
                 <MapPin className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
-                <span>
+                <span style={{ lineHeight: '1.4' }}>
                   {property.location}, {property.city}
                 </span>
               </div>
             </div>
 
-            {/* 4-Box Key Metrics Grid */}
-            <div className="grid grid-cols-4 gap-2 pt-2">
-              <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-2 text-center">
-                <Home className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase block">Type</span>
-                <span className="text-xs font-black text-slate-900 truncate block">
+            {/* 4-Box Key Metrics Grid - Completely Unclipped */}
+            <div className="grid grid-cols-4 gap-2 pt-1">
+              <div
+                style={{
+                  minHeight: '62px',
+                  boxSizing: 'border-box',
+                }}
+                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
+              >
+                <Home className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                  Type
+                </span>
+                <span
+                  style={{ lineHeight: '1.3' }}
+                  className="text-xs font-black text-slate-900 block"
+                >
                   {property.type}
                 </span>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-2 text-center">
-                <Maximize2 className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase block">Size</span>
-                <span className="text-xs font-black text-slate-900 truncate block">
+              <div
+                style={{
+                  minHeight: '62px',
+                  boxSizing: 'border-box',
+                }}
+                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
+              >
+                <Maximize2 className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                  Size
+                </span>
+                <span
+                  style={{ lineHeight: '1.3' }}
+                  className="text-xs font-black text-slate-900 block"
+                >
                   {property.area_size} {property.area_unit}
                 </span>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-2 text-center">
-                <Bed className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase block">Beds</span>
-                <span className="text-xs font-black text-slate-900 truncate block">
+              <div
+                style={{
+                  minHeight: '62px',
+                  boxSizing: 'border-box',
+                }}
+                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
+              >
+                <Bed className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                  Beds
+                </span>
+                <span
+                  style={{ lineHeight: '1.3' }}
+                  className="text-xs font-black text-slate-900 block"
+                >
                   {property.bedrooms > 0 ? `${property.bedrooms} Bed` : '-'}
                 </span>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-2 text-center">
-                <Bath className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase block">Baths</span>
-                <span className="text-xs font-black text-slate-900 truncate block">
+              <div
+                style={{
+                  minHeight: '62px',
+                  boxSizing: 'border-box',
+                }}
+                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
+              >
+                <Bath className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                  Baths
+                </span>
+                <span
+                  style={{ lineHeight: '1.3' }}
+                  className="text-xs font-black text-slate-900 block"
+                >
                   {property.bathrooms > 0 ? `${property.bathrooms} Bath` : '-'}
                 </span>
               </div>
@@ -195,8 +274,8 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
         </div>
 
-        {/* Amenities & Features Section */}
-        <div className="space-y-2">
+        {/* Amenities & Features Section - Safe Padding, No Slicing */}
+        <div style={{ height: '210px', boxSizing: 'border-box' }} className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="bg-slate-900 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-md">
               Amenities & Infrastructure
@@ -208,31 +287,49 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
             {amenities.slice(0, 12).map((feature, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-[11px] font-bold text-slate-700"
+                style={{
+                  height: '38px',
+                  boxSizing: 'border-box',
+                  lineHeight: '1.3',
+                }}
+                className="bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1.5 flex items-center gap-2 text-[11px] font-bold text-slate-700"
               >
                 <div className="w-4 h-4 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
                   <Check className="w-2.5 h-2.5 text-amber-700 stroke-[3]" />
                 </div>
-                <span className="truncate">{feature}</span>
+                <span
+                  style={{ lineHeight: '1.25' }}
+                  className="text-[11px] font-bold text-slate-800 break-words line-clamp-1"
+                >
+                  {feature}
+                </span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Property Photos Section */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="bg-slate-900 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-md">
-              Photos & Views
-            </span>
-            <div className="h-px bg-slate-200 flex-1" />
+        {/* Property Photos Section - Clean 4-Grid with Number Badges */}
+        <div style={{ height: '175px', boxSizing: 'border-box' }} className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="bg-slate-900 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-md">
+                Photos & Property Views
+              </span>
+              <div className="h-px bg-slate-200 flex-1" />
+            </div>
+            {allValidImages.length > 5 && (
+              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
+                +{allValidImages.length - 5} More Photos in Full Brochure
+              </span>
+            )}
           </div>
 
           <div className="grid grid-cols-4 gap-2.5">
             {displayGallery.map((imgUrl, idx) => (
               <div
                 key={idx}
-                className="relative h-28 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-xs"
+                style={{ height: '130px', boxSizing: 'border-box' }}
+                className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-xs"
               >
                 <img
                   src={imgUrl}
@@ -243,7 +340,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                     (e.currentTarget as HTMLImageElement).src = '/logo.png';
                   }}
                 />
-                <span className="absolute top-1.5 left-1.5 w-5 h-5 rounded-md bg-slate-950/80 text-white font-black text-[10px] flex items-center justify-center">
+                <span className="absolute top-1.5 left-1.5 w-5 h-5 rounded-md bg-slate-950/85 text-white font-black text-[10px] flex items-center justify-center shadow-sm">
                   {idx + 2}
                 </span>
               </div>
@@ -252,27 +349,37 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
         </div>
 
         {/* Dealer Contact & Trust Details */}
-        <div className="grid grid-cols-2 gap-3 pt-1">
+        <div
+          style={{ height: '145px', boxSizing: 'border-box' }}
+          className="grid grid-cols-2 gap-3"
+        >
           {/* Left Card: Agent Contact */}
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
-            <span className="text-[10px] font-black uppercase tracking-wider text-amber-600 block">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5 flex flex-col justify-center">
+            <span className="text-[10px] font-black uppercase tracking-wider text-amber-600 block leading-none">
               Authorized Dealership
             </span>
-            <h4 className="font-extrabold text-sm text-slate-900">
+            <h4
+              style={{ lineHeight: '1.3' }}
+              className="font-extrabold text-sm text-slate-900"
+            >
               {property.agent_name || 'Property Bank Real Estate'}
             </h4>
             <div className="space-y-1 text-xs text-slate-700 font-semibold">
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
-                <span>Call: {property.agent_phone || '03218653500'}</span>
+                <span style={{ lineHeight: '1.3' }}>
+                  Call: {property.agent_phone || '03218653500'}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                <span>WhatsApp: {property.agent_whatsapp || '923218653500'}</span>
+                <span style={{ lineHeight: '1.3' }}>
+                  WhatsApp: {property.agent_whatsapp || '923218653500'}
+                </span>
               </div>
               <div className="flex items-center gap-2 text-[10px] text-slate-500 font-medium">
                 <MapPin className="w-3 h-3 text-slate-400 flex-shrink-0" />
-                <span className="truncate">
+                <span style={{ lineHeight: '1.3' }} className="truncate">
                   Citi Housing Sargodha & Samundri Road, Faisalabad
                 </span>
               </div>
@@ -283,16 +390,19 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-xl p-3.5 flex flex-col justify-between border border-slate-800">
             <div>
               <div className="flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-amber-400" />
+                <Building2 className="w-4 h-4 text-amber-400 shrink-0" />
                 <span className="text-xs font-black text-amber-400 uppercase tracking-wider">
                   Your Trusted Partner in Real Estate
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 font-medium mt-1">
-                Authorized marketing and investment consultants for Citi Housing projects across Pakistan.
+              <p
+                style={{ lineHeight: '1.35' }}
+                className="text-[11px] text-slate-300 font-medium mt-1"
+              >
+                Authorized marketing and investment consultants for Citi Housing developments across Pakistan.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-[10px] font-black text-amber-300 tracking-wider">
+            <div className="flex items-center gap-2 text-[10px] font-black text-amber-300 tracking-wider pt-1">
               <span>✓ BUY</span>
               <span>•</span>
               <span>✓ SELL</span>
@@ -304,15 +414,25 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
         </div>
 
-        {/* Footer Bar */}
-        <div className="bg-slate-950 text-white rounded-xl px-4 py-2.5 flex items-center justify-between text-[10px] font-bold border-t-2 border-amber-500">
+        {/* Footer Bar with Page Numbering */}
+        <div
+          style={{ height: '38px', boxSizing: 'border-box' }}
+          className="bg-slate-950 text-white rounded-xl px-4 py-2 flex items-center justify-between text-[10px] font-bold border-t-2 border-amber-500"
+        >
           <div className="flex items-center gap-2 text-slate-300">
             <span className="text-amber-400 font-black">citisproperty.com</span>
             <span>•</span>
             <span>Pakistan Luxury Living & Investment Dealership</span>
           </div>
-          <div className="text-amber-400 font-black">
-            100% Document Verified Property
+          <div className="flex items-center gap-3">
+            <span className="text-amber-400 font-black">
+              100% Document Verified Property
+            </span>
+            {totalPages > 1 && (
+              <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[9px] font-black">
+                Page {pageNumber} of {totalPages}
+              </span>
+            )}
           </div>
         </div>
       </div>
