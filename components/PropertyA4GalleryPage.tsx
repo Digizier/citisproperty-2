@@ -46,62 +46,157 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
           fontFamily:
             '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           overflow: 'hidden',
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          userSelect: 'none',
         }}
-        className={`p-6 flex flex-col justify-between select-none ${className}`}
+        className={className}
       >
         {/* Top Header Bar */}
         <div
-          style={{ height: '76px', boxSizing: 'border-box' }}
-          className="bg-slate-950 rounded-2xl px-5 py-3 text-white border-b-4 border-amber-500 shadow-sm flex items-center justify-between"
+          style={{
+            height: '80px',
+            backgroundColor: '#020617',
+            borderRadius: '16px',
+            padding: '12px 20px',
+            borderBottom: '4px solid #f59e0b',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxSizing: 'border-box',
+          }}
         >
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-white p-1 flex items-center justify-center flex-shrink-0 shadow-inner">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0 }}>
+            {/* Clamped Logo */}
+            <div
+              style={{
+                width: '52px',
+                height: '52px',
+                minWidth: '52px',
+                maxWidth: '52px',
+                borderRadius: '12px',
+                backgroundColor: '#ffffff',
+                padding: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                boxSizing: 'border-box',
+              }}
+            >
               <img
                 src="/logo.png"
                 alt="Property Bank"
-                className="w-full h-full object-contain"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  maxWidth: '40px',
+                  maxHeight: '40px',
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
                 crossOrigin="anonymous"
               />
             </div>
-            <div>
-              <span className="text-[10px] font-black tracking-widest uppercase text-amber-400 block leading-tight">
+
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <span
+                style={{
+                  fontSize: '10px',
+                  fontWeight: 900,
+                  letterSpacing: '0.8px',
+                  textTransform: 'uppercase',
+                  color: '#fbbf24',
+                  display: 'block',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 CITY HOUSING (PVT) LTD • PROPERTY BANK REAL ESTATE
               </span>
-              <h2 className="text-[15px] font-black text-white tracking-tight leading-snug truncate max-w-md">
+              <h2
+                style={{
+                  fontSize: '15px',
+                  fontWeight: 900,
+                  color: '#ffffff',
+                  letterSpacing: '-0.2px',
+                  margin: '2px 0 0 0',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '440px',
+                }}
+              >
                 {property.title}
               </h2>
-              <p className="text-[10px] text-slate-300 font-medium leading-none">
+              <p
+                style={{
+                  fontSize: '10px',
+                  color: '#cbd5e1',
+                  fontWeight: 500,
+                  margin: '2px 0 0 0',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 {property.location}, {property.city} • Ref: #{property.id.replace('prop-', '')}
               </p>
             </div>
           </div>
 
           {/* Demand Price */}
-          <div className="bg-gradient-to-r from-amber-500 to-amber-600 px-3.5 py-1.5 rounded-xl shadow-md text-right border border-amber-300/40 shrink-0">
-            <span className="text-[8px] font-black uppercase text-slate-950 block leading-none">
+          <div
+            style={{
+              minWidth: '150px',
+              padding: '6px 14px',
+              borderRadius: '10px',
+              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+              textAlign: 'right',
+              flexShrink: 0,
+              boxSizing: 'border-box',
+              marginLeft: '10px',
+            }}
+          >
+            <span style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase', color: '#020617', display: 'block', lineHeight: 1 }}>
               Demand Price
             </span>
-            <div className="text-[16px] font-black text-slate-950 leading-tight">
+            <div style={{ fontSize: '16px', fontWeight: 900, color: '#020617', lineHeight: 1.2, marginTop: '2px', whiteSpace: 'nowrap' }}>
               PKR {priceText}
             </div>
           </div>
         </div>
 
-        {/* Optional Property Description Section (Page 2) */}
+        {/* Optional Property Description Section */}
         {showDescription && property.description && (
           <div
-            style={{ maxHeight: '160px', boxSizing: 'border-box' }}
-            className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 space-y-1.5"
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '14px',
+              padding: '12px 16px',
+              boxSizing: 'border-box',
+              maxHeight: '140px',
+              overflow: 'hidden',
+            }}
           >
-            <div className="flex items-center gap-2">
-              <FileText className="w-4 h-4 text-amber-600" />
-              <span className="text-xs font-black uppercase tracking-wider text-slate-900">
-                Detailed Property Overview & Description
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+              <FileText style={{ width: '14px', height: '14px', color: '#d97706' }} />
+              <span style={{ fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#0f172a' }}>
+                Property Description & Overview
               </span>
             </div>
             <p
-              style={{ lineHeight: '1.45' }}
-              className="text-[11px] text-slate-700 font-medium leading-relaxed line-clamp-5 whitespace-pre-line"
+              style={{
+                fontSize: '11px',
+                color: '#334155',
+                fontWeight: 500,
+                lineHeight: 1.45,
+                margin: 0,
+                whiteSpace: 'pre-line',
+              }}
             >
               {property.description}
             </p>
@@ -109,43 +204,75 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
         )}
 
         {/* Extended Photos Gallery Grid */}
-        <div className="flex-1 flex flex-col justify-start space-y-2 py-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ImageIcon className="w-4 h-4 text-amber-600" />
-              <span className="bg-slate-900 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-md">
+        <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '8px 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <ImageIcon style={{ width: '14px', height: '14px', color: '#d97706' }} />
+              <span
+                style={{
+                  backgroundColor: '#0f172a',
+                  color: '#fbbf24',
+                  fontSize: '10px',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.8px',
+                  padding: '4px 12px',
+                  borderRadius: '6px',
+                }}
+              >
                 Photo Gallery — Additional Property Views
               </span>
             </div>
-            <span className="text-[10px] font-bold text-slate-500">
+            <span style={{ fontSize: '10px', fontWeight: 700, color: '#64748b' }}>
               High Resolution Verified Photos
             </span>
           </div>
 
           <div
-            className={`grid gap-3.5 ${
-              photos.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'
-            }`}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: photos.length <= 4 ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+              gap: '12px',
+              flex: 1,
+              alignItems: 'stretch',
+            }}
           >
             {photos.map((imgUrl, idx) => (
               <div
                 key={idx}
                 style={{
-                  height: showDescription ? '160px' : '230px',
+                  height: showDescription ? (photos.length <= 3 ? '240px' : '170px') : (photos.length <= 4 ? '260px' : '200px'),
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  border: '1px solid #e2e8f0',
+                  backgroundColor: '#f1f5f9',
+                  position: 'relative',
                   boxSizing: 'border-box',
                 }}
-                className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm"
               >
                 <img
                   src={imgUrl}
                   alt={`Gallery Photo ${startingPhotoIndex + idx}`}
-                  className="w-full h-full object-cover"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   crossOrigin="anonymous"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/logo.png';
                   }}
                 />
-                <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-slate-950/85 text-white font-black text-[11px] shadow-sm">
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '8px',
+                    left: '8px',
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                    color: '#ffffff',
+                    fontWeight: 900,
+                    fontSize: '10px',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                  }}
+                >
                   Photo {startingPhotoIndex + idx}
                 </span>
               </div>
@@ -155,28 +282,37 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
 
         {/* Bottom Contact Strip */}
         <div
-          style={{ height: '70px', boxSizing: 'border-box' }}
-          className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 flex items-center justify-between"
+          style={{
+            height: '66px',
+            backgroundColor: '#f8fafc',
+            border: '1px solid #e2e8f0',
+            borderRadius: '12px',
+            padding: '10px 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxSizing: 'border-box',
+          }}
         >
           <div>
-            <span className="text-[9px] font-black uppercase tracking-wider text-amber-600 block">
+            <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#d97706', display: 'block', lineHeight: 1 }}>
               Authorized Citi Housing Dealer
             </span>
-            <div className="text-xs font-black text-slate-900">
+            <div style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.2, marginTop: '2px' }}>
               {property.agent_name || 'Property Bank Real Estate'}
             </div>
-            <div className="text-[10px] text-slate-500 font-medium">
+            <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 500, lineHeight: 1.2, marginTop: '2px' }}>
               Citi Housing Sargodha Road & Samundri Road, Faisalabad
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs">
-              <Phone className="w-3.5 h-3.5 text-amber-600" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 700, color: '#1e293b', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '8px' }}>
+              <Phone style={{ width: '13px', height: '13px', color: '#d97706' }} />
               <span>{property.agent_phone || '03218653500'}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg shadow-xs">
-              <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 700, color: '#166534', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', padding: '6px 12px', borderRadius: '8px' }}>
+              <MessageCircle style={{ width: '13px', height: '13px', color: '#16a34a' }} />
               <span>{property.agent_whatsapp || '923218653500'}</span>
             </div>
           </div>
@@ -184,17 +320,29 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
 
         {/* Footer Bar */}
         <div
-          style={{ height: '36px', boxSizing: 'border-box' }}
-          className="bg-slate-950 text-white rounded-xl px-4 py-2 flex items-center justify-between text-[10px] font-bold border-t-2 border-amber-500"
+          style={{
+            height: '36px',
+            backgroundColor: '#020617',
+            color: '#ffffff',
+            borderRadius: '10px',
+            padding: '0 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '10px',
+            fontWeight: 700,
+            borderTop: '2px solid #f59e0b',
+            boxSizing: 'border-box',
+          }}
         >
-          <div className="flex items-center gap-2 text-slate-300">
-            <span className="text-amber-400 font-black">citisproperty.com</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#cbd5e1' }}>
+            <span style={{ color: '#fbbf24', fontWeight: 900 }}>citisproperty.com</span>
             <span>•</span>
             <span>Official Verified Listing Record</span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-amber-400 font-black">100% Document Verified</span>
-            <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[9px] font-black">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ color: '#fbbf24', fontWeight: 900 }}>100% Document Verified</span>
+            <span style={{ backgroundColor: '#1e293b', color: '#cbd5e1', padding: '2px 8px', borderRadius: '4px', fontSize: '9px', fontWeight: 900 }}>
               Page {pageNumber} of {totalPages}
             </span>
           </div>

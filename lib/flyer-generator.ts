@@ -16,6 +16,8 @@ async function preloadImages(element: HTMLElement): Promise<void> {
       return new Promise<void>((resolve) => {
         img.onload = () => resolve();
         img.onerror = () => resolve();
+        // Timeout safeguard
+        setTimeout(() => resolve(), 3000);
       });
     })
   );
@@ -23,31 +25,32 @@ async function preloadImages(element: HTMLElement): Promise<void> {
 
 /**
  * Generate a high-resolution HTML5 canvas from a flyer DOM element
- * Uses desktop windowWidth to prevent mobile viewports from compressing or clipping fonts
  */
 export async function generateFlyerCanvas(element: HTMLElement): Promise<HTMLCanvasElement> {
   await preloadImages(element);
   const html2canvas = (await import('html2canvas')).default;
 
   return await html2canvas(element, {
-    scale: 2, // 2x high resolution for crisp, readable text and photos
+    scale: 2, // 2x high resolution (1588 x 2246)
     useCORS: true,
     allowTaint: false,
     backgroundColor: '#ffffff',
     logging: false,
     width: 794,
     height: 1123,
-    windowWidth: 1280, // Emulates desktop viewport so Tailwind media queries never trigger mobile squeezing
+    x: 0,
+    y: 0,
+    scrollX: 0,
+    scrollY: 0,
+    windowWidth: 1280,
     windowHeight: 1800,
     onclone: (clonedDoc: Document) => {
-      // Find the flyer in the cloned document and ensure full dimensions
-      const clonedFlyer = clonedDoc.getElementById('property-flyer-capture');
-      if (clonedFlyer) {
-        clonedFlyer.style.position = 'static';
-        clonedFlyer.style.display = 'flex';
-        clonedFlyer.style.width = '794px';
-        clonedFlyer.style.height = '1123px';
-        clonedFlyer.style.overflow = 'hidden';
+      const wrapper = clonedDoc.getElementById('flyer-offscreen-wrapper');
+      if (wrapper) {
+        wrapper.style.transform = 'none';
+        wrapper.style.position = 'static';
+        wrapper.style.zIndex = '1';
+        wrapper.style.display = 'block';
       }
     },
   });
@@ -96,7 +99,7 @@ export async function shareFlyerImage(
       const fileName = `${property.slug || property.id}-flyer.png`;
       const file = new File([blob], fileName, { type: 'image/png' });
 
-      // Check if native Web Share with files is supported (e.g. mobile Safari / Chrome)
+      // Check if native Web Share with files is supported
       if (
         typeof navigator !== 'undefined' &&
         navigator.canShare &&

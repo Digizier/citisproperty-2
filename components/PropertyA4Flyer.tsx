@@ -13,7 +13,6 @@ import {
   Bath,
   Maximize2,
   Check,
-  Tag,
 } from 'lucide-react';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
@@ -56,7 +55,6 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
     const otherImages = allValidImages.filter((img) => img !== mainImage);
     const galleryImages = otherImages.slice(0, 4);
 
-    // Fallback if gallery has fewer photos
     const displayGallery =
       galleryImages.length > 0
         ? galleryImages
@@ -64,7 +62,6 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
         ? otherImages.slice(0, 4)
         : [mainImage];
 
-    // Amenities list (property.features or default)
     const amenities =
       Array.isArray(property.features) && property.features.length > 0
         ? property.features
@@ -87,34 +84,104 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           fontFamily:
             '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           overflow: 'hidden',
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          userSelect: 'none',
         }}
-        className={`p-6 flex flex-col justify-between select-none ${className}`}
+        className={className}
       >
         {/* Top Header Bar */}
         <div
           style={{
             height: '84px',
+            backgroundColor: '#020617',
+            borderRadius: '16px',
+            padding: '12px 20px',
+            borderBottom: '4px solid #f59e0b',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             boxSizing: 'border-box',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
           }}
-          className="bg-slate-950 rounded-2xl px-5 py-3 text-white border-b-4 border-amber-500 shadow-sm flex items-center justify-between"
         >
-          <div className="flex items-center gap-3.5">
-            <div className="w-13 h-13 rounded-xl bg-white p-1.5 flex items-center justify-center flex-shrink-0 shadow-inner">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1, minWidth: 0 }}>
+            {/* Strictly Clamped Logo Container */}
+            <div
+              style={{
+                width: '56px',
+                height: '56px',
+                minWidth: '56px',
+                maxWidth: '56px',
+                minHeight: '56px',
+                maxHeight: '56px',
+                borderRadius: '12px',
+                backgroundColor: '#ffffff',
+                padding: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                boxSizing: 'border-box',
+                boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)',
+              }}
+            >
               <img
                 src="/logo.png"
-                alt="Property Bank"
-                className="w-full h-full object-contain"
+                alt="Property Bank Logo"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                  maxWidth: '44px',
+                  maxHeight: '44px',
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
                 crossOrigin="anonymous"
               />
             </div>
-            <div>
-              <span className="text-[11px] font-black tracking-widest uppercase text-amber-400 block leading-tight">
+
+            {/* Brand Title and Dealership */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 900,
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                  color: '#fbbf24',
+                  display: 'block',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 CITY HOUSING (PVT) LTD
               </span>
-              <h2 className="text-[17px] font-black text-white tracking-tight leading-snug">
+              <h2
+                style={{
+                  fontSize: '17px',
+                  fontWeight: 900,
+                  color: '#ffffff',
+                  letterSpacing: '-0.3px',
+                  margin: '2px 0 0 0',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 PROPERTY BANK REAL ESTATE
               </h2>
-              <p className="text-[10px] text-slate-300 font-medium leading-normal">
+              <p
+                style={{
+                  fontSize: '10px',
+                  color: '#cbd5e1',
+                  fontWeight: 500,
+                  margin: '2px 0 0 0',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 Authorized Citi Housing Dealership • Faisalabad | Gujranwala | Sialkot | Jhelum
               </p>
             </div>
@@ -122,16 +189,54 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
 
           {/* Demand Price Badge */}
           <div
-            style={{ minWidth: '170px' }}
-            className="bg-gradient-to-r from-amber-500 via-brand-gold-500 to-amber-600 px-4 py-2 rounded-xl shadow-md text-right border border-amber-300/40"
+            style={{
+              minWidth: '175px',
+              maxWidth: '210px',
+              padding: '8px 16px',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+              border: '1px solid rgba(254, 240, 138, 0.4)',
+              textAlign: 'right',
+              flexShrink: 0,
+              boxSizing: 'border-box',
+              marginLeft: '12px',
+            }}
           >
-            <span className="text-[9px] font-black uppercase tracking-wider text-slate-950 block leading-none">
+            <span
+              style={{
+                fontSize: '9px',
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                letterSpacing: '0.6px',
+                color: '#020617',
+                display: 'block',
+                lineHeight: 1,
+              }}
+            >
               Demand Price
             </span>
-            <div className="text-[19px] font-black text-slate-950 leading-tight mt-0.5">
+            <div
+              style={{
+                fontSize: '19px',
+                fontWeight: 900,
+                color: '#020617',
+                lineHeight: 1.2,
+                marginTop: '2px',
+                whiteSpace: 'nowrap',
+              }}
+            >
               PKR {priceText}
             </div>
-            <span className="text-[9px] font-bold text-slate-900 block leading-none">
+            <span
+              style={{
+                fontSize: '9px',
+                fontWeight: 700,
+                color: '#1e293b',
+                display: 'block',
+                lineHeight: 1,
+                marginTop: '2px',
+              }}
+            >
               ({property.area_size} {property.area_unit})
             </span>
           </div>
@@ -139,134 +244,245 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
 
         {/* Main Property Showcase Block */}
         <div
-          style={{ height: '240px', boxSizing: 'border-box' }}
-          className="grid grid-cols-12 gap-4 items-stretch"
+          style={{
+            height: '240px',
+            display: 'flex',
+            gap: '16px',
+            alignItems: 'stretch',
+            boxSizing: 'border-box',
+          }}
         >
           {/* Main Cover Image */}
-          <div className="col-span-5 relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 flex items-center justify-center h-full">
+          <div
+            style={{
+              width: '320px',
+              height: '240px',
+              minWidth: '320px',
+              maxWidth: '320px',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              border: '1px solid #e2e8f0',
+              backgroundColor: '#f1f5f9',
+              position: 'relative',
+              flexShrink: 0,
+              boxSizing: 'border-box',
+            }}
+          >
             <img
               src={mainImage}
               alt={property.title}
-              className="w-full h-full object-cover"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
               crossOrigin="anonymous"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = '/logo.png';
               }}
             />
-            <div className="absolute top-2.5 left-2.5 bg-amber-500 text-slate-950 font-black text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5" />
+            <div
+              style={{
+                position: 'absolute',
+                top: '10px',
+                left: '10px',
+                backgroundColor: '#f59e0b',
+                color: '#020617',
+                fontWeight: 900,
+                fontSize: '10px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+              }}
+            >
+              <ShieldCheck style={{ width: '13px', height: '13px' }} />
               <span>100% Verified</span>
             </div>
           </div>
 
           {/* Property Info & Key Specs */}
-          <div className="col-span-7 flex flex-col justify-between py-0.5">
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
+          <div
+            style={{
+              flex: 1,
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              height: '240px',
+              boxSizing: 'border-box',
+            }}
+          >
+            <div>
+              {/* Badges Row */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <span
-                  className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-md text-white ${
-                    property.purpose === 'buy' ? 'bg-amber-600' : 'bg-blue-600'
-                  }`}
+                  style={{
+                    fontSize: '10px',
+                    fontWeight: 900,
+                    textTransform: 'uppercase',
+                    padding: '3px 10px',
+                    borderRadius: '6px',
+                    color: '#ffffff',
+                    backgroundColor: property.purpose === 'buy' ? '#d97706' : '#2563eb',
+                  }}
                 >
                   {property.purpose === 'buy' ? 'For Sale' : 'For Rent'}
                 </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                <span
+                  style={{
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    backgroundColor: '#f1f5f9',
+                    color: '#334155',
+                    border: '1px solid #e2e8f0',
+                  }}
+                >
                   {property.type}
                 </span>
-                <span className="text-[10px] font-semibold text-slate-400">
+                <span style={{ fontSize: '10px', fontWeight: 600, color: '#94a3b8' }}>
                   Ref: #{property.id.replace('prop-', '')}
                 </span>
               </div>
 
+              {/* Title */}
               <h1
-                style={{ lineHeight: '1.3' }}
-                className="text-[17px] font-black text-slate-900 leading-snug line-clamp-2"
+                style={{
+                  fontSize: '18px',
+                  fontWeight: 900,
+                  color: '#0f172a',
+                  lineHeight: 1.25,
+                  margin: '0 0 6px 0',
+                  maxHeight: '46px',
+                  overflow: 'hidden',
+                }}
               >
                 {property.title}
               </h1>
 
-              <div className="flex items-center gap-1.5 text-xs text-slate-600 font-semibold">
-                <MapPin className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
-                <span style={{ lineHeight: '1.4' }}>
+              {/* Location */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#475569',
+                }}
+              >
+                <MapPin style={{ width: '14px', height: '14px', color: '#d97706', flexShrink: 0 }} />
+                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {property.location}, {property.city}
                 </span>
               </div>
             </div>
 
-            {/* 4-Box Key Metrics Grid - Completely Unclipped */}
-            <div className="grid grid-cols-4 gap-2 pt-1">
+            {/* 4-Box Key Metrics Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+              {/* Box 1: Type */}
               <div
                 style={{
-                  minHeight: '62px',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '12px',
+                  padding: '8px 4px',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '66px',
                   boxSizing: 'border-box',
                 }}
-                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
               >
-                <Home className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
-                  Type
+                <Home style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                  TYPE
                 </span>
-                <span
-                  style={{ lineHeight: '1.3' }}
-                  className="text-xs font-black text-slate-900 block"
-                >
+                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
                   {property.type}
                 </span>
               </div>
 
+              {/* Box 2: Size */}
               <div
                 style={{
-                  minHeight: '62px',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '12px',
+                  padding: '8px 4px',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '66px',
                   boxSizing: 'border-box',
                 }}
-                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
               >
-                <Maximize2 className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
-                  Size
+                <Maximize2 style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                  SIZE
                 </span>
-                <span
-                  style={{ lineHeight: '1.3' }}
-                  className="text-xs font-black text-slate-900 block"
-                >
+                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
                   {property.area_size} {property.area_unit}
                 </span>
               </div>
 
+              {/* Box 3: Beds */}
               <div
                 style={{
-                  minHeight: '62px',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '12px',
+                  padding: '8px 4px',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '66px',
                   boxSizing: 'border-box',
                 }}
-                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
               >
-                <Bed className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
-                  Beds
+                <Bed style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                  BEDS
                 </span>
-                <span
-                  style={{ lineHeight: '1.3' }}
-                  className="text-xs font-black text-slate-900 block"
-                >
+                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
                   {property.bedrooms > 0 ? `${property.bedrooms} Bed` : '-'}
                 </span>
               </div>
 
+              {/* Box 4: Baths */}
               <div
                 style={{
-                  minHeight: '62px',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '12px',
+                  padding: '8px 4px',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '66px',
                   boxSizing: 'border-box',
                 }}
-                className="bg-slate-50 border border-slate-200/80 rounded-xl px-1.5 py-2 text-center flex flex-col justify-center items-center"
               >
-                <Bath className="w-3.5 h-3.5 text-amber-600 mb-0.5 shrink-0" />
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
-                  Baths
+                <Bath style={{ width: '15px', height: '15px', color: '#d97706', marginBottom: '2px' }} />
+                <span style={{ fontSize: '9px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', lineHeight: 1 }}>
+                  BATHS
                 </span>
-                <span
-                  style={{ lineHeight: '1.3' }}
-                  className="text-xs font-black text-slate-900 block"
-                >
+                <span style={{ fontSize: '12px', fontWeight: 900, color: '#0f172a', lineHeight: 1.3, marginTop: '2px' }}>
                   {property.bathrooms > 0 ? `${property.bathrooms} Bath` : '-'}
                 </span>
               </div>
@@ -274,32 +490,66 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
         </div>
 
-        {/* Amenities & Features Section - Safe Padding, No Slicing */}
-        <div style={{ height: '210px', boxSizing: 'border-box' }} className="space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="bg-slate-900 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-md">
+        {/* Amenities & Infrastructure Section */}
+        <div style={{ boxSizing: 'border-box' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span
+              style={{
+                backgroundColor: '#0f172a',
+                color: '#fbbf24',
+                fontSize: '10px',
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                letterSpacing: '0.8px',
+                padding: '4px 12px',
+                borderRadius: '6px',
+              }}
+            >
               Amenities & Infrastructure
             </span>
-            <div className="h-px bg-slate-200 flex-1" />
+            <div style={{ height: '1px', backgroundColor: '#e2e8f0', flex: 1 }} />
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
             {amenities.slice(0, 12).map((feature, idx) => (
               <div
                 key={idx}
                 style={{
-                  height: '38px',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '8px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
                   boxSizing: 'border-box',
-                  lineHeight: '1.3',
+                  height: '38px',
                 }}
-                className="bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1.5 flex items-center gap-2 text-[11px] font-bold text-slate-700"
               >
-                <div className="w-4 h-4 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-2.5 h-2.5 text-amber-700 stroke-[3]" />
+                <div
+                  style={{
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '50%',
+                    backgroundColor: '#fef3c7',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Check style={{ width: '10px', height: '10px', color: '#b45309', strokeWidth: 3 }} />
                 </div>
                 <span
-                  style={{ lineHeight: '1.25' }}
-                  className="text-[11px] font-bold text-slate-800 break-words line-clamp-1"
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: '#1e293b',
+                    lineHeight: 1.2,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
                 >
                   {feature}
                 </span>
@@ -308,39 +558,84 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
         </div>
 
-        {/* Property Photos Section - Clean 4-Grid with Number Badges */}
-        <div style={{ height: '175px', boxSizing: 'border-box' }} className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="bg-slate-900 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-md">
+        {/* Photos & Property Views Section */}
+        <div style={{ boxSizing: 'border-box' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span
+                style={{
+                  backgroundColor: '#0f172a',
+                  color: '#fbbf24',
+                  fontSize: '10px',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.8px',
+                  padding: '4px 12px',
+                  borderRadius: '6px',
+                }}
+              >
                 Photos & Property Views
               </span>
-              <div className="h-px bg-slate-200 flex-1" />
+              <div style={{ height: '1px', backgroundColor: '#e2e8f0', width: '180px' }} />
             </div>
             {allValidImages.length > 5 && (
-              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
+              <span
+                style={{
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: '#b45309',
+                  backgroundColor: '#fef3c7',
+                  border: '1px solid #fde68a',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                }}
+              >
                 +{allValidImages.length - 5} More Photos in Full Brochure
               </span>
             )}
           </div>
 
-          <div className="grid grid-cols-4 gap-2.5">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
             {displayGallery.map((imgUrl, idx) => (
               <div
                 key={idx}
-                style={{ height: '130px', boxSizing: 'border-box' }}
-                className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-xs"
+                style={{
+                  height: '120px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1px solid #e2e8f0',
+                  backgroundColor: '#f1f5f9',
+                  position: 'relative',
+                  boxSizing: 'border-box',
+                }}
               >
                 <img
                   src={imgUrl}
                   alt={`Photo ${idx + 2}`}
-                  className="w-full h-full object-cover"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   crossOrigin="anonymous"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/logo.png';
                   }}
                 />
-                <span className="absolute top-1.5 left-1.5 w-5 h-5 rounded-md bg-slate-950/85 text-white font-black text-[10px] flex items-center justify-center shadow-sm">
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '6px',
+                    left: '6px',
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '6px',
+                    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                    color: '#ffffff',
+                    fontWeight: 900,
+                    fontSize: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                  }}
+                >
                   {idx + 2}
                 </span>
               </div>
@@ -349,37 +644,53 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
         </div>
 
         {/* Dealer Contact & Trust Details */}
-        <div
-          style={{ height: '145px', boxSizing: 'border-box' }}
-          className="grid grid-cols-2 gap-3"
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', boxSizing: 'border-box' }}>
           {/* Left Card: Agent Contact */}
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5 flex flex-col justify-center">
-            <span className="text-[10px] font-black uppercase tracking-wider text-amber-600 block leading-none">
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '14px',
+              padding: '12px 14px',
+              boxSizing: 'border-box',
+            }}
+          >
+            <span
+              style={{
+                fontSize: '9px',
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                letterSpacing: '0.6px',
+                color: '#d97706',
+                display: 'block',
+                lineHeight: 1,
+              }}
+            >
               Authorized Dealership
             </span>
             <h4
-              style={{ lineHeight: '1.3' }}
-              className="font-extrabold text-sm text-slate-900"
+              style={{
+                fontSize: '14px',
+                fontWeight: 900,
+                color: '#0f172a',
+                margin: '4px 0 6px 0',
+                lineHeight: 1.2,
+              }}
             >
               {property.agent_name || 'Property Bank Real Estate'}
             </h4>
-            <div className="space-y-1 text-xs text-slate-700 font-semibold">
-              <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
-                <span style={{ lineHeight: '1.3' }}>
-                  Call: {property.agent_phone || '03218653500'}
-                </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '11px', fontWeight: 600, color: '#334155' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Phone style={{ width: '13px', height: '13px', color: '#d97706', flexShrink: 0 }} />
+                <span>Call: {property.agent_phone || '03218653500'}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <MessageCircle className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                <span style={{ lineHeight: '1.3' }}>
-                  WhatsApp: {property.agent_whatsapp || '923218653500'}
-                </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MessageCircle style={{ width: '13px', height: '13px', color: '#16a34a', flexShrink: 0 }} />
+                <span>WhatsApp: {property.agent_whatsapp || '923218653500'}</span>
               </div>
-              <div className="flex items-center gap-2 text-[10px] text-slate-500 font-medium">
-                <MapPin className="w-3 h-3 text-slate-400 flex-shrink-0" />
-                <span style={{ lineHeight: '1.3' }} className="truncate">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: '#64748b' }}>
+                <MapPin style={{ width: '12px', height: '12px', color: '#94a3b8', flexShrink: 0 }} />
+                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   Citi Housing Sargodha & Samundri Road, Faisalabad
                 </span>
               </div>
@@ -387,22 +698,31 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
 
           {/* Right Card: Dealership Trust */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-xl p-3.5 flex flex-col justify-between border border-slate-800">
+          <div
+            style={{
+              background: 'linear-gradient(135deg, #0f172a, #020617)',
+              borderRadius: '14px',
+              padding: '12px 14px',
+              border: '1px solid #1e293b',
+              color: '#ffffff',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxSizing: 'border-box',
+            }}
+          >
             <div>
-              <div className="flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-amber-400 shrink-0" />
-                <span className="text-xs font-black text-amber-400 uppercase tracking-wider">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Building2 style={{ width: '15px', height: '15px', color: '#fbbf24', flexShrink: 0 }} />
+                <span style={{ fontSize: '11px', fontWeight: 900, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
                   Your Trusted Partner in Real Estate
                 </span>
               </div>
-              <p
-                style={{ lineHeight: '1.35' }}
-                className="text-[11px] text-slate-300 font-medium mt-1"
-              >
-                Authorized marketing and investment consultants for Citi Housing developments across Pakistan.
+              <p style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: 500, margin: '4px 0 0 0', lineHeight: 1.3 }}>
+                Official marketing & investment consultants for Citi Housing developments across Pakistan.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-[10px] font-black text-amber-300 tracking-wider pt-1">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '10px', fontWeight: 900, color: '#fde68a', letterSpacing: '0.5px' }}>
               <span>✓ BUY</span>
               <span>•</span>
               <span>✓ SELL</span>
@@ -414,22 +734,32 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
           </div>
         </div>
 
-        {/* Footer Bar with Page Numbering */}
+        {/* Footer Bar */}
         <div
-          style={{ height: '38px', boxSizing: 'border-box' }}
-          className="bg-slate-950 text-white rounded-xl px-4 py-2 flex items-center justify-between text-[10px] font-bold border-t-2 border-amber-500"
+          style={{
+            height: '36px',
+            backgroundColor: '#020617',
+            color: '#ffffff',
+            borderRadius: '10px',
+            padding: '0 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '10px',
+            fontWeight: 700,
+            borderTop: '2px solid #f59e0b',
+            boxSizing: 'border-box',
+          }}
         >
-          <div className="flex items-center gap-2 text-slate-300">
-            <span className="text-amber-400 font-black">citisproperty.com</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#cbd5e1' }}>
+            <span style={{ color: '#fbbf24', fontWeight: 900 }}>citisproperty.com</span>
             <span>•</span>
-            <span>Pakistan Luxury Living & Investment Dealership</span>
+            <span>Pakistan Luxury Living & Dealership</span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-amber-400 font-black">
-              100% Document Verified Property
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ color: '#fbbf24', fontWeight: 900 }}>100% Document Verified Property</span>
             {totalPages > 1 && (
-              <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[9px] font-black">
+              <span style={{ backgroundColor: '#1e293b', color: '#cbd5e1', padding: '2px 8px', borderRadius: '4px', fontSize: '9px', fontWeight: 900 }}>
                 Page {pageNumber} of {totalPages}
               </span>
             )}

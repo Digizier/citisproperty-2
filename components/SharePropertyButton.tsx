@@ -233,6 +233,7 @@ export default function SharePropertyButton({
     <div ref={containerRef} className={`relative inline-block ${className}`}>
       {/* Offscreen Multi-Page Containers for High-Res Canvas Capture */}
       <div
+        id="flyer-offscreen-wrapper"
         style={{
           position: 'fixed',
           left: '-9999px',
