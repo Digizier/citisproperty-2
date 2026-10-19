@@ -24,6 +24,7 @@ import { getPropertyById, getPropertyBySlug, submitInquiry } from '@/lib/db';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
 import PropertyMapBox from '@/components/PropertyMapBox';
+import SharePropertyButton from '@/components/SharePropertyButton';
 
 function getYouTubeEmbedUrl(url?: string): string | null {
   if (!url) return null;
@@ -65,9 +66,17 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
     async function load() {
       setLoading(true);
       try {
-        let found = await getPropertyBySlug(idOrSlug);
-        if (!found) {
+        let found: Property | null = null;
+        if (idOrSlug.startsWith('prop-')) {
           found = await getPropertyById(idOrSlug);
+          if (!found) {
+            found = await getPropertyBySlug(idOrSlug);
+          }
+        } else {
+          found = await getPropertyBySlug(idOrSlug);
+          if (!found) {
+            found = await getPropertyById(idOrSlug);
+          }
         }
         if (found) {
           setProperty(found);
@@ -92,6 +101,50 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
     }
     load();
   }, [idOrSlug]);
+
+  // Synchronize document title and OpenGraph metadata in DOM
+  useEffect(() => {
+    if (!property) return;
+
+    if (typeof document !== 'undefined') {
+      document.title = `${property.title} | ${property.city} - Citi Housing`;
+
+      const rawImage =
+        property.thumbnail_url ||
+        (Array.isArray(property.images) &&
+          property.images.find((img) => img && typeof img === 'string' && img.trim().length > 0)) ||
+        '';
+
+      const fullImageUrl = rawImage
+        ? rawImage.startsWith('http')
+          ? rawImage
+          : `https://citisproperty.com${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
+        : 'https://citisproperty.com/logo.png';
+
+      const updateOrCreateMeta = (attrName: string, attrVal: string, content: string) => {
+        let el = document.querySelector(`meta[${attrName}="${attrVal}"]`);
+        if (!el) {
+          el = document.createElement('meta');
+          el.setAttribute(attrName, attrVal);
+          document.head.appendChild(el);
+        }
+        el.setAttribute('content', content);
+      };
+
+      updateOrCreateMeta('property', 'og:image', fullImageUrl);
+      updateOrCreateMeta('name', 'twitter:image', fullImageUrl);
+      updateOrCreateMeta('property', 'og:title', property.title);
+      updateOrCreateMeta('name', 'twitter:title', property.title);
+      const desc = property.description
+        ? property.description.slice(0, 160).replace(/\s+/g, ' ').trim()
+        : `${property.type} for ${property.purpose === 'buy' ? 'sale' : 'rent'} in ${property.location}, ${property.city}. Demand Price: PKR ${formatPKRPrice(property.price)}.`;
+      updateOrCreateMeta('property', 'og:description', desc);
+      updateOrCreateMeta('name', 'twitter:description', desc);
+      if (typeof window !== 'undefined') {
+        updateOrCreateMeta('property', 'og:url', window.location.href);
+      }
+    }
+  }, [property]);
 
   // Loan Calculation
   const propertyPrice = property?.price || 0;
@@ -202,6 +255,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
             <span className="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-md flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-amber-600" /> 100% Document Verified
             </span>
+            <SharePropertyButton property={property} variant="badge" />
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
@@ -470,6 +524,8 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 <Phone className="w-4 h-4 text-brand-gold-600" />
                 <span>Call {property.agent_phone || '0321-8653500'}</span>
               </a>
+
+              <SharePropertyButton property={property} variant="button" />
             </div>
 
             <div className="pt-4 border-t border-slate-100 space-y-3">

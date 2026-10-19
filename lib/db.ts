@@ -162,10 +162,10 @@ export async function getPropertyBySlug(slug: string): Promise<Property | null> 
       .from('properties')
       .select(PROPERTY_DETAIL_FIELDS)
       .eq('slug', slug)
-      .single();
+      .maybeSingle();
 
     if (error) throw error;
-    return data as Property;
+    return (data as Property) || null;
   } catch (err) {
     console.warn('Property lookup by slug failed:', err);
     return null;
@@ -178,10 +178,10 @@ export async function getPropertyById(id: string): Promise<Property | null> {
       .from('properties')
       .select(PROPERTY_DETAIL_FIELDS)
       .eq('id', id)
-      .single();
+      .maybeSingle();
 
     if (error) throw error;
-    return data as Property;
+    return (data as Property) || null;
   } catch (err) {
     console.warn('Property lookup by ID failed:', err);
     return null;

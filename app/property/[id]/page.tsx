@@ -1,6 +1,130 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import PropertyDetailClient from '@/components/PropertyDetailClient';
 import { supabase } from '@/lib/supabase';
+import { getPropertyById, getPropertyBySlug } from '@/lib/db';
+import { formatPKRPrice } from '@/lib/utils';
+import { Property } from '@/lib/types';
+
+function getValidPropertyImage(property: Property): string {
+  if (
+    property.thumbnail_url &&
+    typeof property.thumbnail_url === 'string' &&
+    property.thumbnail_url.trim().length > 0
+  ) {
+    return property.thumbnail_url.trim();
+  }
+  if (Array.isArray(property.images)) {
+    const validImage = property.images.find(
+      (img) => typeof img === 'string' && img.trim().length > 0
+    );
+    if (validImage) {
+      return validImage.trim();
+    }
+  }
+  return '';
+}
+
+function getAbsoluteImageUrl(rawUrl: string): string {
+  if (!rawUrl || !rawUrl.trim()) {
+    return 'https://citisproperty.com/logo.png';
+  }
+  const clean = rawUrl.trim();
+  if (clean.startsWith('http://') || clean.startsWith('https://')) {
+    return clean;
+  }
+  return `https://citisproperty.com${clean.startsWith('/') ? '' : '/'}${clean}`;
+}
+
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const idOrSlug = params.id;
+  try {
+    let property: Property | null = null;
+    if (idOrSlug.startsWith('prop-')) {
+      property = await getPropertyById(idOrSlug);
+      if (!property) {
+        property = await getPropertyBySlug(idOrSlug);
+      }
+    } else {
+      property = await getPropertyBySlug(idOrSlug);
+      if (!property) {
+        property = await getPropertyById(idOrSlug);
+      }
+    }
+
+    if (property) {
+      const priceText = formatPKRPrice(property.price);
+      const title = `${property.title} | ${property.city} - Citi Housing`;
+      const description = property.description
+        ? property.description.slice(0, 160).replace(/\s+/g, ' ').trim()
+        : `${property.type} for ${property.purpose === 'buy' ? 'sale' : 'rent'} in ${property.location}, ${property.city}. Demand Price: PKR ${priceText}.`;
+
+      const rawImage = getValidPropertyImage(property);
+      const imageUrl = getAbsoluteImageUrl(rawImage);
+      const pageUrl = `https://citisproperty.com/property/${property.slug || property.id}/`;
+
+      return {
+        title,
+        description,
+        alternates: {
+          canonical: pageUrl,
+        },
+        openGraph: {
+          title: property.title,
+          description,
+          url: pageUrl,
+          siteName: 'citisproperty.com',
+          type: 'article',
+          locale: 'en_PK',
+          images: [
+            {
+              url: imageUrl,
+              width: 1200,
+              height: 630,
+              alt: property.title,
+            },
+          ],
+        },
+        twitter: {
+          card: 'summary_large_image',
+          title: property.title,
+          description,
+          images: [imageUrl],
+        },
+      };
+    }
+  } catch (err) {
+    console.error('generateMetadata error for property:', idOrSlug, err);
+  }
+
+  return {
+    title: 'Property Details | Citi Housing (Pvt) Ltd - Property Bank Real Estate',
+    description: 'Explore premier luxury homes, plots, and commercial properties in Citi Housing developments.',
+    openGraph: {
+      title: 'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
+      description: 'Pakistan premier real estate portal for Citi Housing developments and luxury investments.',
+      url: 'https://citisproperty.com',
+      images: [
+        {
+          url: 'https://citisproperty.com/logo.png',
+          width: 512,
+          height: 512,
+          alt: 'Citi Housing Logo',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['https://citisproperty.com/logo.png'],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   try {
@@ -51,12 +175,6 @@ export async function generateStaticParams() {
   ];
 
   return fallbacks.map((id) => ({ id }));
-}
-
-interface PageProps {
-  params: {
-    id: string;
-  };
 }
 
 export default function PropertyPage({ params }: PageProps) {
