@@ -31,7 +31,8 @@ export default function PropertyCardSkeleton() {
         </div>
 
         {/* Buttons */}
-        <div className="pt-2 flex gap-2">
+        <div className="pt-2 flex gap-1.5 sm:gap-2">
+          <div className="h-9 flex-1 bg-slate-200 rounded-lg" />
           <div className="h-9 flex-1 bg-slate-200 rounded-lg" />
           <div className="h-9 flex-1 bg-slate-200 rounded-lg" />
         </div>

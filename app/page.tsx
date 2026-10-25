@@ -59,7 +59,7 @@ export default function HomePage() {
     setLoading(true);
     try {
       const [propsRes, catsRes, filterOpts] = await Promise.all([
-        getProperties({ limit: 8 }), // Strictly 8 properties for zero-load efficiency
+        getProperties({ is_featured: true, limit: 8 }), // Strictly 8 verified featured properties
         getCategories(),
         getDistinctPropertyFilterOptions(),
       ]);

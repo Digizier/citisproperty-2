@@ -100,6 +100,9 @@ export async function getProperties(filter: PropertyFilter = {}): Promise<{
       const q = filter.searchQuery.trim();
       query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`);
     }
+    if (filter.is_featured !== undefined) {
+      query = query.eq('is_featured', filter.is_featured);
+    }
 
     // Order by featured first, then newest
     query = query
@@ -137,6 +140,8 @@ export async function getProperties(filter: PropertyFilter = {}): Promise<{
           all = all.filter((p) => p.price <= filter.maxPrice!);
         if (filter.bedrooms !== undefined && filter.bedrooms > 0)
           all = all.filter((p) => p.bedrooms >= filter.bedrooms!);
+        if (filter.is_featured !== undefined)
+          all = all.filter((p) => p.is_featured === filter.is_featured);
         if (filter.searchQuery && filter.searchQuery.trim()) {
           const q = filter.searchQuery.trim().toLowerCase();
           all = all.filter(

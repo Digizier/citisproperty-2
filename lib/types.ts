@@ -118,6 +118,7 @@ export interface PropertyFilter {
   maxPrice?: number;
   bedrooms?: number;
   searchQuery?: string;
+  is_featured?: boolean;
   page?: number;
   limit?: number;
 }

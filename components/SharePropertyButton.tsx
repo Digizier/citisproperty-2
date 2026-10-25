@@ -12,7 +12,6 @@ import {
   Download,
   Eye,
   Loader2,
-  ExternalLink,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
@@ -197,10 +196,29 @@ export default function SharePropertyButton({
     }
   };
 
-  // 5. Share as WhatsApp Text
-  const handleShareWhatsAppText = () => {
+  // 5. Share Property (All Apps / Native Phone Share Sheet)
+  const handleShareNative = async () => {
     const priceText = formatPKRPrice(property.price);
-    const msg = `Assalam-o-Alaikum, check out this property listing on Citi Housing (Property Bank Real Estate):\n\n🏡 *${property.title}*\n💰 *Demand Price:* PKR ${priceText}\n📍 *Location:* ${property.location}, ${property.city}\n📏 *Area:* ${property.area_size} ${property.area_unit}\n\n🔗 *View Photos & Verified Details:* ${shareUrl}`;
+    const titleText = `${property.title} | CitisProperty.com`;
+    const detailsText = `Assalam-o-Alaikum, check out this property listing on Citi Housing (Property Bank Real Estate):\n\n🏡 *${property.title}*\n💰 *Demand Price:* PKR ${priceText}\n📍 *Location:* ${property.location}, ${property.city}\n📏 *Area:* ${property.area_size} ${property.area_unit}\n\n`;
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: titleText,
+          text: detailsText,
+          url: shareUrl || (typeof window !== 'undefined' ? window.location.href : ''),
+        });
+        showStatus('✓ Share sheet opened!');
+        return;
+      } catch (err: any) {
+        if (err?.name === 'AbortError') return;
+        console.warn('Native share aborted or failed:', err);
+      }
+    }
+
+    // Fallback: If Web Share API not available (e.g. desktop), open WhatsApp with formatted message
+    const msg = `${detailsText}🔗 *View Photos & Verified Details:* ${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
@@ -517,29 +535,29 @@ export default function SharePropertyButton({
                   <Download className="w-4 h-4 text-slate-400 group-hover:text-rose-600 shrink-0" />
                 </button>
 
-                {/* 5. Share as WhatsApp Text (WhatsApp & WhatsApp Business) */}
+                {/* 5. Share Property (All Apps / Mobile Share Sheet) */}
                 <button
                   type="button"
-                  onClick={handleShareWhatsAppText}
-                  className="w-full p-3 rounded-xl border border-slate-200 hover:border-emerald-400 bg-white hover:bg-emerald-50/50 flex items-center justify-between transition-all group cursor-pointer text-left"
+                  onClick={handleShareNative}
+                  className="w-full p-3 rounded-xl border border-slate-200 hover:border-amber-400 bg-white hover:bg-amber-50/50 flex items-center justify-between transition-all group cursor-pointer text-left"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-emerald-100/80 text-emerald-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <MessageCircle className="w-5 h-5 fill-emerald-600 text-transparent" />
+                    <div className="w-9 h-9 rounded-xl bg-amber-100/80 text-amber-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <Share2 className="w-5 h-5 text-amber-700" />
                     </div>
                     <div>
                       <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                        <span>Share as WhatsApp Text</span>
-                        <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-emerald-600 text-white">
-                          Business
+                        <span>Share Property (All Apps)</span>
+                        <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-amber-500 text-slate-950">
+                          Mobile & Apps
                         </span>
                       </div>
                       <div className="text-[10px] text-slate-500">
-                        Direct text message with demand, specs & link
+                        Open mobile share sheet (WhatsApp, Gmail, Messages & more)
                       </div>
                     </div>
                   </div>
-                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 shrink-0" />
+                  <Share2 className="w-4 h-4 text-slate-400 group-hover:text-amber-600 shrink-0" />
                 </button>
               </div>
 
