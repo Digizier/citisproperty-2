@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Bed, Bath, Maximize2, MapPin, Phone, MessageCircle, Star, Share2, Check } from 'lucide-react';
+import { Bed, Bath, Maximize2, MapPin, Phone, MessageCircle, Star, Share2, Check, Sparkles, Building, Layers } from 'lucide-react';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
+import { parsePropertySpecs } from '@/lib/specs-helper';
 
 interface PropertyCardProps {
   property: Property;
@@ -55,6 +56,65 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       console.error('Clipboard copy failed:', err);
     }
   };
+
+  const keySpecs = useMemo(() => {
+    const parsed = parsePropertySpecs(property.features, property.bedrooms, property.bathrooms);
+    const items: { key: string; icon: any; label: string }[] = [];
+
+    // 1. Bedrooms if toggled ON and > 0
+    if (parsed.show_bedrooms && property.bedrooms > 0) {
+      items.push({
+        key: 'beds',
+        icon: Bed,
+        label: `${property.bedrooms} Beds`,
+      });
+    }
+
+    // 2. Bathrooms if toggled ON and > 0
+    if (parsed.show_bathrooms && property.bathrooms > 0) {
+      items.push({
+        key: 'baths',
+        icon: Bath,
+        label: `${property.bathrooms} Baths`,
+      });
+    }
+
+    // 3. Area Size
+    items.push({
+      key: 'area',
+      icon: Maximize2,
+      label: `${property.area_size} ${property.area_unit}`,
+    });
+
+    // 4. If fewer than 3 items (e.g. Beds or Baths toggled OFF), fill with active custom specs (e.g. Floors, Facing)
+    for (const spec of parsed.active_custom_specs) {
+      if (items.length >= 3) break;
+      items.push({
+        key: spec.key,
+        icon: Sparkles,
+        label: `${spec.key}: ${spec.value}`,
+      });
+    }
+
+    // 5. If still fewer than 3 items, fill with Type or Purpose
+    if (items.length < 3) {
+      items.push({
+        key: 'type',
+        icon: Building,
+        label: property.type || 'Property',
+      });
+    }
+
+    if (items.length < 3) {
+      items.push({
+        key: 'purpose',
+        icon: Layers,
+        label: property.purpose === 'buy' ? 'For Sale' : 'For Rent',
+      });
+    }
+
+    return items.slice(0, 3);
+  }, [property]);
 
   return (
     <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200/80 hover:border-brand-gold-500/50 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
@@ -132,33 +192,16 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
 
           {/* Key Specs */}
-          <div className="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-xs text-slate-600 mb-4">
-            {property.bedrooms > 0 ? (
-              <div className="flex items-center gap-1.5 justify-center">
-                <Bed className="w-4 h-4 text-slate-400" />
-                <span className="font-semibold">{property.bedrooms}</span> Beds
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 justify-center">
-                <span className="text-slate-400">-</span>
-              </div>
-            )}
-
-            {property.bathrooms > 0 ? (
-              <div className="flex items-center gap-1.5 justify-center">
-                <Bath className="w-4 h-4 text-slate-400" />
-                <span className="font-semibold">{property.bathrooms}</span> Baths
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 justify-center">
-                <span className="text-slate-400">-</span>
-              </div>
-            )}
-
-            <div className="flex items-center gap-1.5 justify-center">
-              <Maximize2 className="w-4 h-4 text-slate-400" />
-              <span className="font-semibold">{property.area_size}</span> {property.area_unit}
-            </div>
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-2 py-3 border-y border-slate-100 text-xs text-slate-600 mb-4">
+            {keySpecs.map((item, idx) => {
+              const IconComp = item.icon;
+              return (
+                <div key={item.key || idx} className="flex items-center gap-1.5 justify-center min-w-0">
+                  <IconComp className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <span className="font-semibold truncate text-[11px] sm:text-xs">{item.label}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
 

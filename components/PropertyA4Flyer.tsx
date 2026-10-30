@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
+import { parsePropertySpecs } from '@/lib/specs-helper';
 
 interface PropertyA4FlyerProps {
   property: Property;
@@ -62,9 +63,10 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
         ? otherImages.slice(0, 4)
         : [mainImage];
 
+    const parsedSpecs = parsePropertySpecs(property.features, property.bedrooms, property.bathrooms);
     const amenities =
-      Array.isArray(property.features) && property.features.length > 0
-        ? property.features
+      parsedSpecs.amenities.length > 0
+        ? parsedSpecs.amenities
         : DEFAULT_AMENITIES;
 
     return (
@@ -454,7 +456,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   BEDS
                 </span>
                 <span style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.4, marginTop: '2px', paddingBottom: '2px', display: 'block' }}>
-                  {property.bedrooms > 0 ? `${property.bedrooms} Bed` : '-'}
+                  {parsedSpecs.show_bedrooms && property.bedrooms > 0 ? `${property.bedrooms} Bed` : '-'}
                 </span>
               </div>
 
@@ -478,7 +480,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   BATHS
                 </span>
                 <span style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.4, marginTop: '2px', paddingBottom: '2px', display: 'block' }}>
-                  {property.bathrooms > 0 ? `${property.bathrooms} Bath` : '-'}
+                  {parsedSpecs.show_bathrooms && property.bathrooms > 0 ? `${property.bathrooms} Bath` : '-'}
                 </span>
               </div>
             </div>

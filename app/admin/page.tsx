@@ -29,6 +29,7 @@ import {
   Share2,
   Copy,
   Printer,
+  Sparkles,
 } from 'lucide-react';
 import {
   adminGetAllProperties,
@@ -53,6 +54,7 @@ import { uploadPropertyImage, uploadPdfToStorage } from '@/lib/image-compressor'
 import { downloadInquiryInvoice } from '@/lib/invoice-generator';
 import SearchableSelect from '@/components/SearchableSelect';
 import { PAKISTAN_CITIES, PROPERTY_TYPES, AREA_UNITS } from '@/lib/constants';
+import { parsePropertySpecs, serializePropertyFeatures, CustomSpecification } from '@/lib/specs-helper';
 import {
   Property,
   Category,
@@ -106,6 +108,9 @@ export default function AdminPage() {
   // Property Modal State
   const [propertyModalOpen, setPropertyModalOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Partial<Property> | null>(null);
+  const [showBedrooms, setShowBedrooms] = useState(true);
+  const [showBathrooms, setShowBathrooms] = useState(true);
+  const [customSpecs, setCustomSpecs] = useState<CustomSpecification[]>([]);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [newCustomFeature, setNewCustomFeature] = useState('');
   const [customImageUrl, setCustomImageUrl] = useState('');
@@ -213,6 +218,9 @@ export default function AdminPage() {
 
   /* ---------------- PROPERTY CRUD ---------------- */
   const handleOpenNewProperty = () => {
+    setShowBedrooms(true);
+    setShowBathrooms(true);
+    setCustomSpecs([]);
     setEditingProperty({
       title: '',
       slug: '',
@@ -246,9 +254,14 @@ export default function AdminPage() {
   };
 
   const handleEditProperty = (prop: Property) => {
+    const parsed = parsePropertySpecs(prop.features, prop.bedrooms, prop.bathrooms);
+    setShowBedrooms(parsed.show_bedrooms);
+    setShowBathrooms(parsed.show_bathrooms);
+    setCustomSpecs(parsed.custom_specs);
+
     setEditingProperty({
       ...prop,
-      features: Array.isArray(prop.features) ? prop.features : [],
+      features: parsed.amenities,
       images: Array.isArray(prop.images) && prop.images.length > 0 ? prop.images : (prop.thumbnail_url ? [prop.thumbnail_url] : []),
       youtube_url: prop.youtube_url || '',
       map_url: prop.map_url || '',
@@ -310,7 +323,27 @@ export default function AdminPage() {
     }
 
     try {
-      await adminSaveProperty(editingProperty);
+      // Clean existing amenities (exclude any old internal tags)
+      const currentAmenities = (editingProperty.features || []).filter(
+        (f) => typeof f === 'string' && !f.startsWith('__')
+      );
+
+      // Serialize amenities, bedroom/bathroom toggles, and custom key-value specifications
+      const serializedFeatures = serializePropertyFeatures(
+        currentAmenities,
+        showBedrooms,
+        showBathrooms,
+        customSpecs
+      );
+
+      const finalPropertyToSave = {
+        ...editingProperty,
+        bedrooms: showBedrooms ? Number(editingProperty.bedrooms || 0) : 0,
+        bathrooms: showBathrooms ? Number(editingProperty.bathrooms || 0) : 0,
+        features: serializedFeatures,
+      };
+
+      await adminSaveProperty(finalPropertyToSave);
       setPropertyModalOpen(false);
       showToast('Property listing saved successfully');
       loadAdminData();
@@ -1538,6 +1571,10 @@ export default function AdminPage() {
                               type="button"
                               onClick={() => {
                                 const d = inq.listing_data || {};
+                                const parsed = parsePropertySpecs(d.features, d.bedrooms ?? 0, d.bathrooms ?? 0);
+                                setShowBedrooms(parsed.show_bedrooms);
+                                setShowBathrooms(parsed.show_bathrooms);
+                                setCustomSpecs(parsed.custom_specs);
                                 setEditingProperty({
                                   title: d.title || inq.property_title?.replace(/^Client Listing:\s*/, '') || `Property in ${d.location || 'Citi Housing'}`,
                                   slug: slugify(d.title || inq.property_title || `property-${Date.now()}`),
@@ -1554,7 +1591,7 @@ export default function AdminPage() {
                                   bedrooms: d.bedrooms ?? 3,
                                   bathrooms: d.bathrooms ?? 3,
                                   description: d.description || inq.message,
-                                  features: Array.isArray(d.features) && d.features.length > 0 ? d.features : ['Sui Gas', 'Electricity', 'Water Supply', '24/7 Security'],
+                                  features: parsed.amenities.length > 0 ? parsed.amenities : ['Sui Gas', 'Electricity', 'Water Supply', '24/7 Security'],
                                   thumbnail_url: d.thumbnail_url || (Array.isArray(d.images) && d.images[0]) || '',
                                   images: Array.isArray(d.images) ? d.images : (d.thumbnail_url ? [d.thumbnail_url] : []),
                                   youtube_url: d.youtube_url || '',
@@ -2096,29 +2133,253 @@ export default function AdminPage() {
                   />
                 </div>
 
+                {/* Bedrooms with ON/OFF Toggle */}
                 <div>
-                  <label className="block font-bold uppercase text-slate-400 mb-1">Bedrooms</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="font-bold uppercase text-slate-400 text-xs">Bedrooms</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = !showBedrooms;
+                        setShowBedrooms(next);
+                        if (!next && editingProperty) {
+                          setEditingProperty({ ...editingProperty, bedrooms: 0 });
+                        }
+                      }}
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 ${
+                        showBedrooms
+                          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30'
+                          : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 hover:bg-rose-500/30'
+                      }`}
+                      title={showBedrooms ? 'Click to Turn OFF (Hide on website)' : 'Click to Turn ON (Show on website)'}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${showBedrooms ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}`} />
+                      {showBedrooms ? 'ON' : 'OFF'}
+                    </button>
+                  </div>
                   <input
                     type="number"
-                    value={editingProperty.bedrooms ?? 0}
+                    min="0"
+                    disabled={!showBedrooms}
+                    value={showBedrooms ? (editingProperty.bedrooms ?? 0) : 0}
                     onChange={(e) =>
                       setEditingProperty({ ...editingProperty, bedrooms: Number(e.target.value) })
                     }
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:border-brand-gold-500"
+                    placeholder={showBedrooms ? 'e.g. 3' : 'Hidden'}
+                    className={`w-full border rounded-xl p-3 text-white transition-all ${
+                      showBedrooms
+                        ? 'bg-slate-950 border-slate-800 focus:border-brand-gold-500'
+                        : 'bg-slate-900/60 border-slate-800/60 text-slate-500 opacity-60 cursor-not-allowed'
+                    }`}
                   />
+                  {!showBedrooms && (
+                    <span className="text-[10px] text-rose-400 font-semibold mt-1 block">
+                      ✕ Hidden on website
+                    </span>
+                  )}
                 </div>
 
+                {/* Bathrooms with ON/OFF Toggle */}
                 <div>
-                  <label className="block font-bold uppercase text-slate-400 mb-1">Bathrooms</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="font-bold uppercase text-slate-400 text-xs">Bathrooms</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = !showBathrooms;
+                        setShowBathrooms(next);
+                        if (!next && editingProperty) {
+                          setEditingProperty({ ...editingProperty, bathrooms: 0 });
+                        }
+                      }}
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 ${
+                        showBathrooms
+                          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30'
+                          : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 hover:bg-rose-500/30'
+                      }`}
+                      title={showBathrooms ? 'Click to Turn OFF (Hide on website)' : 'Click to Turn ON (Show on website)'}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${showBathrooms ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}`} />
+                      {showBathrooms ? 'ON' : 'OFF'}
+                    </button>
+                  </div>
                   <input
                     type="number"
-                    value={editingProperty.bathrooms ?? 0}
+                    min="0"
+                    disabled={!showBathrooms}
+                    value={showBathrooms ? (editingProperty.bathrooms ?? 0) : 0}
                     onChange={(e) =>
                       setEditingProperty({ ...editingProperty, bathrooms: Number(e.target.value) })
                     }
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:border-brand-gold-500"
+                    placeholder={showBathrooms ? 'e.g. 3' : 'Hidden'}
+                    className={`w-full border rounded-xl p-3 text-white transition-all ${
+                      showBathrooms
+                        ? 'bg-slate-950 border-slate-800 focus:border-brand-gold-500'
+                        : 'bg-slate-900/60 border-slate-800/60 text-slate-500 opacity-60 cursor-not-allowed'
+                    }`}
                   />
+                  {!showBathrooms && (
+                    <span className="text-[10px] text-rose-400 font-semibold mt-1 block">
+                      ✕ Hidden on website
+                    </span>
+                  )}
                 </div>
+              </div>
+
+              {/* Extra Custom Specifications & Key Details (with individual ON/OFF Toggles) */}
+              <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <label className="font-bold uppercase text-brand-gold-400 text-xs flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-brand-gold-500" />
+                      <span>Custom Details & Specifications (Variable & Key Details)</span>
+                    </label>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      Add extra custom variables (e.g. Floors, Facing, Dimension, Road Width, Kitchens) with individual ON/OFF display toggles.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCustomSpecs([
+                        ...customSpecs,
+                        { id: `spec-${Date.now()}`, key: '', value: '', enabled: true },
+                      ]);
+                    }}
+                    className="px-3 py-1.5 bg-brand-gold-500/20 hover:bg-brand-gold-500/30 text-brand-gold-400 border border-brand-gold-500/40 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1 self-start sm:self-auto"
+                  >
+                    <span>+ Add Custom Detail</span>
+                  </button>
+                </div>
+
+                {/* Quick Presets */}
+                <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mr-1">
+                    Quick Presets:
+                  </span>
+                  {[
+                    { key: 'Floors', value: '2 Story' },
+                    { key: 'Facing', value: 'Park Facing' },
+                    { key: 'Dimension', value: '30x60' },
+                    { key: 'Road Width', value: '60 Ft' },
+                    { key: 'Kitchens', value: '2' },
+                    { key: 'Corner Plot', value: 'Yes' },
+                    { key: 'Possession', value: 'Ready' },
+                  ].map((preset) => {
+                    const alreadyAdded = customSpecs.some(
+                      (s) => s.key.toLowerCase() === preset.key.toLowerCase()
+                    );
+                    return (
+                      <button
+                        key={preset.key}
+                        type="button"
+                        onClick={() => {
+                          if (alreadyAdded) return;
+                          setCustomSpecs([
+                            ...customSpecs,
+                            { id: `spec-${Date.now()}`, key: preset.key, value: preset.value, enabled: true },
+                          ]);
+                        }}
+                        disabled={alreadyAdded}
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded-lg border transition-all ${
+                          alreadyAdded
+                            ? 'bg-slate-900 text-slate-600 border-slate-800 cursor-not-allowed opacity-50'
+                            : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700 hover:border-brand-gold-500/50 cursor-pointer'
+                        }`}
+                      >
+                        + {preset.key}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Custom Specs List */}
+                {customSpecs.length > 0 ? (
+                  <div className="space-y-2 pt-2">
+                    {customSpecs.map((spec, idx) => (
+                      <div
+                        key={spec.id || idx}
+                        className={`p-2.5 rounded-xl border flex flex-col sm:flex-row items-stretch sm:items-center gap-2 transition-all ${
+                          spec.enabled
+                            ? 'bg-slate-900/80 border-slate-800'
+                            : 'bg-slate-900/40 border-slate-800/40 opacity-75'
+                        }`}
+                      >
+                        {/* Key / Variable Name */}
+                        <div className="flex-1">
+                          <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">
+                            Variable / Detail Name
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Floors, Facing, Dimension"
+                            value={spec.key}
+                            onChange={(e) => {
+                              const updated = [...customSpecs];
+                              updated[idx] = { ...updated[idx], key: e.target.value };
+                              setCustomSpecs(updated);
+                            }}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-brand-gold-500"
+                          />
+                        </div>
+
+                        {/* Value (text or number) */}
+                        <div className="flex-1">
+                          <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">
+                            Detail Value (Text or Number)
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="e.g. 2, East Facing, 60 Ft"
+                            value={spec.value}
+                            onChange={(e) => {
+                              const updated = [...customSpecs];
+                              updated[idx] = { ...updated[idx], value: e.target.value };
+                              setCustomSpecs(updated);
+                            }}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-brand-gold-500"
+                          />
+                        </div>
+
+                        {/* Controls: Toggle ON/OFF + Delete */}
+                        <div className="flex items-center justify-between sm:justify-end gap-2 pt-1 sm:pt-4">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = [...customSpecs];
+                              updated[idx] = { ...updated[idx], enabled: !updated[idx].enabled };
+                              setCustomSpecs(updated);
+                            }}
+                            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+                              spec.enabled
+                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30'
+                                : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 hover:bg-rose-500/30'
+                            }`}
+                            title={spec.enabled ? 'Click to Turn OFF (Hide on website)' : 'Click to Turn ON (Show on website)'}
+                          >
+                            <span className={`w-1.5 h-1.5 rounded-full ${spec.enabled ? 'bg-emerald-400' : 'bg-rose-400'}`} />
+                            {spec.enabled ? 'ON' : 'OFF'}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomSpecs(customSpecs.filter((_, i) => i !== idx));
+                            }}
+                            className="p-1.5 text-slate-400 hover:text-rose-400 transition-colors rounded-lg hover:bg-slate-800 cursor-pointer"
+                            title="Remove detail"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-3 rounded-xl border border-dashed border-slate-800 text-center text-xs text-slate-500">
+                    No custom details added yet. Click &quot;+ Add Custom Detail&quot; or choose a quick preset above.
+                  </div>
+                )}
               </div>
 
               {/* YouTube Video Tour URL */}

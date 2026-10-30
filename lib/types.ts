@@ -108,6 +108,13 @@ export interface SiteSettings {
   updated_at?: string;
 }
 
+export interface CustomSpecification {
+  id?: string;
+  key: string;
+  value: string;
+  enabled: boolean;
+}
+
 export interface PropertyFilter {
   purpose?: PropertyPurpose;
   type?: PropertyType;

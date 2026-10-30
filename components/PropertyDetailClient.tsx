@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import {
   Bed,
@@ -23,6 +23,7 @@ import {
 import { getPropertyById, getPropertyBySlug, submitInquiry } from '@/lib/db';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
+import { parsePropertySpecs } from '@/lib/specs-helper';
 import PropertyMapBox from '@/components/PropertyMapBox';
 import SharePropertyButton from '@/components/SharePropertyButton';
 
@@ -145,6 +146,19 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
       }
     }
   }, [property]);
+
+  const parsedSpecs = useMemo(() => {
+    if (!property) {
+      return {
+        show_bedrooms: false,
+        show_bathrooms: false,
+        amenities: [],
+        custom_specs: [],
+        active_custom_specs: [],
+      };
+    }
+    return parsePropertySpecs(property.features, property.bedrooms, property.bathrooms);
+  }, [property?.features, property?.bedrooms, property?.bathrooms]);
 
   // Loan Calculation
   const propertyPrice = property?.price || 0;
@@ -361,7 +375,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 </span>
               </div>
 
-              {property.bedrooms > 0 && (
+              {parsedSpecs.show_bedrooms && property.bedrooms > 0 && (
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
                   <span className="text-slate-500 block">Bedrooms</span>
                   <span className="font-extrabold text-sm text-slate-900 mt-0.5 block">
@@ -370,7 +384,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 </div>
               )}
 
-              {property.bathrooms > 0 && (
+              {parsedSpecs.show_bathrooms && property.bathrooms > 0 && (
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
                   <span className="text-slate-500 block">Bathrooms</span>
                   <span className="font-extrabold text-sm text-slate-900 mt-0.5 block">
@@ -385,6 +399,16 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                   {property.purpose === 'buy' ? 'For Sale' : 'For Rent'}
                 </span>
               </div>
+
+              {/* Extra Custom Specifications (with Toggle ON) */}
+              {parsedSpecs.active_custom_specs.map((spec, i) => (
+                <div key={spec.id || i} className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <span className="text-slate-500 block truncate">{spec.key}</span>
+                  <span className="font-extrabold text-sm text-slate-900 mt-0.5 block truncate">
+                    {spec.value}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -406,11 +430,11 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
           </div>
 
           {/* Amenities & Facilities Checklist */}
-          {property.features && property.features.length > 0 && (
+          {parsedSpecs.amenities && parsedSpecs.amenities.length > 0 && (
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
               <h3 className="text-lg font-bold text-slate-900">Amenities & Infrastructure</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {property.features.map((feat, i) => (
+                {parsedSpecs.amenities.map((feat, i) => (
                   <div
                     key={i}
                     className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs font-semibold text-slate-800"

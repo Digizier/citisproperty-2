@@ -41,8 +41,11 @@ export function generateInvoiceHtml(
   const locationText = d.location
     ? `${d.location}${d.city ? `, ${d.city}` : ''}`
     : d.city || 'Citi Housing Project';
-  const featuresList = Array.isArray(d.features) && d.features.length > 0
-    ? d.features.join(' • ')
+  const cleanAmenities = Array.isArray(d.features)
+    ? d.features.filter((f) => typeof f === 'string' && !f.startsWith('__'))
+    : [];
+  const featuresList = cleanAmenities.length > 0
+    ? cleanAmenities.join(' • ')
     : 'Standard Utilities & 24/7 Security';
 
   return `<!DOCTYPE html>
