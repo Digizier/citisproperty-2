@@ -30,6 +30,7 @@ import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
 import SearchableSelect from '@/components/SearchableSelect';
 import { PAKISTAN_CITIES, PROPERTY_TYPES } from '@/lib/constants';
+import { trackEvent } from '@/lib/analytics';
 
 export default function HomePage() {
   const router = useRouter();
@@ -75,6 +76,7 @@ export default function HomePage() {
 
   useEffect(() => {
     loadData();
+    trackEvent('view', { id: 'site', title: 'Citi Housing - Homepage' });
 
     const handleUpdate = () => loadData();
     window.addEventListener(DB_EVENTS.PROPERTIES_UPDATED, handleUpdate);

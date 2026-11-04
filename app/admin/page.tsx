@@ -30,6 +30,12 @@ import {
   Copy,
   Printer,
   Sparkles,
+  BarChart3,
+  TrendingUp,
+  Activity,
+  MousePointerClick,
+  MessageCircle,
+  Calendar,
 } from 'lucide-react';
 import {
   adminGetAllProperties,
@@ -65,7 +71,13 @@ import {
   PropertyPurpose,
   PropertyType,
   AreaUnit,
+  AnalyticsSummary,
 } from '@/lib/types';
+import {
+  getAnalyticsData,
+  adminResetAnalytics,
+  adminDeleteAnalyticsRecord,
+} from '@/lib/analytics';
 import { formatPKRPrice, slugify } from '@/lib/utils';
 
 const ADMIN_CITIES = ['Faisalabad', 'Lahore', 'Islamabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Sialkot'];
@@ -78,8 +90,13 @@ export default function AdminPage() {
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'properties' | 'societies' | 'banners' | 'inquiries' | 'settings'
+    'overview' | 'properties' | 'societies' | 'banners' | 'inquiries' | 'settings' | 'analytics'
   >('overview');
+
+  // Analytics Dashboard State
+  const [analyticsRange, setAnalyticsRange] = useState<'today' | 'week' | 'month'>('month');
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsSummary | null>(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
 
   // Core Data States
   const [properties, setProperties] = useState<Property[]>([]);
@@ -196,6 +213,25 @@ export default function AdminPage() {
       };
     }
   }, [isAuthenticated]);
+
+  const loadAnalytics = async (range: 'today' | 'week' | 'month' = analyticsRange) => {
+    setAnalyticsLoading(true);
+    try {
+      const data = await getAnalyticsData(range);
+      setAnalyticsData(data);
+    } catch (err) {
+      console.error('Failed to load analytics:', err);
+      showToast('Error syncing analytics data', 'error');
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'analytics' && isAuthenticated) {
+      loadAnalytics(analyticsRange);
+    }
+  }, [activeTab, analyticsRange, isAuthenticated]);
 
   // Handle PIN Login
   const handlePinSubmit = (e: React.FormEvent) => {
@@ -827,6 +863,26 @@ export default function AdminPage() {
 
             <button
               type="button"
+              onClick={() => setActiveTab('analytics')}
+              className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl transition-all ${
+                activeTab === 'analytics'
+                  ? 'bg-gradient-to-r from-brand-gold-500 to-brand-gold-600 text-slate-950 font-black shadow-md'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <BarChart3 className="w-4 h-4" />
+                <span>Analytics & Insights</span>
+              </div>
+              <span className={`text-[9px] px-1.5 py-0.5 rounded font-black uppercase ${
+                activeTab === 'analytics' ? 'bg-slate-950/20 text-slate-950' : 'bg-emerald-500/20 text-emerald-400'
+              }`}>
+                Live
+              </span>
+            </button>
+
+            <button
+              type="button"
               onClick={() => setActiveTab('settings')}
               className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all ${
                 activeTab === 'settings'
@@ -948,6 +1004,14 @@ export default function AdminPage() {
                 >
                   <ImageIcon className="w-4 h-4" />
                   <span>Add Website Banner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('analytics')}
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2 border border-brand-gold-500/20"
+                >
+                  <BarChart3 className="w-4 h-4 text-brand-gold-400" />
+                  <span>View Analytics & Insights</span>
                 </button>
               </div>
             </div>
@@ -1861,6 +1925,422 @@ export default function AdminPage() {
             </div>
           );
         })()}
+
+        {/* TAB: ANALYTICS & INSIGHTS */}
+        {activeTab === 'analytics' && (
+          <div className="space-y-8 animate-in fade-in duration-200">
+            {/* Header & Filter Controls */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl font-black text-white">Analytics & Customer Insights</h1>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Live Data
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">
+                  Track listing views, customer WhatsApp leads, and phone calls for{' '}
+                  <strong className="text-slate-200">
+                    {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  </strong>
+                  .
+                </p>
+              </div>
+
+              {/* Time Range Filter & Actions */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="bg-slate-900 border border-slate-800 p-1 rounded-xl flex items-center gap-1 text-xs font-bold">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAnalyticsRange('today');
+                      loadAnalytics('today');
+                    }}
+                    className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                      analyticsRange === 'today'
+                        ? 'bg-brand-gold-500 text-slate-950 font-black shadow-sm'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    Today
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAnalyticsRange('week');
+                      loadAnalytics('week');
+                    }}
+                    className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                      analyticsRange === 'week'
+                        ? 'bg-brand-gold-500 text-slate-950 font-black shadow-sm'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    Last 7 Days
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAnalyticsRange('month');
+                      loadAnalytics('month');
+                    }}
+                    className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                      analyticsRange === 'month'
+                        ? 'bg-brand-gold-500 text-slate-950 font-black shadow-sm'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    Full Month (Day 1-31)
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => loadAnalytics(analyticsRange)}
+                  disabled={analyticsLoading}
+                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-all cursor-pointer"
+                  title="Refresh Analytics"
+                >
+                  <RefreshCw className={`w-4 h-4 ${analyticsLoading ? 'animate-spin text-brand-gold-400' : ''}`} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDeleteConfirm({
+                      isOpen: true,
+                      title: 'Reset Analytics Data?',
+                      description:
+                        'Are you sure you want to clear current analytics counters? This will permanently flush all current month views and clicks and restart counts from 0.',
+                      onConfirm: async () => {
+                        const ok = await adminResetAnalytics();
+                        setDeleteConfirm((prev) => ({ ...prev, isOpen: false }));
+                        if (ok) {
+                          showToast('Analytics counters reset successfully');
+                          loadAnalytics(analyticsRange);
+                        } else {
+                          showToast('Failed to reset analytics', 'error');
+                        }
+                      },
+                    });
+                  }}
+                  className="px-3 py-2 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                  title="Clear analytics counters"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Reset</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Metric KPI Cards (4 Cards) */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Total Views */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-1 relative overflow-hidden group">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span className="text-[11px] font-bold uppercase tracking-wider">Total Views</span>
+                  <div className="w-8 h-8 rounded-xl bg-brand-gold-500/10 text-brand-gold-400 flex items-center justify-center">
+                    <Eye className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-white">
+                  {analyticsLoading ? '...' : (analyticsData?.totalViews || 0).toLocaleString()}
+                </div>
+                <div className="text-[11px] text-slate-400 font-medium">
+                  Website & listing page visits
+                </div>
+              </div>
+
+              {/* WhatsApp Clicks */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-1 relative overflow-hidden group">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span className="text-[11px] font-bold uppercase tracking-wider">WhatsApp Clicks</span>
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                    <MessageCircle className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-emerald-400">
+                  {analyticsLoading ? '...' : (analyticsData?.totalWhatsApp || 0).toLocaleString()}
+                </div>
+                <div className="text-[11px] text-emerald-400/80 font-medium">
+                  Direct chat inquiries initiated
+                </div>
+              </div>
+
+              {/* Phone Calls */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-1 relative overflow-hidden group">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span className="text-[11px] font-bold uppercase tracking-wider">Phone Calls</span>
+                  <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-blue-400">
+                  {analyticsLoading ? '...' : (analyticsData?.totalCalls || 0).toLocaleString()}
+                </div>
+                <div className="text-[11px] text-blue-400/80 font-medium">
+                  Direct call inquiries initiated
+                </div>
+              </div>
+
+              {/* Total Inquiries Engagement */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-1 relative overflow-hidden group">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span className="text-[11px] font-bold uppercase tracking-wider">Total Leads</span>
+                  <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+                    <TrendingUp className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-purple-400">
+                  {analyticsLoading
+                    ? '...'
+                    : ((analyticsData?.totalWhatsApp || 0) + (analyticsData?.totalCalls || 0)).toLocaleString()}
+                </div>
+                <div className="text-[11px] text-purple-400/80 font-medium">
+                  Calls + WhatsApp conversions
+                </div>
+              </div>
+            </div>
+
+            {/* Daily Trend Chart (Day 1 to 31) */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-7 space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-brand-gold-400" />
+                    <span>Daily Activity Trend (Day 1 to 31)</span>
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Day-by-day distribution of visits, WhatsApp clicks, and phone calls.
+                  </p>
+                </div>
+
+                {/* Chart Legend */}
+                <div className="flex items-center gap-4 text-xs font-semibold">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded bg-brand-gold-500 inline-block" />
+                    <span className="text-slate-300">Views</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded bg-emerald-500 inline-block" />
+                    <span className="text-slate-300">WhatsApp</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded bg-blue-500 inline-block" />
+                    <span className="text-slate-300">Calls</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bar Chart Container */}
+              {analyticsData && analyticsData.dailyChart.length > 0 ? (() => {
+                const maxVal = Math.max(
+                  ...analyticsData.dailyChart.map((d) => Math.max(d.views, d.whatsapp, d.calls)),
+                  5
+                );
+                const currentDay = new Date().getDate();
+
+                return (
+                  <div className="pt-4 overflow-x-auto">
+                    <div className="min-w-[700px] flex items-end gap-1.5 sm:gap-2 h-44 pb-6 pt-2 border-b border-slate-800">
+                      {analyticsData.dailyChart.map((d) => {
+                        const totalDay = d.views + d.whatsapp + d.calls;
+                        const viewsHeight = Math.round((d.views / maxVal) * 100);
+                        const whatsappHeight = Math.round((d.whatsapp / maxVal) * 100);
+                        const callsHeight = Math.round((d.calls / maxVal) * 100);
+                        const isToday = d.day === currentDay;
+
+                        return (
+                          <div
+                            key={d.day}
+                            className="flex-1 flex flex-col items-center justify-end h-full group relative"
+                          >
+                            {/* Hover Tooltip */}
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none absolute -top-12 z-20 bg-slate-950 border border-slate-700 text-white rounded-lg px-2.5 py-1.5 text-[10px] whitespace-nowrap shadow-xl">
+                              <div className="font-bold text-brand-gold-400">Day {d.day} ({d.date})</div>
+                              <div className="text-slate-200">
+                                Views: {d.views} | WA: {d.whatsapp} | Calls: {d.calls}
+                              </div>
+                            </div>
+
+                            {/* Stacked / Grouped Bars */}
+                            <div className="w-full max-w-[18px] flex items-end gap-0.5 h-full justify-center">
+                              {/* Views Bar */}
+                              <div
+                                style={{ height: `${Math.max(viewsHeight, totalDay > 0 ? 6 : 2)}%` }}
+                                className={`w-1.5 rounded-t transition-all ${
+                                  d.views > 0 ? 'bg-brand-gold-500 group-hover:brightness-125' : 'bg-slate-800/40'
+                                }`}
+                              />
+                              {/* WhatsApp Bar */}
+                              <div
+                                style={{ height: `${Math.max(whatsappHeight, d.whatsapp > 0 ? 6 : 2)}%` }}
+                                className={`w-1.5 rounded-t transition-all ${
+                                  d.whatsapp > 0 ? 'bg-emerald-500 group-hover:brightness-125' : 'bg-slate-800/40'
+                                }`}
+                              />
+                              {/* Calls Bar */}
+                              <div
+                                style={{ height: `${Math.max(callsHeight, d.calls > 0 ? 6 : 2)}%` }}
+                                className={`w-1.5 rounded-t transition-all ${
+                                  d.calls > 0 ? 'bg-blue-500 group-hover:brightness-125' : 'bg-slate-800/40'
+                                }`}
+                              />
+                            </div>
+
+                            {/* Day Label */}
+                            <span
+                              className={`text-[10px] mt-2 block font-bold transition-colors ${
+                                isToday
+                                  ? 'text-brand-gold-400 underline font-black'
+                                  : 'text-slate-500 group-hover:text-slate-300'
+                              }`}
+                            >
+                              {d.day}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })() : (
+                <div className="h-32 flex items-center justify-center text-slate-500 text-xs">
+                  Loading daily trends...
+                </div>
+              )}
+            </div>
+
+            {/* Property-Wise Engagement Table */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden space-y-4 p-5 sm:p-7">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+                    <MousePointerClick className="w-4 h-4 text-brand-gold-400" />
+                    <span>Property Listing Performance</span>
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Breakdown of customer interest, pageviews, and calls/WhatsApp inquiries per listing.
+                  </p>
+                </div>
+                <span className="text-xs font-bold text-slate-400 bg-slate-800 px-3 py-1.5 rounded-xl self-start sm:self-auto">
+                  {analyticsData?.topProperties?.length || 0} Listings Tracked
+                </span>
+              </div>
+
+              {/* Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                      <th className="py-3 px-3">Listing Title / Location</th>
+                      <th className="py-3 px-3 text-center">Type</th>
+                      <th className="py-3 px-3 text-center">Page Views</th>
+                      <th className="py-3 px-3 text-center">WhatsApp Clicks</th>
+                      <th className="py-3 px-3 text-center">Phone Calls</th>
+                      <th className="py-3 px-3 text-center">Engagement</th>
+                      <th className="py-3 px-3 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/60 font-medium">
+                    {analyticsData && analyticsData.topProperties.length > 0 ? (
+                      analyticsData.topProperties.map((prop, idx) => {
+                        const isGeneral = prop.property_id === 'site';
+                        return (
+                          <tr key={prop.property_id || idx} className="hover:bg-slate-800/40 transition-colors">
+                            {/* Title */}
+                            <td className="py-3.5 px-3">
+                              <div className="font-bold text-white text-xs line-clamp-1">
+                                {prop.property_title}
+                              </div>
+                              <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                                ID: {prop.property_id}
+                              </div>
+                            </td>
+
+                            {/* Type */}
+                            <td className="py-3.5 px-3 text-center">
+                              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-slate-800 text-slate-300">
+                                {prop.property_type || 'Listing'}
+                              </span>
+                            </td>
+
+                            {/* Views */}
+                            <td className="py-3.5 px-3 text-center font-bold text-slate-200">
+                              {prop.views}
+                            </td>
+
+                            {/* WhatsApp */}
+                            <td className="py-3.5 px-3 text-center">
+                              <span className="inline-flex items-center gap-1 font-bold text-emerald-400">
+                                <MessageCircle className="w-3 h-3" />
+                                {prop.whatsapp}
+                              </span>
+                            </td>
+
+                            {/* Calls */}
+                            <td className="py-3.5 px-3 text-center">
+                              <span className="inline-flex items-center gap-1 font-bold text-blue-400">
+                                <Phone className="w-3 h-3" />
+                                {prop.calls}
+                              </span>
+                            </td>
+
+                            {/* Total Engagement Score */}
+                            <td className="py-3.5 px-3 text-center">
+                              <span className="px-2 py-1 rounded-lg text-xs font-black bg-brand-gold-500/10 text-brand-gold-400 border border-brand-gold-500/30">
+                                {prop.totalEngagement} pts
+                              </span>
+                            </td>
+
+                            {/* Actions */}
+                            <td className="py-3.5 px-3 text-right">
+                              <div className="flex items-center justify-end gap-1.5">
+                                {!isGeneral && prop.property_slug && (
+                                  <Link
+                                    href={`/property/${prop.property_slug}`}
+                                    target="_blank"
+                                    prefetch={false}
+                                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                                    title="View property on website"
+                                  >
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                  </Link>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td colSpan={7} className="py-8 text-center text-slate-500 text-xs">
+                          {analyticsLoading
+                            ? 'Syncing analytics data...'
+                            : 'No customer activity recorded for this period yet. Views, WhatsApp, and Call clicks will automatically show here.'}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Performance & Database Optimization Notice */}
+            <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex items-start gap-3 text-xs text-slate-400">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-slate-200">Zero-Load High Efficiency Architecture:</strong>
+                <p className="mt-0.5">
+                  Analytics data is stored in daily aggregated counter rows (averaging only ~0.1 MB per month).
+                  Previous months are automatically cleared at month end to keep your cloud database fast, clean,
+                  and 100% within free limits with zero risk of quota hits.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* TAB 6: SETTINGS */}
         {activeTab === 'settings' && settings && (

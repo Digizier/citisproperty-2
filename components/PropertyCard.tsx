@@ -7,6 +7,7 @@ import { Bed, Bath, Maximize2, MapPin, Phone, MessageCircle, Star, Share2, Check
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
 import { parsePropertySpecs } from '@/lib/specs-helper';
+import { trackEvent } from '@/lib/analytics';
 
 interface PropertyCardProps {
   property: Property;
@@ -209,6 +210,14 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <div className="grid grid-cols-3 gap-1.5 sm:gap-2 pt-1">
           <a
             href={phoneUrl}
+            onClick={() =>
+              trackEvent('call', {
+                id: property.id,
+                title: property.title,
+                slug: property.slug,
+                type: property.type,
+              })
+            }
             className="flex items-center justify-center gap-1 sm:gap-1.5 py-2.5 px-1.5 sm:px-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 hover:bg-slate-50 active:scale-95 transition-all text-center min-w-0"
             title="Call Agent"
           >
@@ -241,6 +250,14 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              trackEvent('whatsapp', {
+                id: property.id,
+                title: property.title,
+                slug: property.slug,
+                type: property.type,
+              })
+            }
             className="flex items-center justify-center gap-1 sm:gap-1.5 py-2.5 px-1.5 sm:px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white shadow-sm hover:shadow active:scale-95 transition-all text-center min-w-0"
             title="WhatsApp Inquiry"
           >

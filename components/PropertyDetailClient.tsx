@@ -24,6 +24,7 @@ import { getPropertyById, getPropertyBySlug, submitInquiry } from '@/lib/db';
 import { Property } from '@/lib/types';
 import { formatPKRPrice } from '@/lib/utils';
 import { parsePropertySpecs } from '@/lib/specs-helper';
+import { trackEvent } from '@/lib/analytics';
 import PropertyMapBox from '@/components/PropertyMapBox';
 import SharePropertyButton from '@/components/SharePropertyButton';
 
@@ -81,6 +82,12 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
         }
         if (found) {
           setProperty(found);
+          trackEvent('view', {
+            id: found.id,
+            title: found.title,
+            slug: found.slug,
+            type: found.type,
+          });
           setSelectedImage(found.thumbnail_url || (found.images && found.images[0]) || '');
           const ytEmbed = getYouTubeEmbedUrl(found.youtube_url);
           if (ytEmbed) {
@@ -535,6 +542,14 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent('whatsapp', {
+                    id: property.id,
+                    title: property.title,
+                    slug: property.slug,
+                    type: property.type,
+                  })
+                }
                 className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -543,6 +558,14 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
 
               <a
                 href={phoneUrl}
+                onClick={() =>
+                  trackEvent('call', {
+                    id: property.id,
+                    title: property.title,
+                    slug: property.slug,
+                    type: property.type,
+                  })
+                }
                 className="w-full py-3 px-4 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50 font-bold text-xs flex items-center justify-center gap-2 transition-all"
               >
                 <Phone className="w-4 h-4 text-brand-gold-600" />

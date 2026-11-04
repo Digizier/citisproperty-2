@@ -129,3 +129,43 @@ export interface PropertyFilter {
   page?: number;
   limit?: number;
 }
+
+export interface PropertyAnalyticsRecord {
+  id: string;
+  date: string;
+  day: number;
+  month_key: string;
+  property_id: string;
+  property_title: string;
+  property_slug?: string;
+  property_type?: string;
+  views: number;
+  whatsapp_clicks: number;
+  call_clicks: number;
+  updated_at?: string;
+}
+
+export interface AnalyticsSummary {
+  totalViews: number;
+  totalWhatsApp: number;
+  totalCalls: number;
+  currentMonth: string;
+  records: PropertyAnalyticsRecord[];
+  dailyChart: {
+    day: number;
+    date: string;
+    views: number;
+    whatsapp: number;
+    calls: number;
+  }[];
+  topProperties: {
+    property_id: string;
+    property_title: string;
+    property_slug?: string;
+    property_type?: string;
+    views: number;
+    whatsapp: number;
+    calls: number;
+    totalEngagement: number;
+  }[];
+}
