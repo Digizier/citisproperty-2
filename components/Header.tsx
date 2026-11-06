@@ -50,7 +50,7 @@ export default function Header() {
               Official Dealer: <strong className="text-white">{settings?.site_name || 'Property Bank Real Estate'}</strong>
             </span>
             <div className="flex items-center gap-4">
-              {(settings?.phones || '03218653500, 03028658450')
+              {(settings?.phones || '0302-8658450, 0321-8653500')
                 .split(',')
                 .map((phone) => phone.trim())
                 .filter(Boolean)
@@ -78,7 +78,7 @@ export default function Header() {
               <span>Review on Google</span>
             </a>
             <a
-              href={settings?.google_maps_url || 'https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6'}
+              href={settings?.google_maps_url || 'https://share.google/Veaql80VOjBuNszbc'}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:text-white transition-colors"
@@ -87,7 +87,7 @@ export default function Header() {
               <span>Office Location</span>
             </a>
             <a
-              href={settings?.facebook_url || 'https://www.facebook.com/share/1EM79fibhT/'}
+              href={settings?.facebook_url || 'https://www.facebook.com/Asifcitihousing'}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"

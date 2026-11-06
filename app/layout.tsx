@@ -4,18 +4,23 @@ import LayoutShell from '@/components/LayoutShell';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://citisproperty.com'),
-  title: 'City Housing (Pvt) Ltd - Property Bank Real Estate | citisproperty.com',
+  title: 'Property Bank Real Estate | Authorized Citi Housing Faisalabad Dealers | citisproperty.com',
   description:
-    'Official authorized real estate dealership for Citi Housing Faisalabad (Sargodha & Samundri Road), Gujranwala, Sialkot, Jhelum. Buy, sell, and rent luxury homes, residential plots, and commercial properties.',
+    'Official authorized real estate dealership for Citi Housing Faisalabad (Samundri Road & Sargodha Road), Gujranwala, Sialkot, and Jhelum. Buy, sell, and invest in verified residential plots, luxury designer houses, and commercial properties with Property Bank Real Estate.',
   keywords: [
+    'Property Bank Real Estate',
+    'Property Bank Real Estate Faisalabad',
     'Citi Housing',
     'City Housing',
-    'Property Bank Real Estate',
     'Citi Housing Faisalabad',
-    'Citi Housing Sargodha Road',
     'Citi Housing Samundri Road',
+    'Citi Housing Sargodha Road',
+    'Real Estate Agency Faisalabad',
+    'Property Dealer Citi Housing Faisalabad',
+    'Plots for sale Citi Housing Samundri Road',
     'Plots in Faisalabad',
     'Houses for sale Faisalabad',
+    'Best Property Dealer Faisalabad',
     'citisproperty.com',
   ],
   alternates: {
@@ -37,8 +42,9 @@ export const metadata: Metadata = {
     apple: '/favicon.png',
   },
   openGraph: {
-    title: 'City Housing (Pvt) Ltd - Property Bank Real Estate',
-    description: 'Pakistan premier real estate portal for Citi Housing developments and luxury investments.',
+    title: 'Property Bank Real Estate | Authorized Citi Housing Faisalabad Dealers',
+    description:
+      'Official authorized real estate dealership for Citi Housing Faisalabad (Samundri Road & Sargodha Road). Verified plots, luxury designer villas, and high-yield commercial investments.',
     url: 'https://citisproperty.com',
     siteName: 'citisproperty.com',
     images: [
@@ -46,7 +52,7 @@ export const metadata: Metadata = {
         url: '/logo.png',
         width: 512,
         height: 512,
-        alt: 'City Housing (Pvt) Ltd Logo',
+        alt: 'Property Bank Real Estate - Citi Housing Faisalabad Logo',
       },
     ],
     locale: 'en_PK',
@@ -65,10 +71,13 @@ const structuredSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'RealEstateAgent',
+      '@type': ['RealEstateAgent', 'LocalBusiness'],
       '@id': 'https://citisproperty.com/#realestateagent',
-      name: 'Property Bank Real Estate',
+      name: 'Property Bank Real Estate Faisalabad',
+      legalName: 'Property Bank Real Estate',
       alternateName: [
+        'Property Bank Real Estate',
+        'Citi Housing Authorized Dealer - Property Bank',
         'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
         'citisproperty.com',
       ],
@@ -76,14 +85,14 @@ const structuredSchema = {
       logo: 'https://citisproperty.com/logo.png',
       image: 'https://citisproperty.com/logo.png',
       description:
-        'Official authorized real estate dealership for Citi Housing developments across Pakistan including Faisalabad (Sargodha Road & Samundri Road), Gujranwala, Sialkot, and Jhelum. Buy, sell, and invest in verified residential plots, luxury designer houses, and commercial plots.',
-      telephone: '+923218653500',
+        'Official authorized real estate dealership for Citi Housing developments across Pakistan including Faisalabad (Samundri Road & Sargodha Road), Gujranwala, Sialkot, and Jhelum. Buy, sell, and invest in verified residential plots, luxury designer houses, and commercial plots with Property Bank Real Estate.',
+      telephone: '+923028658450',
       priceRange: 'PKR 3,500,000 - PKR 150,000,000',
       currenciesAccepted: 'PKR',
       paymentAccepted: 'Cash, Bank Transfer, Pay Order',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Citi Housing, Sargodha Road & Samundri Road',
+        streetAddress: 'Office 11-AA, Main Commercial Market, Citi Housing, Samundri Road',
         addressLocality: 'Faisalabad',
         addressRegion: 'Punjab',
         postalCode: '38000',
@@ -91,8 +100,8 @@ const structuredSchema = {
       },
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: 31.4504,
-        longitude: 73.135,
+        latitude: 31.3325,
+        longitude: 73.0488,
       },
       openingHoursSpecification: [
         {
@@ -107,13 +116,25 @@ const structuredSchema = {
             'Sunday',
           ],
           opens: '09:00',
-          closes: '21:00',
+          closes: '22:00',
         },
       ],
+      hasMap: 'https://share.google/Veaql80VOjBuNszbc',
       sameAs: [
-        'https://www.facebook.com/share/1EM79fibhT/',
+        'https://share.google/Veaql80VOjBuNszbc',
         'https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6',
+        'https://www.facebook.com/Asifcitihousing',
+        'https://www.facebook.com/share/1EM79fibhT/',
+        'https://wa.me/923028658450',
         'https://wa.me/923218653500',
+      ],
+      areaServed: [
+        { '@type': 'AdministrativeArea', name: 'Citi Housing Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'Citi Housing Samundri Road, Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'Citi Housing Sargodha Road, Faisalabad' },
+        { '@type': 'City', name: 'Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'Wapda City, Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'Eden Valley, Faisalabad' },
       ],
     },
     {
@@ -155,7 +176,7 @@ const structuredSchema = {
           name: 'How can I contact Property Bank Real Estate for Citi Housing booking and inquiries?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'You can call or message on WhatsApp directly at +92-321-8653500 or +92-322-2685868, or visit citisproperty.com to explore 100% verified listings.',
+            text: 'You can call or message on WhatsApp directly at +92-302-8658450 or +92-321-8653500, or visit citisproperty.com to explore 100% verified listings.',
           },
         },
       ],

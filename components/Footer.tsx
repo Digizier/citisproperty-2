@@ -166,7 +166,7 @@ export default function Footer() {
             <div className="flex items-start gap-3 text-xs text-slate-400">
               <MapPin className="w-4 h-4 text-brand-gold-500 flex-shrink-0 mt-0.5" />
               <span>
-                {settings?.address || 'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan'}
+                {settings?.address || 'Office 11-AA, Main Commercial Market, Citi Housing Samundri Road, Faisalabad (Head Office: Main Sargodha Road Opposite Allied Bank, Citi Housing, Faisalabad)'}
               </span>
             </div>
 
@@ -175,7 +175,7 @@ export default function Footer() {
               <div className="space-x-2">
                 {(settings?.phones
                   ? settings.phones.split(/[,/]/).map((s) => s.trim()).filter(Boolean)
-                  : ['0321-8653500', '0302-8658450']
+                  : ['0302-8658450', '0321-8653500', '0321-9892535']
                 ).map((p: string, idx: number, arr: string[]) => (
                   <React.Fragment key={idx}>
                     <a href={`tel:${p.replace(/[^0-9+]/g, '')}`} className="hover:text-white transition-colors">
@@ -196,7 +196,7 @@ export default function Footer() {
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs">
               <a
-                href={settings?.google_maps_url || "https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6"}
+                href={settings?.google_maps_url || "https://share.google/Veaql80VOjBuNszbc"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
@@ -205,7 +205,7 @@ export default function Footer() {
                 <span>Google Maps</span>
               </a>
               <a
-                href={settings?.facebook_url || "https://www.facebook.com/share/1EM79fibhT/"}
+                href={settings?.facebook_url || "https://www.facebook.com/Asifcitihousing"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"

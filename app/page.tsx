@@ -124,13 +124,13 @@ export default function HomePage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
-            Search Luxury Living in{' '}
+            Properties in{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-brand-gold-400 to-yellow-200">
-              Citi Housing
+              Citi Housing Faisalabad
             </span>
           </h1>
           <p className="text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-10 font-medium">
-            Explore 100% verified plots, designer villas, and high-yield commercial shops across Faisalabad, Gujranwala, Sialkot, and Jhelum.
+            Property Bank Real Estate — Official Authorized Dealer for Citi Housing (Samundri Road &amp; Sargodha Road). Explore 100% verified plots, luxury villas, and prime commercial investments.
           </p>
 
           {/* Zameen-Style Search Box */}
