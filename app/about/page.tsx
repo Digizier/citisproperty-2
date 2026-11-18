@@ -50,8 +50,11 @@ export default function AboutPage() {
 
           <div className="relative rounded-2xl overflow-hidden h-72 sm:h-80 shadow-md">
             <img
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop"
+              src="/images/sargodha-road.webp"
               alt="Citi Housing Luxury Living"
+              width={800}
+              height={450}
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </div>

@@ -10,6 +10,12 @@ import {
   Search,
   X,
   RotateCcw,
+  ShieldCheck,
+  Clock,
+  MapPin,
+  CheckCircle2,
+  Building2,
+  Sparkles,
 } from 'lucide-react';
 import { getProperties, getDistinctPropertyFilterOptions } from '@/lib/db';
 import { Property, PropertyPurpose, PropertyType } from '@/lib/types';
@@ -17,6 +23,19 @@ import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
 import SearchableSelect from '@/components/SearchableSelect';
 import { PAKISTAN_CITIES, PROPERTY_TYPES } from '@/lib/constants';
+
+function getCategorySEOIntro(type: string, purpose: string, city: string): string {
+  if (purpose === 'rent') {
+    return `Looking for verified houses, portions, or commercial spaces for rent in ${city}? Citi Housing developments provide an elite, gated community lifestyle with 24/7 surveillance, underground electrification, continuous water filtration, and family parks. Property Bank Real Estate connects tenants and overseas property owners with transparent rental agreements, genuine market valuations, and rapid possession handover across prime residential sectors in ${city}.`;
+  }
+  if (type === 'Plots') {
+    return `Discover authentic on-ground and booking file residential plots in ${city} with Property Bank Real Estate. We provide 100% verified documentation for 5 Marla, 10 Marla, 1 Kanal, and 2 Kanal plots directly confirmed with developer records. Citi Housing ${city} features state-of-the-art underground utilities, modern sewerage systems, wide carpeted boulevards, and commercial hubs, making it one of the highest-yielding real estate investments in Punjab.`;
+  }
+  if (type === 'Commercial') {
+    return `Explore high-yield commercial shops, corporate offices, and plaza plots in ${city}. With prime locations in Citi Gold Mark, Main Boulevard, and civic commercial zones, these properties cater to high footfall from thousands of resident families. Property Bank Real Estate facilitates direct transfers, clean title verification, and attractive rental yield opportunities for investors in ${city}.`;
+  }
+  return `Browse authentic, verified real estate listings in ${city} with Property Bank Real Estate — official authorized dealership for Citi Housing. Explore 5 Marla, 10 Marla, and 1 Kanal brand-new designer houses, luxury villas, and prime plots with ready possession. All property files are physically verified at the head office to guarantee 100% secure, transparent transactions.`;
+}
 
 interface PropertyListContentProps {
   initialPurpose?: PropertyPurpose;
@@ -176,6 +195,25 @@ export default function PropertyListContent({
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Reset All</span>
         </button>
+      </div>
+
+      {/* Rich Introductory Overview (SEO & Area Highlights) */}
+      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm text-xs sm:text-sm text-slate-600 leading-relaxed space-y-3">
+        <p>{getCategorySEOIntro(type, purpose, city)}</p>
+        <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-brand-gold-800 pt-1 border-t border-slate-100">
+          <span className="flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>100% Verified Developer Documentation</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Clock className="w-4 h-4 text-brand-gold-600" />
+            <span>Open 24/7 Helpline: +92 321 8653500</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <MapPin className="w-4 h-4 text-red-500" />
+            <span>Citi Housing Faisalabad (Sargodha &amp; Samundri Road)</span>
+          </span>
+        </div>
       </div>
 
       {/* HOME-SCREEN STYLE FILTER & SEARCH CARD (RESPONSIVE FOR MOBILE, TABLET & DESKTOP) */}
@@ -490,6 +528,54 @@ export default function PropertyListContent({
             </div>
           </div>
         )}
+      </section>
+
+      {/* City & Category Property Guide / FAQs */}
+      <section className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm space-y-6">
+        <div className="border-b border-slate-100 pb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-800 text-[11px] font-extrabold uppercase tracking-wider mb-2">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Buyer &amp; Tenant Advisory</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            Frequently Asked Questions &amp; Area Insights — {city}
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            Essential facts, documentation guidelines, and infrastructure highlights for {type || 'Properties'} in {city}.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-600">
+          <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+            <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              How are property files verified?
+            </h3>
+            <p className="leading-relaxed">
+              Every plot or house file listed with Property Bank Real Estate undergoes direct verification with Citi Housing Head Office records, ensuring clean titles, zero encumbrances, and valid ownership before transfer.
+            </p>
+          </div>
+
+          <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+            <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              What plot sizes are available in {city}?
+            </h3>
+            <p className="leading-relaxed">
+              Citi Housing offers 5 Marla (25x45 ft), 10 Marla (35x65 ft), 1 Kanal (50x90 ft), and 2 Kanal residential plots, as well as 4 to 8 Marla commercial plots in Citi Gold Mark commercial avenues.
+            </p>
+          </div>
+
+          <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+            <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              Can Overseas Pakistanis buy or rent remotely?
+            </h3>
+            <p className="leading-relaxed">
+              Yes. Our dedicated Overseas Desk provides video walkthroughs, biometric assistance, Power of Attorney facilitation, and secure bank pay orders to ensure complete peace of mind.
+            </p>
+          </div>
+        </div>
       </section>
     </div>
   );

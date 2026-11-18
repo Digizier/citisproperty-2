@@ -13,7 +13,7 @@ export function generateInvoiceHtml(
 
   const siteName =
     settings?.site_name || 'Citi Housing (Pvt) Ltd — Property Bank Real Estate';
-  const phones = settings?.phones || '03218653500, 03028658450';
+  const phones = settings?.phones || '03218653500';
   const whatsapp = settings?.whatsapp || '923218653500';
   const address =
     settings?.address ||

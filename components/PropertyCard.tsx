@@ -128,10 +128,16 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         )}
 
-        <Link href={`/property/${property.slug || property.id}`} prefetch={false}>
+        <Link
+          href={`/property/${property.slug || property.id}`}
+          prefetch={false}
+          aria-label={`View details of ${property.title}`}
+        >
           <img
             src={property.thumbnail_url || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop'}
             alt={property.title}
+            width={400}
+            height={224}
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
@@ -218,6 +224,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 type: property.type,
               })
             }
+            aria-label={`Call Property Bank agent about ${property.title}`}
             className="flex items-center justify-center gap-1 sm:gap-1.5 py-2.5 px-1.5 sm:px-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 hover:bg-slate-50 active:scale-95 transition-all text-center min-w-0"
             title="Call Agent"
           >
@@ -227,6 +234,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <button
             type="button"
             onClick={handleShare}
+            aria-label={`Share ${property.title}`}
             className={`flex items-center justify-center gap-1 sm:gap-1.5 py-2.5 px-1.5 sm:px-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center min-w-0 cursor-pointer ${
               copied
                 ? 'bg-emerald-600 text-white shadow-sm'
@@ -258,6 +266,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 type: property.type,
               })
             }
+            aria-label={`Inquire about ${property.title} on WhatsApp`}
             className="flex items-center justify-center gap-1 sm:gap-1.5 py-2.5 px-1.5 sm:px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white shadow-sm hover:shadow active:scale-95 transition-all text-center min-w-0"
             title="WhatsApp Inquiry"
           >

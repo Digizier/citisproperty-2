@@ -108,11 +108,17 @@ export default function HomePage() {
       <section className="relative z-20 min-h-[580px] lg:min-h-[640px] flex items-center justify-center bg-slate-950 pb-16 lg:pb-24">
         {/* Background Image with Dark Vignette */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1920&auto=format&fit=crop"
-            alt="Luxury Citi Housing Real Estate"
-            className="w-full h-full object-cover object-center opacity-30"
-          />
+          <picture>
+            <source media="(max-width: 640px)" srcSet="/images/hero-mobile.webp" type="image/webp" />
+            <img
+              src="/images/hero.webp"
+              alt="Luxury Citi Housing Real Estate Faisalabad"
+              width={1200}
+              height={675}
+              fetchPriority="high"
+              className="w-full h-full object-cover object-center opacity-30"
+            />
+          </picture>
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40" />
         </div>
 
@@ -417,8 +423,11 @@ export default function HomePage() {
             <div className="group bg-slate-800/80 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-gold-500/40 transition-all">
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop"
+                  src="/images/sargodha-road.webp"
                   alt="Citi Housing Faisalabad Sargodha Road"
+                  width={600}
+                  height={338}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-3 left-3 bg-gradient-to-r from-brand-gold-600 to-amber-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded shadow-sm">
@@ -443,8 +452,11 @@ export default function HomePage() {
             <div className="group bg-slate-800/80 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-gold-500/40 transition-all">
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop"
+                  src="/images/samundri-road.webp"
                   alt="Citi Housing Samundri Road Faisalabad"
+                  width={600}
+                  height={338}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded">
@@ -469,8 +481,11 @@ export default function HomePage() {
             <div className="group bg-slate-800/80 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-gold-500/40 transition-all">
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1577495508048-b635879837f1?q=80&w=800&auto=format&fit=crop"
+                  src="/images/multi-city.webp"
                   alt="Citi Housing Gujranwala & Sialkot"
+                  width={600}
+                  height={338}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-3 left-3 bg-amber-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded">
@@ -601,16 +616,18 @@ export default function HomePage() {
               href="https://g.page/r/CWPTsi4M7yUMEBE/review"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Post a verified review for Property Bank Real Estate on Google"
               className="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-lg transition-all"
             >
               Post a Review on Google
             </a>
             <a
-              href="tel:03218653500"
+              href="tel:+923218653500"
+              aria-label="Call Property Bank Real Estate at +92 321 8653500"
               className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-all flex items-center gap-2"
             >
               <Phone className="w-3.5 h-3.5 text-brand-gold-400" />
-              <span>Call: 0321-8653500</span>
+              <span>Call: +92 321 8653500</span>
             </a>
           </div>
         </div>

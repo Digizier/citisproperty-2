@@ -86,7 +86,7 @@ const structuredSchema = {
       image: 'https://citisproperty.com/logo.png',
       description:
         'Official authorized real estate dealership for Citi Housing developments across Pakistan including Faisalabad (Samundri Road & Sargodha Road), Gujranwala, Sialkot, and Jhelum. Buy, sell, and invest in verified residential plots, luxury designer houses, and commercial plots with Property Bank Real Estate.',
-      telephone: '+92 302 8658450',
+      telephone: '+92 321 8653500',
       priceRange: 'PKR 3,500,000 - PKR 150,000,000',
       currenciesAccepted: 'PKR',
       paymentAccepted: 'Cash, Bank Transfer, Pay Order',
@@ -126,7 +126,6 @@ const structuredSchema = {
         'https://share.google/Veaql80VOjBuNszbc',
         'https://www.facebook.com/Asifcitihousing',
         'https://www.facebook.com/share/1EM79fibhT/',
-        'https://wa.me/923028658450',
         'https://wa.me/923218653500',
       ],
       areaServed: [
@@ -177,7 +176,7 @@ const structuredSchema = {
           name: 'How can I contact Property Bank Real Estate for Citi Housing booking and inquiries?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'You can call or message on WhatsApp directly at +92-302-8658450 or +92-321-8653500, or visit citisproperty.com to explore 100% verified listings.',
+            text: 'You can call or message on WhatsApp directly at +92-321-8653500, or visit citisproperty.com to explore 100% verified listings.',
           },
         },
       ],

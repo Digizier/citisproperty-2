@@ -41,7 +41,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   id: 'default',
   site_name: 'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
   tagline: "Pakistan's Most Trusted Luxury Living & Prime Real Estate Dealership",
-  phones: '03218653500, 03028658450',
+  phones: '03218653500',
   whatsapp: '923218653500',
   email: 'info@citisproperty.com',
   address: 'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan',

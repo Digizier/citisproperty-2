@@ -22,6 +22,7 @@ import AnnouncementBanner from './AnnouncementBanner';
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [buyDropdownOpen, setBuyDropdownOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
@@ -50,14 +51,15 @@ export default function Header() {
               Official Dealer: <strong className="text-white">{settings?.site_name || 'Property Bank Real Estate'}</strong>
             </span>
             <div className="flex items-center gap-4">
-              {(settings?.phones || '0302-8658450, 0321-8653500')
+              {(settings?.phones || '+92 321 8653500')
                 .split(',')
                 .map((phone) => phone.trim())
                 .filter(Boolean)
                 .map((phone, idx) => (
                   <a
                     key={idx}
-                    href={`tel:${phone.replace(/[^0-9]/g, '')}`}
+                    href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
+                    aria-label={`Call Property Bank Real Estate at ${phone}`}
                     className="flex items-center gap-1.5 hover:text-white transition-colors"
                   >
                     <Phone className="w-3 h-3 text-brand-gold-400" />
@@ -72,15 +74,17 @@ export default function Header() {
               href={settings?.google_review_url || 'https://g.page/r/CWPTsi4M7yUMEBE/review'}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Review Property Bank Real Estate on Google"
               className="flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold transition-colors"
             >
               <Star className="w-3.5 h-3.5 fill-amber-400" />
               <span>Review on Google</span>
             </a>
             <a
-              href={settings?.google_maps_url || 'https://share.google/Veaql80VOjBuNszbc'}
+              href={settings?.google_maps_url || 'https://www.google.com/maps?cid=875368538195546979'}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="View Property Bank Real Estate Office Location on Google Maps"
               className="flex items-center gap-1 hover:text-white transition-colors"
             >
               <MapPin className="w-3 h-3 text-red-400" />
@@ -90,6 +94,7 @@ export default function Header() {
               href={settings?.facebook_url || 'https://www.facebook.com/Asifcitihousing'}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Visit Property Bank Real Estate on Facebook"
               className="hover:text-white transition-colors"
             >
               Facebook
@@ -105,12 +110,15 @@ export default function Header() {
           <Link
             href="/"
             prefetch={false}
+            aria-label="Property Bank Real Estate Homepage"
             className="flex items-center gap-2 sm:gap-3 group min-w-0 flex-shrink"
           >
             <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex-shrink-0 transition-transform group-hover:scale-105">
               <img
                 src="/logo.png"
                 alt="City Housing (Pvt) Ltd - Property Bank Real Estate Logo"
+                width={56}
+                height={56}
                 className="w-full h-full object-contain"
               />
             </div>
@@ -181,6 +189,58 @@ export default function Header() {
                   >
                     <span>Flats & Apartments</span>
                     <span className="text-[10px] text-slate-400">Luxury Towers</span>
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Services Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setServicesDropdownOpen(true)}
+              onMouseLeave={() => setServicesDropdownOpen(false)}
+            >
+              <button
+                type="button"
+                className="flex items-center gap-1 px-3 py-2 rounded-lg hover:text-brand-gold-600 hover:bg-slate-50 transition-colors"
+              >
+                <span>Services</span>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              </button>
+
+              {servicesDropdownOpen && (
+                <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                  <Link
+                    href="/commercial-real-estate-agency"
+                    prefetch={false}
+                    className="flex flex-col px-4 py-2 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
+                  >
+                    <span className="font-bold">Commercial Real Estate Agency</span>
+                    <span className="text-[10px] text-slate-400">Shops, Plazas & Citi Gold Mark</span>
+                  </Link>
+                  <Link
+                    href="/industrial-real-estate-agency"
+                    prefetch={false}
+                    className="flex flex-col px-4 py-2 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
+                  >
+                    <span className="font-bold">Industrial Real Estate Agency</span>
+                    <span className="text-[10px] text-slate-400">Industrial Plots, Warehousing & Factories</span>
+                  </Link>
+                  <Link
+                    href="/property-management"
+                    prefetch={false}
+                    className="flex flex-col px-4 py-2 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
+                  >
+                    <span className="font-bold">Property Management Company</span>
+                    <span className="text-[10px] text-slate-400">Overseas Owner Services & Maintenance</span>
+                  </Link>
+                  <Link
+                    href="/real-estate-rental-agency"
+                    prefetch={false}
+                    className="flex flex-col px-4 py-2 text-xs text-slate-700 hover:bg-brand-gold-50 hover:text-brand-gold-800 font-medium"
+                  >
+                    <span className="font-bold">Real Estate Rental Agency</span>
+                    <span className="text-[10px] text-slate-400">Verified Tenants & Residential Leases</span>
                   </Link>
                 </div>
               )}
@@ -284,6 +344,7 @@ export default function Header() {
               href={`https://wa.me/${(settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Chat with Property Bank Real Estate on WhatsApp"
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-colors"
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
@@ -293,6 +354,7 @@ export default function Header() {
             <Link
               href="/post-listing"
               prefetch={false}
+              aria-label="Post Free Property Listing on Property Bank"
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 text-xs font-black shadow-md shadow-brand-gold-500/20 active:scale-95 transition-all"
             >
               <PlusCircle className="w-4 h-4" />
@@ -322,6 +384,7 @@ export default function Header() {
             href="/post-listing"
             prefetch={false}
             onClick={() => setMobileMenuOpen(false)}
+            aria-label="Post Property for Sale or Rent"
             className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-brand-gold-500/30 text-white shadow-md active:scale-98 transition-all"
           >
             <div className="flex items-center gap-2.5">
@@ -347,14 +410,15 @@ export default function Header() {
               </span>
             </div>
             <div className="flex flex-wrap gap-3 font-semibold text-brand-gold-700 pt-1">
-              {(settings?.phones || '03218653500, 03028658450')
+              {(settings?.phones || '+92 321 8653500')
                 .split(',')
                 .map((phone) => phone.trim())
                 .filter(Boolean)
                 .map((phone, idx) => (
                   <a
                     key={idx}
-                    href={`tel:${phone.replace(/[^0-9]/g, '')}`}
+                    href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
+                    aria-label={`Call Property Bank Real Estate at ${phone}`}
                     className="flex items-center gap-1 hover:underline"
                   >
                     <Phone className="w-3 h-3 text-brand-gold-600" /> {phone}
@@ -420,6 +484,46 @@ export default function Header() {
             >
               Society Maps & Plot Finder
             </Link>
+          </div>
+
+          <div className="pt-2 border-t border-slate-100">
+            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">
+              Our Services
+            </div>
+            <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+              <Link
+                href="/commercial-real-estate-agency"
+                prefetch={false}
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 block"
+              >
+                Commercial Agency
+              </Link>
+              <Link
+                href="/industrial-real-estate-agency"
+                prefetch={false}
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 block"
+              >
+                Industrial Agency
+              </Link>
+              <Link
+                href="/property-management"
+                prefetch={false}
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 block"
+              >
+                Property Management
+              </Link>
+              <Link
+                href="/real-estate-rental-agency"
+                prefetch={false}
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 block"
+              >
+                Rental Agency
+              </Link>
+            </div>
           </div>
 
           <div className="pt-2 border-t border-slate-100">

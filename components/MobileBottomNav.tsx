@@ -77,6 +77,7 @@ export default function MobileBottomNav() {
                 href={item.href}
                 prefetch={false}
                 onClick={handleNavClick}
+                aria-label="Post Property Listing"
                 className="flex flex-col items-center -mt-6 group focus:outline-none"
               >
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-gold-600 via-amber-500 to-amber-400 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/30 ring-4 ring-white active:scale-90 transition-transform">
@@ -96,6 +97,7 @@ export default function MobileBottomNav() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Contact 24/7 Helpline on WhatsApp"
                 className="flex flex-col items-center py-1 px-2 text-slate-500 hover:text-emerald-600 active:scale-95 transition-all focus:outline-none"
               >
                 <Icon className="w-5 h-5 mb-0.5 text-emerald-600" />
@@ -112,6 +114,7 @@ export default function MobileBottomNav() {
               href={item.href}
               prefetch={false}
               onClick={handleNavClick}
+              aria-label={`Navigate to ${item.name}`}
               className={`flex flex-col items-center py-1 px-2 transition-all active:scale-95 focus:outline-none ${
                 item.isActive
                   ? 'text-brand-gold-600 font-black'

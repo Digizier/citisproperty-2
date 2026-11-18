@@ -181,7 +181,7 @@ async function setup() {
       'default',
       'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
       'Pakistan''s Most Trusted Luxury Living & Prime Real Estate Dealership',
-      '03218653500, 03028658450',
+      '03218653500',
       '923218653500',
       'info@citisproperty.com',
       'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan',

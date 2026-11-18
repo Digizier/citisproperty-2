@@ -22,11 +22,11 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-brand-gold-200 selection:text-brand-gold-900">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-brand-gold-200 selection:text-brand-gold-900 overflow-x-hidden w-full max-w-full">
       <ScrollToTop />
       <Header />
       {/* pb-20 on mobile to leave clean breathing room above the fixed Bottom Navigation Bar */}
-      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <main className="flex-1 pb-20 md:pb-0 overflow-x-hidden w-full max-w-full">{children}</main>
       <Footer />
       <MobileBottomNav />
     </div>

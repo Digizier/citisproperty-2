@@ -12,6 +12,8 @@ import {
   ShieldCheck,
   Building,
   Lock,
+  Clock,
+  Briefcase,
 } from 'lucide-react';
 import { getSiteSettings, DB_EVENTS } from '@/lib/db';
 import { SiteSettings } from '@/lib/types';
@@ -34,14 +36,16 @@ export default function Footer() {
     <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800/80">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-12 border-b border-slate-800/80">
           {/* Brand Info */}
-          <div className="space-y-4">
+          <div className="space-y-4 lg:col-span-1">
             <div className="flex items-center gap-3">
               <div className="relative w-14 h-14 bg-white/5 rounded-2xl p-1 border border-brand-gold-500/30 flex-shrink-0">
                 <img
                   src="/logo.png"
                   alt="City Housing (Pvt) Ltd - Property Bank Real Estate"
+                  width={56}
+                  height={56}
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -62,7 +66,7 @@ export default function Footer() {
             {/* Google Review Badge */}
             <div className="bg-slate-900 p-3.5 rounded-xl border border-slate-800 space-y-2">
               <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-white">Client Satisfaction Rating</span>
+                <span className="text-white">Client Satisfaction</span>
                 <div className="flex text-amber-400">
                   {'★'.repeat(5)}
                 </div>
@@ -71,12 +75,52 @@ export default function Footer() {
                 href={settings?.google_review_url || "https://g.page/r/CWPTsi4M7yUMEBE/review"}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Leave a verified review for Property Bank Real Estate on Google"
                 className="inline-flex items-center gap-1.5 text-xs text-brand-gold-400 hover:text-brand-gold-300 font-semibold transition-colors"
               >
                 <span>Leave a Google Review</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
+          </div>
+
+          {/* Dedicated Primary Services */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+              Our Services
+            </h4>
+            <ul className="space-y-2.5 text-xs text-slate-400">
+              <li>
+                <Link href="/commercial-real-estate-agency" prefetch={false} className="hover:text-white transition-colors">
+                  Commercial Real Estate Agency
+                </Link>
+              </li>
+              <li>
+                <Link href="/industrial-real-estate-agency" prefetch={false} className="hover:text-white transition-colors">
+                  Industrial Real Estate Agency
+                </Link>
+              </li>
+              <li>
+                <Link href="/property-management" prefetch={false} className="hover:text-white transition-colors">
+                  Property Management Company
+                </Link>
+              </li>
+              <li>
+                <Link href="/real-estate-rental-agency" prefetch={false} className="hover:text-white transition-colors">
+                  Real Estate Rental Agency
+                </Link>
+              </li>
+              <li>
+                <Link href="/new-projects" prefetch={false} className="hover:text-white transition-colors">
+                  Citi Housing New Projects
+                </Link>
+              </li>
+              <li>
+                <Link href="/post-listing" prefetch={false} className="hover:text-white transition-colors">
+                  Free Property Valuation &amp; Post
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Quick Real Estate Links */}
@@ -136,7 +180,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/tools/area-unit-converter" prefetch={false} className="hover:text-white transition-colors">
-                  Area Unit Converter (Marla, Kanal, Sq. Ft)
+                  Area Unit Converter (Marla, Kanal)
                 </Link>
               </li>
               <li>
@@ -171,14 +215,25 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
+              <Clock className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+              <span>
+                Hours: <strong className="text-white">Open 24 Hours / 7 Days</strong> (24/7 Client Support)
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3 text-xs text-slate-400">
               <Phone className="w-4 h-4 text-brand-gold-400 flex-shrink-0" />
               <div className="space-x-2">
                 {(settings?.phones
                   ? settings.phones.split(/[,/]/).map((s) => s.trim()).filter(Boolean)
-                  : ['0302-8658450', '0321-8653500', '0321-9892535']
+                  : ['+92 321 8653500']
                 ).map((p: string, idx: number, arr: string[]) => (
                   <React.Fragment key={idx}>
-                    <a href={`tel:${p.replace(/[^0-9+]/g, '')}`} className="hover:text-white transition-colors">
+                    <a
+                      href={`tel:${p.replace(/[^0-9+]/g, '')}`}
+                      aria-label={`Call Property Bank Real Estate at ${p}`}
+                      className="hover:text-white transition-colors"
+                    >
                       {p}
                     </a>
                     {idx < arr.length - 1 && <span className="text-slate-600"> / </span>}
@@ -189,16 +244,21 @@ export default function Footer() {
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
               <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
-              <a href={`mailto:${settings?.email || 'info@citisproperty.com'}`} className="hover:text-white transition-colors">
+              <a
+                href={`mailto:${settings?.email || 'info@citisproperty.com'}`}
+                aria-label="Send email to Property Bank Real Estate"
+                className="hover:text-white transition-colors"
+              >
                 {settings?.email || 'info@citisproperty.com'}
               </a>
             </div>
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs">
               <a
-                href={settings?.google_maps_url || "https://share.google/Veaql80VOjBuNszbc"}
+                href={settings?.google_maps_url || "https://www.google.com/maps?cid=875368538195546979"}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="View Property Bank Real Estate on Google Maps CID 875368538195546979"
                 className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
               >
                 <MapPin className="w-3 h-3 text-red-400" />
@@ -208,6 +268,7 @@ export default function Footer() {
                 href={settings?.facebook_url || "https://www.facebook.com/Asifcitihousing"}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Property Bank Real Estate on Facebook"
                 className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
               >
                 <span>Facebook</span>
@@ -233,6 +294,7 @@ export default function Footer() {
             <Link
               href="/admin"
               prefetch={false}
+              aria-label="Access Admin Portal"
               className="hover:text-slate-400 transition-colors flex items-center gap-1 text-[11px] text-slate-600 hover:text-slate-300"
               title="Admin Portal"
             >

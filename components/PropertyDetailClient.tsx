@@ -522,7 +522,13 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5 sticky top-28">
             <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
               <div className="w-14 h-14 rounded-2xl overflow-hidden bg-brand-gold-50 p-1 border border-brand-gold-300 flex-shrink-0">
-                <img src="/logo.png" alt="Property Bank" className="w-full h-full object-contain" />
+                <img
+                  src="/logo.png"
+                  alt="Property Bank Real Estate"
+                  width={56}
+                  height={56}
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-brand-gold-600 block">
@@ -542,6 +548,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Chat on WhatsApp with Property Bank agent about ${property.title}`}
                 onClick={() =>
                   trackEvent('whatsapp', {
                     id: property.id,
@@ -558,6 +565,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
 
               <a
                 href={phoneUrl}
+                aria-label={`Call Property Bank agent about ${property.title}`}
                 onClick={() =>
                   trackEvent('call', {
                     id: property.id,

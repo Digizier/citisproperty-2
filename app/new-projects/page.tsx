@@ -27,7 +27,7 @@ export default function NewProjectsPage() {
       city: 'Faisalabad',
       tagline: 'The Pioneer of Luxury Living in Manchester of Pakistan',
       status: 'Fully Operational & Inhabited',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop',
+      image: '/images/sargodha-road.webp',
       features: [
         'Citi Gold Mark Commercial Center',
         'Opera 3D Cinema & Theme Park',
@@ -43,7 +43,7 @@ export default function NewProjectsPage() {
       city: 'Faisalabad',
       tagline: 'Modern Architectural Masterpiece with Musical Dancing Fountain',
       status: 'Possession Awarded & Active Construction',
-      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1000&auto=format&fit=crop',
+      image: '/images/samundri-road.webp',
       features: [
         'Musical Dancing Fountain',
         'Central Jamia Mosque',
@@ -59,7 +59,7 @@ export default function NewProjectsPage() {
       city: 'Gujranwala',
       tagline: 'State-of-the-Art Gated Community along GT Road',
       status: 'Ready Possession',
-      image: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=1000&auto=format&fit=crop',
+      image: '/images/luxury-villas.webp',
       features: [
         'M-11 Motorway Access',
         'Citi Medicare Hospital',
@@ -75,7 +75,7 @@ export default function NewProjectsPage() {
       city: 'Sialkot',
       tagline: 'Premier Residential Community for the Export Capital',
       status: 'Rapidly Growing Community',
-      image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000&auto=format&fit=crop',
+      image: '/images/plots-land.webp',
       features: [
         'Close to Sialkot International Airport',
         'Modern Sewerage & Solar Streetlights',
@@ -91,7 +91,7 @@ export default function NewProjectsPage() {
       city: 'Jhelum',
       tagline: 'Scenic Living along the Banks of River Jhelum',
       status: 'Prime Lifestyle Destination',
-      image: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?q=80&w=1000&auto=format&fit=crop',
+      image: '/images/multi-city.webp',
       features: [
         'Scenic River View & Clean Air',
         'Underground Utilities',
@@ -124,7 +124,14 @@ export default function NewProjectsPage() {
             className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all grid grid-cols-1 lg:grid-cols-12"
           >
             <div className="lg:col-span-5 relative h-64 lg:h-auto bg-slate-900">
-              <img src={proj.image} alt={proj.name} className="w-full h-full object-cover" />
+              <img
+                src={proj.image}
+                alt={proj.name}
+                width={600}
+                height={380}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
               <span className="absolute top-4 left-4 bg-gradient-to-r from-brand-gold-600 to-amber-600 text-white text-[11px] font-black px-3.5 py-1 rounded-full shadow-md">
                 {proj.status}
               </span>

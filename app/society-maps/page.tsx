@@ -542,11 +542,11 @@ export default function SocietyMapsPage() {
 
             <div className="flex items-center gap-2 shrink-0">
               <a
-                href="tel:03028658450"
+                href="tel:03218653500"
                 className="px-5 py-3 rounded-xl bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 font-black text-xs shadow-md shadow-brand-gold-500/20 transition flex items-center gap-2"
               >
                 <Phone className="w-3.5 h-3.5" />
-                <span>Call 0302-8658450</span>
+                <span>Call 0321-8653500</span>
               </a>
             </div>
           </div>
@@ -567,7 +567,7 @@ export default function SocietyMapsPage() {
                 Principal Consultant
               </span>
               <h4 className="font-extrabold text-slate-900 text-sm">Asif Sadiq</h4>
-              <p className="text-slate-700 font-mono font-bold">0302-8658450 / 0321-8653500</p>
+              <p className="text-slate-700 font-mono font-bold">0321-8653500</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1 shadow-xs">

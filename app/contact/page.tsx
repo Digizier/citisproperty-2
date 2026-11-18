@@ -81,8 +81,8 @@ export default function ContactPage() {
     }
   };
 
-  const whatsappClean = (settings?.whatsapp || '923028658450').replace(/[^0-9]/g, '');
-  const googleMapUrl = settings?.google_maps_url || 'https://share.google/Veaql80VOjBuNszbc';
+  const whatsappClean = (settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '');
+  const googleMapUrl = settings?.google_maps_url || 'https://www.google.com/maps?cid=875368538195546979';
   const googleReviewUrl = settings?.google_review_url || 'https://g.page/r/CWPTsi4M7yUMEBE/review';
 
   return (
@@ -126,10 +126,11 @@ export default function ContactPage() {
             <div className="pt-2 flex items-center justify-between border-t border-slate-100 text-xs">
               <span className="text-slate-500">Sales Hotline:</span>
               <a
-                href="tel:03028658450"
+                href="tel:+923218653500"
+                aria-label="Call Sales Hotline at +92 321 8653500"
                 className="font-black text-brand-gold-700 hover:underline"
               >
-                0302-8658450
+                +92 321 8653500
               </a>
             </div>
           </div>
@@ -153,10 +154,11 @@ export default function ContactPage() {
             <div className="pt-2 flex items-center justify-between border-t border-slate-100 text-xs">
               <span className="text-slate-500">Corporate Helpline:</span>
               <a
-                href="tel:03218653500"
+                href="tel:+923218653500"
+                aria-label="Call Corporate Helpline at +92 321 8653500"
                 className="font-black text-brand-gold-700 hover:underline"
               >
-                0321-8653500 / 0321-9892535
+                +92 321 8653500
               </a>
             </div>
           </div>
@@ -168,7 +170,7 @@ export default function ContactPage() {
               <span>Office Working Hours</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Monday to Sunday: <strong>09:00 AM — 10:00 PM</strong> (Open 7 Days a Week for Site Visits &amp; Transfers)
+              Monday to Sunday: <strong>Open 24 Hours / 7 Days</strong> (24/7 Advisory, Site Tour Bookings &amp; Transfers)
             </p>
 
             <div className="pt-2 flex flex-wrap gap-2.5 text-xs">
@@ -176,6 +178,7 @@ export default function ContactPage() {
                 href={googleMapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Get Google Maps directions to Property Bank Real Estate CID 875368538195546979"
                 className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black inline-flex items-center gap-1.5 shadow transition-all"
               >
                 <Navigation className="w-4 h-4 fill-slate-950" />
@@ -185,6 +188,7 @@ export default function ContactPage() {
                 href={googleReviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Review Property Bank Real Estate on Google"
                 className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold inline-flex items-center gap-1.5 transition-colors"
               >
                 <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
@@ -277,7 +281,7 @@ export default function ContactPage() {
                   <input
                     type="tel"
                     required
-                    placeholder="0302-XXXXXXX"
+                    placeholder="0321-XXXXXXX"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500"
