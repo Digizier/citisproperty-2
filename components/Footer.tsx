@@ -225,7 +225,10 @@ export default function Footer() {
               <Phone className="w-4 h-4 text-brand-gold-400 flex-shrink-0" />
               <div className="space-x-2">
                 {(settings?.phones
-                  ? settings.phones.split(/[,/]/).map((s) => s.trim()).filter(Boolean)
+                  ? settings.phones
+                      .split(/[,/]/)
+                      .map((s) => s.trim())
+                      .filter((s) => Boolean(s) && !s.includes('8658450'))
                   : ['+92 321 8653500']
                 ).map((p: string, idx: number, arr: string[]) => (
                   <React.Fragment key={idx}>

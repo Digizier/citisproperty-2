@@ -231,9 +231,18 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
     );
   }
 
+  const cleanWhatsapp =
+    property.agent_whatsapp && !property.agent_whatsapp.includes('8658450')
+      ? property.agent_whatsapp
+      : '923218653500';
+  const cleanPhone =
+    property.agent_phone && !property.agent_phone.includes('8658450')
+      ? property.agent_phone
+      : '03218653500';
+
   const whatsappMessage = `Assalam-o-Alaikum, I am inquiring about this property on citisproperty.com: "${property.title}" (Price: ${formatPKRPrice(property.price)} in ${property.location}, ${property.city}).`;
-  const whatsappUrl = `https://wa.me/${property.agent_whatsapp || '923218653500'}?text=${encodeURIComponent(whatsappMessage)}`;
-  const phoneUrl = `tel:${property.agent_phone || '03218653500'}`;
+  const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
+  const phoneUrl = `tel:${cleanPhone}`;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -577,7 +586,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 className="w-full py-3 px-4 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50 font-bold text-xs flex items-center justify-center gap-2 transition-all"
               >
                 <Phone className="w-4 h-4 text-brand-gold-600" />
-                <span>Call {property.agent_phone || '0321-8653500'}</span>
+                <span>Call {cleanPhone || '0321-8653500'}</span>
               </a>
 
               <SharePropertyButton property={property} variant="button" />

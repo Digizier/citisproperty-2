@@ -17,9 +17,18 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const cleanWhatsapp =
+    property.agent_whatsapp && !property.agent_whatsapp.includes('8658450')
+      ? property.agent_whatsapp
+      : '923218653500';
+  const cleanPhone =
+    property.agent_phone && !property.agent_phone.includes('8658450')
+      ? property.agent_phone
+      : '03218653500';
+
   const whatsappMessage = `Assalam-o-Alaikum, I am inquiring about this property on citisproperty.com: "${property.title}" (Price: ${formatPKRPrice(property.price)} in ${property.location}, ${property.city}).`;
-  const whatsappUrl = `https://wa.me/${property.agent_whatsapp || '923218653500'}?text=${encodeURIComponent(whatsappMessage)}`;
-  const phoneUrl = `tel:${property.agent_phone || '03218653500'}`;
+  const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
+  const phoneUrl = `tel:${cleanPhone}`;
 
   const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();

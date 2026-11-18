@@ -51,6 +51,37 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   admin_pin: 'asif@ciitisproperty.com_123@#',
 };
 
+export function sanitizeSiteSettings(s: any): SiteSettings {
+  if (!s) return DEFAULT_SITE_SETTINGS;
+  const phones = (s.phones || '')
+    .split(/[,/]/)
+    .map((p: string) => p.trim())
+    .filter((p: string) => !p.includes('8658450') && Boolean(p))
+    .join(', ');
+
+  const rawWhatsapp = (s.whatsapp || '').toString();
+  const whatsapp = rawWhatsapp.includes('8658450') ? '923218653500' : (rawWhatsapp || '923218653500');
+
+  return {
+    ...s,
+    phones: phones || '03218653500',
+    whatsapp,
+  };
+}
+
+export function sanitizeProperty(p: Property): Property {
+  if (!p) return p;
+  const agent_phone =
+    p.agent_phone && !p.agent_phone.includes('8658450') ? p.agent_phone : '03218653500';
+  const agent_whatsapp =
+    p.agent_whatsapp && !p.agent_whatsapp.includes('8658450') ? p.agent_whatsapp : '923218653500';
+  return {
+    ...p,
+    agent_phone,
+    agent_whatsapp,
+  };
+}
+
 /* =========================================================================
    PROPERTIES API
    ========================================================================= */
@@ -118,7 +149,7 @@ export async function getProperties(filter: PropertyFilter = {}): Promise<{
     const totalPages = Math.ceil(total / limit) || 1;
 
     return {
-      data: (data as Property[]) || [],
+      data: ((data as Property[]) || []).map(sanitizeProperty),
       total,
       page,
       totalPages,
@@ -170,7 +201,7 @@ export async function getPropertyBySlug(slug: string): Promise<Property | null> 
       .maybeSingle();
 
     if (error) throw error;
-    return (data as Property) || null;
+    return data ? sanitizeProperty(data as Property) : null;
   } catch (err) {
     console.warn('Property lookup by slug failed:', err);
     return null;
@@ -186,7 +217,7 @@ export async function getPropertyById(id: string): Promise<Property | null> {
       .maybeSingle();
 
     if (error) throw error;
-    return (data as Property) || null;
+    return data ? sanitizeProperty(data as Property) : null;
   } catch (err) {
     console.warn('Property lookup by ID failed:', err);
     return null;
@@ -201,15 +232,20 @@ export async function adminGetAllProperties(): Promise<Property[]> {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
+    const cleanProps = ((data as Property[]) || []).map(sanitizeProperty);
     if (typeof window !== 'undefined' && data) {
-      localStorage.setItem('citis_properties_cache', JSON.stringify(data));
+      localStorage.setItem('citis_properties_cache', JSON.stringify(cleanProps));
     }
-    return (data as Property[]) || [];
+    return cleanProps;
   } catch (err) {
     console.warn('Admin properties fetch error, falling back to local cache:', err);
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('citis_properties_cache');
-      if (cached) return JSON.parse(cached);
+      if (cached) {
+        try {
+          return (JSON.parse(cached) as Property[]).map(sanitizeProperty);
+        } catch {}
+      }
     }
     return [];
   }
@@ -629,15 +665,20 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       .single();
 
     if (error) throw error;
-    if (typeof window !== 'undefined' && data) {
-      localStorage.setItem('citis_settings_cache', JSON.stringify(data));
+    const cleanSettings = sanitizeSiteSettings(data);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('citis_settings_cache', JSON.stringify(cleanSettings));
     }
-    return (data as SiteSettings) || DEFAULT_SITE_SETTINGS;
+    return cleanSettings;
   } catch (err) {
     console.warn('Fetch site settings error, using fallback:', err);
     if (typeof window !== 'undefined') {
       const cached = localStorage.getItem('citis_settings_cache');
-      if (cached) return JSON.parse(cached);
+      if (cached) {
+        try {
+          return sanitizeSiteSettings(JSON.parse(cached));
+        } catch {}
+      }
     }
     return DEFAULT_SITE_SETTINGS;
   }

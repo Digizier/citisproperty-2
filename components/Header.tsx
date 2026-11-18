@@ -54,7 +54,7 @@ export default function Header() {
               {(settings?.phones || '+92 321 8653500')
                 .split(',')
                 .map((phone) => phone.trim())
-                .filter(Boolean)
+                .filter((phone) => Boolean(phone) && !phone.includes('8658450'))
                 .map((phone, idx) => (
                   <a
                     key={idx}
@@ -413,7 +413,7 @@ export default function Header() {
               {(settings?.phones || '+92 321 8653500')
                 .split(',')
                 .map((phone) => phone.trim())
-                .filter(Boolean)
+                .filter((phone) => Boolean(phone) && !phone.includes('8658450'))
                 .map((phone, idx) => (
                   <a
                     key={idx}
