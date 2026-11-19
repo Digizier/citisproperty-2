@@ -17,16 +17,16 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Real Estate Rental Agency Faisalabad | Property Bank',
+  title: 'Real Estate Rental Agency Faisalabad | Citi property Real Estate',
   description:
-    'Premier real estate rental agency in Faisalabad. Furnished luxury villas, houses & commercial shops for rent in Citi Housing. Contact us at +92 321 8653500.',
+    'Real estate rental agency in Faisalabad. Furnished luxury villas, houses & commercial shops for rent in Citi Housing. Contact us at +92 321 8653500.',
   alternates: {
     canonical: 'https://citisproperty.com/real-estate-rental-agency/',
   },
   openGraph: {
-    title: 'Real Estate Rental Agency Faisalabad | Property Bank Real Estate',
+    title: 'Real Estate Rental Agency Faisalabad | Citi property Real Estate',
     description:
-      'Premier real estate rental agency in Faisalabad. Furnished luxury villas, houses & commercial shops for rent in Citi Housing. Authorized Dealership.',
+      'Real estate rental agency in Faisalabad. Furnished luxury villas, houses & commercial shops for rent in Citi Housing Samundri Road Bypass.',
     url: 'https://citisproperty.com/real-estate-rental-agency/',
     siteName: 'citisproperty.com',
     images: ['https://citisproperty.com/logo.png'],
@@ -38,17 +38,17 @@ export const metadata: Metadata = {
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': ['RealEstateAgent', 'Service'],
-  name: 'Real Estate Rental Agency — Property Bank Real Estate',
+  name: 'Real Estate Rental Agency — Citi property Real Estate',
   serviceType: 'Real Estate Rental Agency',
   provider: {
     '@type': 'LocalBusiness',
-    name: 'Property Bank Real Estate Faisalabad',
+    name: 'Citi property Real Estate',
     telephone: '+92 321 8653500',
     url: 'https://citisproperty.com',
-    hasMap: 'https://www.google.com/maps?cid=875368538195546979',
+    hasMap: 'https://share.google/Clziqy6RnKzN8niRl',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Office 11-AA, Main Commercial Market, Citi Housing, Samundri Road',
+      streetAddress: 'Citi Housing samundri Road, Bypass',
       addressLocality: 'Faisalabad',
       addressRegion: 'Punjab',
       postalCode: '38000',
@@ -81,7 +81,7 @@ export default function RealEstateRentalAgencyPage() {
           Real Estate Rental Agency in Faisalabad
         </h1>
         <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">
-          Looking for a luxury house, furnished villa, or prime commercial shop for rent in Faisalabad? Property Bank Real Estate is your trusted rental advisory partner, providing 100% verified properties with transparent rental agreements across Citi Housing Phase 1 (Sargodha Road) and Phase 2 (Samundri Road).
+          Looking for a luxury house, furnished villa, or prime commercial shop for rent in Faisalabad? Citi property Real Estate is your trusted rental advisory partner, providing 100% verified properties with transparent rental agreements across Citi Housing Phase 1 (Sargodha Road) and Phase 2 (Samundri Road Bypass).
         </p>
       </div>
 
@@ -178,10 +178,10 @@ export default function RealEstateRentalAgencyPage() {
               Find Your Ideal Rental Home in Faisalabad
             </div>
             <div className="text-lg sm:text-xl font-black">
-              Connect with Property Bank Real Estate Rental Desk
+              Connect with Citi property Real Estate Rental Desk
             </div>
             <p className="text-xs text-slate-400">
-              Open 24/7 • Free Guided Site Tours &amp; Immediate Possession Keys
+              Open 24 Hours • Citi Housing samundri Road, Bypass, Faisalabad
             </p>
           </div>
 

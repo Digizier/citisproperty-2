@@ -104,11 +104,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: 'Property Details | Citi Housing (Pvt) Ltd - Property Bank Real Estate',
-    description: 'Explore premier luxury homes, plots, and commercial properties in Citi Housing developments.',
+    title: 'Property Details | Citi property Real Estate Faisalabad',
+    description: 'Explore premier verified plots, homes, and commercial properties with Citi property Real Estate.',
     openGraph: {
-      title: 'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
-      description: 'Pakistan premier real estate portal for Citi Housing developments and luxury investments.',
+      title: 'Citi property Real Estate Faisalabad',
+      description: 'Serving Faisalabad property market since 2018 with verified listings and transparent dealings.',
       url: 'https://citisproperty.com',
       images: [
         {

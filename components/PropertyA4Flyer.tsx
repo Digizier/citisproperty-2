@@ -131,7 +131,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
             >
               <img
                 src="/logo.png"
-                alt="Property Bank Logo"
+                alt="Citi property Real Estate Logo"
                 style={{
                   width: '42px',
                   height: '42px',
@@ -158,7 +158,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   whiteSpace: 'nowrap',
                 }}
               >
-                CITY HOUSING (PVT) LTD
+                FAISALABAD REAL ESTATE
               </span>
               <h2
                 style={{
@@ -171,7 +171,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                   whiteSpace: 'nowrap',
                 }}
               >
-                PROPERTY BANK REAL ESTATE
+                CITI PROPERTY REAL ESTATE
               </h2>
               <p
                 style={{
@@ -675,7 +675,7 @@ const PropertyA4Flyer = forwardRef<HTMLDivElement, PropertyA4FlyerProps>(
                 lineHeight: 1.3,
               }}
             >
-              {property.agent_name || 'Property Bank Real Estate'}
+              {property.agent_name || 'Citi property Real Estate'}
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '12px', fontWeight: 600, color: '#334155' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

@@ -4,16 +4,16 @@ import Link from 'next/link';
 import { Award, ShieldCheck, Users, Building, Phone, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'About Us — Property Bank Real Estate & City Housing (Pvt) Ltd',
+  title: 'About Us — Citi property Real Estate Faisalabad',
   description:
-    'Learn about Property Bank Real Estate, the premier authorized dealership dedicated to Citi Housing developments across Faisalabad, Gujranwala, Sialkot, and Jhelum.',
+    'Established on 7 February 2018, Citi property Real Estate has been serving Faisalabad’s property market, providing professional real estate guidance for residential plots, commercial properties, and luxury homes.',
   alternates: {
     canonical: 'https://citisproperty.com/about/',
   },
   openGraph: {
-    title: 'About Us — Property Bank Real Estate & City Housing (Pvt) Ltd',
+    title: 'About Us — Citi property Real Estate Faisalabad',
     description:
-      'Learn about Property Bank Real Estate, the premier authorized dealership dedicated to Citi Housing developments across Faisalabad, Gujranwala, Sialkot, and Jhelum.',
+      'Established on 7 February 2018, Citi property Real Estate has been serving Faisalabad’s property market, providing professional real estate guidance for residential plots, commercial properties, and luxury homes.',
     url: 'https://citisproperty.com/about/',
     images: ['https://citisproperty.com/logo.png'],
   },
@@ -27,10 +27,10 @@ export default function AboutPage() {
           Who We Are
         </span>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-          About Property Bank Real Estate & City Housing (Pvt) Ltd
+          About Citi property Real Estate Faisalabad
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-          The premier authorized dealership and luxury property investment house dedicated to Citi Housing developments across Pakistan.
+          Serving Faisalabad’s property market since 2018 with transparent guidance for buyers, sellers, landlords, and investors.
         </p>
       </div>
 
@@ -38,13 +38,13 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="space-y-4">
             <h2 className="text-2xl font-black text-slate-900">
-              Transforming Real Estate with Trust & Transparency
+              Transforming Real Estate with Trust &amp; Transparency Since 2018
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Property Bank Real Estate was founded with a singular objective: to eradicate ambiguity from property transactions in Pakistan. We specialize in premier developments by City Housing (Pvt) Ltd, offering authentic on-ground plots, luxury villas, and high-yield commercial properties.
+              Citi property Real Estate has been serving Faisalabad’s property market since 7 February 2018, providing professional real estate guidance for sellers, investors, landlords, and businesses. Located at Citi Housing Samundri Road Bypass, we deal in commercial, rental, and investment properties with local market knowledge and practical assistance throughout the property process.
             </p>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Whether you are an overseas Pakistani seeking safe investment in Faisalabad, Gujranwala, Sialkot, or Jhelum, or a local family building your dream home, our licensed property consultants ensure 100% legal verification and direct transfers with developer records.
+              Our team specializes in Citi Housing Faisalabad, including Blocks A, B, C, D, E, F, and G, as well as prime localities across Samundri Road, Sargodha Road, and Faisalabad. Whether you are looking for property for sale, property for rent, residential plots (5 Marla, 10 Marla, 1 Kanal), luxury houses, or commercial investment opportunities, our licensed advisors guarantee 100% legal verification and direct transfers with developer records.
             </p>
           </div>
 

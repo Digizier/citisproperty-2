@@ -242,13 +242,13 @@ export default function PostListingPage() {
       <div className="text-center max-w-2xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold-50 border border-brand-gold-200 text-brand-gold-800 text-[11px] font-black uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5 text-brand-gold-600" />
-          <span>Property Bank Real Estate — Listing Portal</span>
+          <span>Citi property Real Estate — Listing Portal</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
           Post Your Property for Sale / Rent
         </h1>
         <p className="text-xs sm:text-sm text-slate-500">
-          List your plot, house, farmhouse, or commercial unit with Property Bank Real Estate. Get connected with verified overseas and local buyers.
+          List your plot, house, farmhouse, or commercial unit with Citi property Real Estate. Get connected with verified overseas and local buyers.
         </p>
       </div>
 

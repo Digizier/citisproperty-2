@@ -16,16 +16,16 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Commercial Real Estate Agency Faisalabad | Property Bank',
+  title: 'Commercial Real Estate Agency Faisalabad | Citi property Real Estate',
   description:
-    'Premier commercial real estate agency in Faisalabad. Buy, lease & invest in Citi Gold Mark shops, office plazas & corporate plots. Call +92 321 8653500.',
+    'Commercial real estate agency in Faisalabad. Buy, lease & invest in commercial plots, shops, and office plazas at Citi Housing Samundri Road Bypass. Call +92 321 8653500.',
   alternates: {
     canonical: 'https://citisproperty.com/commercial-real-estate-agency/',
   },
   openGraph: {
-    title: 'Commercial Real Estate Agency Faisalabad | Property Bank Real Estate',
+    title: 'Commercial Real Estate Agency Faisalabad | Citi property Real Estate',
     description:
-      'Premier commercial real estate agency in Faisalabad. Buy, lease & invest in Citi Gold Mark shops, office plazas & corporate plots. Authorized Citi Housing Dealership.',
+      'Commercial real estate agency in Faisalabad. Buy, lease & invest in commercial plots, shops, and office plazas at Citi Housing Samundri Road Bypass.',
     url: 'https://citisproperty.com/commercial-real-estate-agency/',
     siteName: 'citisproperty.com',
     images: ['https://citisproperty.com/logo.png'],
@@ -37,17 +37,17 @@ export const metadata: Metadata = {
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': ['RealEstateAgent', 'Service'],
-  name: 'Commercial Real Estate Agency — Property Bank Real Estate',
+  name: 'Commercial Real Estate Agency — Citi property Real Estate',
   serviceType: 'Commercial Real Estate Agency',
   provider: {
     '@type': 'LocalBusiness',
-    name: 'Property Bank Real Estate Faisalabad',
+    name: 'Citi property Real Estate',
     telephone: '+92 321 8653500',
     url: 'https://citisproperty.com',
-    hasMap: 'https://www.google.com/maps?cid=875368538195546979',
+    hasMap: 'https://share.google/Clziqy6RnKzN8niRl',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Office 11-AA, Main Commercial Market, Citi Housing, Samundri Road',
+      streetAddress: 'Citi Housing samundri Road, Bypass',
       addressLocality: 'Faisalabad',
       addressRegion: 'Punjab',
       postalCode: '38000',
@@ -59,7 +59,7 @@ const serviceSchema = {
     name: 'Faisalabad',
   },
   description:
-    'Full-service commercial real estate agency in Faisalabad specializing in commercial plazas, retail shops in Citi Gold Mark, Main Boulevard corporate plots, and high-yield real estate investments.',
+    'Full-service commercial real estate agency in Faisalabad specializing in commercial plazas, retail shops, Main Boulevard corporate plots, and high-yield real estate investments.',
 };
 
 export default function CommercialRealEstateAgencyPage() {
@@ -74,13 +74,13 @@ export default function CommercialRealEstateAgencyPage() {
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold-500/10 border border-brand-gold-500/30 text-brand-gold-800 text-xs font-bold uppercase tracking-wider">
           <Briefcase className="w-4 h-4 text-brand-gold-600" />
-          <span>Verified Commercial Advisory • Property Bank Real Estate</span>
+          <span>Verified Commercial Advisory • Citi property Real Estate</span>
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
           Commercial Real Estate Agency in Faisalabad
         </h1>
         <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">
-          As the official authorized dealership for Citi Housing Faisalabad, Property Bank Real Estate delivers premier commercial brokerage, retail acquisitions, and high-yield investment advisory across Sargodha Road and Samundri Road.
+          Citi property Real Estate delivers professional commercial brokerage, retail acquisitions, and high-yield investment advisory across Citi Housing Samundri Road Bypass and Faisalabad.
         </p>
       </div>
 
@@ -177,10 +177,10 @@ export default function CommercialRealEstateAgencyPage() {
               Ready to Invest in Faisalabad Commercial Property?
             </div>
             <div className="text-lg sm:text-xl font-black">
-              Consult with Property Bank Real Estate Commercial Desk
+              Consult with Citi property Real Estate Commercial Desk
             </div>
             <p className="text-xs text-slate-400">
-              Open 24/7 • Office 11-AA, Main Commercial Market, Citi Housing Faisalabad
+              Open 24 Hours • Citi Housing samundri Road, Bypass, Faisalabad
             </p>
           </div>
 

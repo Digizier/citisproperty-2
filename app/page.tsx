@@ -126,17 +126,17 @@ export default function HomePage() {
           {/* Official Accreditation Badge (High Contrast & Crystal Clear on Mobile) */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 text-slate-950 text-[11px] sm:text-xs md:text-sm font-black uppercase tracking-wider shadow-xl shadow-amber-500/25 mb-6 border border-amber-300">
             <Sparkles className="w-4 h-4 text-slate-950 fill-slate-950 flex-shrink-0" />
-            <span>Authorized Dealership — Property Bank Real Estate</span>
+            <span>Registered Estate Agent — Citi property Real Estate</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
-            Properties in{' '}
+            Real Estate Property in{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-brand-gold-400 to-yellow-200">
-              Citi Housing Faisalabad
+              Faisalabad
             </span>
           </h1>
           <p className="text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-10 font-medium">
-            Property Bank Real Estate — Official Authorized Dealer for Citi Housing (Samundri Road &amp; Sargodha Road). Explore 100% verified plots, luxury villas, and prime commercial investments.
+            Citi property Real Estate — Serving Faisalabad since 2018. Buy, sell, and rent 100% verified residential plots, luxury villas, and commercial properties at Citi Housing Samundri Road Bypass.
           </p>
 
           {/* Zameen-Style Search Box */}
@@ -551,14 +551,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHY CHOOSE PROPERTY BANK REAL ESTATE */}
+      {/* WHY CHOOSE CITI PROPERTY REAL ESTATE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            Why Deal With Property Bank Real Estate?
+            Why Deal With Citi property Real Estate?
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-2">
-            Over a decade of trusted advisory and transparent property dealings across Pakistan.
+            Serving Faisalabad’s property market since 2018 with trusted advisory, verified inventory, and transparent transfers.
           </p>
         </div>
 
@@ -604,26 +604,26 @@ export default function HomePage() {
               <span className="text-xs text-slate-400 ml-2 font-bold">5.0 Star Client Rating</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-white">
-              Have you consulted with Property Bank Real Estate?
+              Looking for verified property deals in Faisalabad?
             </h3>
             <p className="text-xs text-slate-400">
-              We value your feedback. Read our verified Google reviews or share your experience with us.
+              We value your trust. Read our verified Google reviews or share your experience with Citi property Real Estate.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
             <a
-              href="https://g.page/r/CWPTsi4M7yUMEBE/review"
+              href="https://share.google/Clziqy6RnKzN8niRl"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Post a verified review for Property Bank Real Estate on Google"
+              aria-label="Post a verified review for Citi property Real Estate on Google"
               className="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-lg transition-all"
             >
               Post a Review on Google
             </a>
             <a
               href="tel:+923218653500"
-              aria-label="Call Property Bank Real Estate at +92 321 8653500"
+              aria-label="Call Citi property Real Estate at +92 321 8653500"
               className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-all flex items-center gap-2"
             >
               <Phone className="w-3.5 h-3.5 text-brand-gold-400" />
@@ -641,10 +641,10 @@ export default function HomePage() {
               <span>Frequently Asked Questions</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              Citi Housing & Property Bank FAQs
+              Citi property Real Estate FAQs
             </h2>
             <p className="text-xs sm:text-sm text-slate-500">
-              Essential answers to help you navigate property purchases, transfers, and investments.
+              Essential answers to help you navigate property purchases, transfers, and investments in Faisalabad.
             </p>
           </div>
 
@@ -652,10 +652,10 @@ export default function HomePage() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
               <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black shrink-0">1</span>
-                Who is the authorized dealer for Citi Housing Faisalabad?
+                Who is the top estate agent and property dealer in Citi Housing Faisalabad?
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed pl-8">
-                <strong>Property Bank Real Estate</strong> (citisproperty.com) is the official authorized dealership representing Citi Housing Faisalabad (Sargodha Road & Samundri Road), Gujranwala, Sialkot, and Jhelum. All transactions feature 100% verified documentation directly confirmed with developer records.
+                <strong>Citi property Real Estate</strong> (citisproperty.com) has been serving Faisalabad’s property market since 2018, operating from Citi Housing Samundri Road Bypass. All transactions feature 100% verified documentation directly confirmed with developer records.
               </p>
             </div>
 

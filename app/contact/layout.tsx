@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Us — Property Bank Real Estate | Citi Housing Authorized Dealer',
+  title: 'Contact Us — Citi property Real Estate | Faisalabad Property Dealer',
   description:
-    'Contact Property Bank Real Estate for Citi Housing Faisalabad, Gujranwala, Sialkot & Jhelum bookings, rate inquiries, and site visits. Phone: 0321-8653500.',
+    'Contact Citi property Real Estate in Faisalabad for plot bookings, property sales, file verification, and site visits at Citi Housing Samundri Road Bypass. Call / WhatsApp: 0321-8653500.',
   alternates: {
     canonical: 'https://citisproperty.com/contact/',
   },
   openGraph: {
-    title: 'Contact Us — Property Bank Real Estate | Citi Housing Authorized Dealer',
+    title: 'Contact Us — Citi property Real Estate | Faisalabad Property Dealer',
     description:
-      'Contact Property Bank Real Estate for Citi Housing Faisalabad, Gujranwala, Sialkot & Jhelum bookings, rate inquiries, and site visits. Phone: 0321-8653500.',
+      'Contact Citi property Real Estate in Faisalabad for plot bookings, property sales, file verification, and site visits at Citi Housing Samundri Road Bypass. Call / WhatsApp: 0321-8653500.',
     url: 'https://citisproperty.com/contact/',
     images: ['https://citisproperty.com/logo.png'],
   },

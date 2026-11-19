@@ -18,16 +18,16 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Property Management Company Faisalabad | Property Bank',
+  title: 'Property Management Company Faisalabad | Citi property Real Estate',
   description:
     'Trusted property management company in Faisalabad. Comprehensive tenant screening, rent collection, maintenance & overseas owner care. Call +92 321 8653500.',
   alternates: {
     canonical: 'https://citisproperty.com/property-management/',
   },
   openGraph: {
-    title: 'Property Management Company Faisalabad | Property Bank Real Estate',
+    title: 'Property Management Company Faisalabad | Citi property Real Estate',
     description:
-      'Trusted property management company in Faisalabad. Comprehensive tenant screening, rent collection, maintenance & overseas owner care. Authorized Citi Housing Dealership.',
+      'Trusted property management company in Faisalabad. Comprehensive tenant screening, rent collection, maintenance & overseas owner care at Citi Housing Samundri Road Bypass.',
     url: 'https://citisproperty.com/property-management/',
     siteName: 'citisproperty.com',
     images: ['https://citisproperty.com/logo.png'],
@@ -39,17 +39,17 @@ export const metadata: Metadata = {
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': ['RealEstateAgent', 'Service'],
-  name: 'Property Management Company — Property Bank Real Estate',
+  name: 'Property Management Company — Citi property Real Estate',
   serviceType: 'Property Management Company',
   provider: {
     '@type': 'LocalBusiness',
-    name: 'Property Bank Real Estate Faisalabad',
+    name: 'Citi property Real Estate',
     telephone: '+92 321 8653500',
     url: 'https://citisproperty.com',
-    hasMap: 'https://www.google.com/maps?cid=875368538195546979',
+    hasMap: 'https://share.google/Clziqy6RnKzN8niRl',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Office 11-AA, Main Commercial Market, Citi Housing, Samundri Road',
+      streetAddress: 'Citi Housing samundri Road, Bypass',
       addressLocality: 'Faisalabad',
       addressRegion: 'Punjab',
       postalCode: '38000',
@@ -82,7 +82,7 @@ export default function PropertyManagementPage() {
           Property Management Company in Faisalabad
         </h1>
         <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">
-          Owning residential or commercial properties in Citi Housing Faisalabad should provide passive income, not daily headaches. Property Bank Real Estate delivers turnkey property management for overseas Pakistanis and resident landlords, safeguarding your assets with complete transparency.
+          Owning residential or commercial properties in Citi Housing Faisalabad should provide passive income, not daily headaches. Citi property Real Estate delivers turnkey property management for overseas Pakistanis and resident landlords, safeguarding your assets with complete transparency.
         </p>
       </div>
 
@@ -189,10 +189,10 @@ export default function PropertyManagementPage() {
               Protect Your Property &amp; Maximize Rental Yields
             </div>
             <div className="text-lg sm:text-xl font-black">
-              Enroll Your Citi Housing Property with Property Bank
+              Enroll Your Faisalabad Property with Citi property Real Estate
             </div>
             <p className="text-xs text-slate-400">
-              Open 24/7 • Serving Faisalabad, Gujranwala, Sialkot &amp; Jhelum
+              Open 24 Hours • Citi Housing samundri Road, Bypass, Faisalabad
             </p>
           </div>
 

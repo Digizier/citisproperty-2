@@ -113,7 +113,7 @@ export default function NewProjectsPage() {
           New Projects & Master Developments
         </h1>
         <p className="text-xs sm:text-sm text-slate-500">
-          Discover Citi Housing's signature master-planned developments across Punjab. Property Bank Real Estate provides official allotment bookings and direct transfers.
+          Discover Citi Housing's signature master-planned developments across Punjab. Citi property Real Estate provides official allotment bookings and direct transfers.
         </p>
       </div>
 

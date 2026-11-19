@@ -34,7 +34,7 @@ export default function WhatsAppFloatingButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat with Property Bank on WhatsApp"
+      aria-label="Chat with Citi property Real Estate on WhatsApp"
       className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-30 flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-full shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 active:scale-95 group"
     >
       <div className="relative">

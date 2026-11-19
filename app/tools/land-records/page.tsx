@@ -30,7 +30,7 @@ export default function LandRecordsPage() {
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Before handing over token or bayana money, always request a physical verification from the Citi Housing Head Office. Property Bank Real Estate performs this verification directly with developer records.
+            Before handing over token or bayana money, always request a physical verification from the Citi Housing Head Office. Citi property Real Estate performs this verification directly with developer records.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-semibold text-slate-700">
             <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl">
@@ -80,7 +80,7 @@ export default function LandRecordsPage() {
         <div className="bg-slate-900 text-white rounded-3xl p-8 text-center space-y-4 border border-brand-gold-500/30">
           <h3 className="text-xl font-bold">Need Personal Verification Assistance?</h3>
           <p className="text-xs text-slate-400 max-w-lg mx-auto">
-            Our legal desk at Property Bank Real Estate handles documentation, stamp papers, and biometrics for Citi Housing properties.
+            Our legal desk at Citi property Real Estate handles documentation, stamp papers, and biometrics for Citi Housing properties.
           </p>
           <div className="pt-2 flex justify-center gap-3">
             <a

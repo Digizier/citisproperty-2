@@ -87,7 +87,7 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
             >
               <img
                 src="/logo.png"
-                alt="Property Bank"
+                alt="Citi property Real Estate Logo"
                 style={{
                   width: '40px',
                   height: '40px',
@@ -113,7 +113,7 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
                   whiteSpace: 'nowrap',
                 }}
               >
-                CITY HOUSING (PVT) LTD • PROPERTY BANK REAL ESTATE
+                CITI PROPERTY REAL ESTATE • FAISALABAD
               </span>
               <h2
                 style={{
@@ -295,10 +295,10 @@ const PropertyA4GalleryPage = forwardRef<HTMLDivElement, PropertyA4GalleryPagePr
         >
           <div>
             <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#d97706', display: 'block', lineHeight: 1.2 }}>
-              Authorized Citi Housing Dealer
+              Registered Estate Agent
             </span>
             <div style={{ fontSize: '13px', fontWeight: 900, color: '#0f172a', lineHeight: 1.35, marginTop: '2px', paddingBottom: '1px' }}>
-              {property.agent_name || 'Property Bank Real Estate'}
+              {property.agent_name || 'Citi property Real Estate'}
             </div>
             <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 500, lineHeight: 1.35, marginTop: '2px', paddingBottom: '1px' }}>
               Citi Housing Sargodha Road & Samundri Road, Faisalabad

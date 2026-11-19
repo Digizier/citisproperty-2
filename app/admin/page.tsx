@@ -241,7 +241,7 @@ export default function AdminPage() {
       setIsAuthenticated(true);
       sessionStorage.setItem('citis_admin_auth', 'true');
       setPinError(false);
-      showToast('Welcome to Property Bank Control Center');
+      showToast('Welcome to Citi property Control Center');
     } else {
       setPinError(true);
     }
@@ -280,7 +280,7 @@ export default function AdminPage() {
       map_url: '',
       is_featured: false,
       is_active: true,
-      agent_name: 'Property Bank Real Estate',
+      agent_name: 'Citi property Real Estate',
       agent_phone: '03218653500',
       agent_whatsapp: '923218653500',
     });
@@ -301,7 +301,7 @@ export default function AdminPage() {
       images: Array.isArray(prop.images) && prop.images.length > 0 ? prop.images : (prop.thumbnail_url ? [prop.thumbnail_url] : []),
       youtube_url: prop.youtube_url || '',
       map_url: prop.map_url || '',
-      agent_name: prop.agent_name || 'Property Bank Real Estate',
+      agent_name: prop.agent_name || 'Citi property Real Estate',
       agent_phone: prop.agent_phone || '03218653500',
       agent_whatsapp: prop.agent_whatsapp || '923218653500',
     });
@@ -650,7 +650,7 @@ export default function AdminPage() {
       <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
         <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center space-y-6 shadow-2xl">
           <div className="w-16 h-16 rounded-2xl bg-white/5 border border-brand-gold-500/40 p-2 mx-auto flex items-center justify-center">
-            <img src="/logo.png" alt="Property Bank" className="w-full h-full object-contain" />
+            <img src="/logo.png" alt="Citi property Real Estate" className="w-full h-full object-contain" />
           </div>
 
           <div>
@@ -763,11 +763,11 @@ export default function AdminPage() {
           {/* Logo & Identity */}
           <div className="flex items-center gap-3 pb-6 border-b border-slate-800">
             <div className="w-10 h-10 rounded-xl bg-white/5 border border-brand-gold-500/30 p-1 flex-shrink-0">
-              <img src="/logo.png" alt="Property Bank" className="w-full h-full object-contain" />
+              <img src="/logo.png" alt="Citi property Real Estate" className="w-full h-full object-contain" />
             </div>
             <div>
               <div className="font-black text-xs uppercase tracking-tight text-white leading-none">
-                Property Bank
+                Citi property
               </div>
               <div className="text-[10px] text-brand-gold-400 font-bold mt-1">Control Center</div>
             </div>
@@ -1662,7 +1662,7 @@ export default function AdminPage() {
                                   map_url: d.map_url || '',
                                   is_featured: false,
                                   is_active: true,
-                                  agent_name: d.agent_name || inq.name || 'Property Bank Real Estate',
+                                  agent_name: d.agent_name || inq.name || 'Citi property Real Estate',
                                   agent_phone: d.agent_phone || inq.phone || '03218653500',
                                   agent_whatsapp: d.agent_whatsapp || inq.phone.replace(/^0/, '92').replace(/[^0-9]/g, '') || '923218653500',
                                 });
@@ -1859,7 +1859,7 @@ export default function AdminPage() {
                                           map_url: d.map_url || '',
                                           is_featured: false,
                                           is_active: true,
-                                          agent_name: d.agent_name || inq.name || 'Property Bank Real Estate',
+                                          agent_name: d.agent_name || inq.name || 'Citi property Real Estate',
                                           agent_phone: d.agent_phone || inq.phone || '03218653500',
                                           agent_whatsapp: d.agent_whatsapp || inq.phone.replace(/^0/, '92').replace(/[^0-9]/g, '') || '923218653500',
                                         });
@@ -3015,7 +3015,7 @@ export default function AdminPage() {
                     <label className="block text-[11px] text-slate-400 mb-1">Agent / Dealer Name</label>
                     <input
                       type="text"
-                      placeholder="e.g. Property Bank Real Estate"
+                      placeholder="e.g. Citi property Real Estate"
                       value={editingProperty.agent_name || ''}
                       onChange={(e) =>
                         setEditingProperty({ ...editingProperty, agent_name: e.target.value })
@@ -3333,7 +3333,7 @@ export default function AdminPage() {
                     value={editingSociety.name || ''}
                     onChange={(e) => setEditingSociety({ ...editingSociety, name: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold focus:outline-none focus:border-brand-gold-500"
-                    placeholder="e.g. Citi Housing (Phase II) Samundri Road or Property Bank Blueprint"
+                    placeholder="e.g. Citi Housing (Phase II) Samundri Road or Master Blueprint"
                   />
                 </div>
 

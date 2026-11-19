@@ -533,7 +533,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
               <div className="w-14 h-14 rounded-2xl overflow-hidden bg-brand-gold-50 p-1 border border-brand-gold-300 flex-shrink-0">
                 <img
                   src="/logo.png"
-                  alt="Property Bank Real Estate"
+                  alt="Citi property Real Estate"
                   width={56}
                   height={56}
                   className="w-full h-full object-contain"
@@ -541,13 +541,13 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
               </div>
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-brand-gold-600 block">
-                  Authorized Dealer
+                  Registered Estate Agent
                 </span>
                 <h4 className="font-extrabold text-sm text-slate-900 leading-tight">
-                  {property.agent_name || 'Property Bank Real Estate'}
+                  {property.agent_name || 'Citi property Real Estate'}
                 </h4>
                 <p className="text-xs text-brand-gold-700 font-bold mt-0.5">
-                  Citi Housing Specialist
+                  Faisalabad Property Advisor
                 </p>
               </div>
             </div>
@@ -557,7 +557,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`Chat on WhatsApp with Property Bank agent about ${property.title}`}
+                aria-label={`Chat on WhatsApp with Citi property agent about ${property.title}`}
                 onClick={() =>
                   trackEvent('whatsapp', {
                     id: property.id,
@@ -574,7 +574,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
 
               <a
                 href={phoneUrl}
-                aria-label={`Call Property Bank agent about ${property.title}`}
+                aria-label={`Call Citi property agent about ${property.title}`}
                 onClick={() =>
                   trackEvent('call', {
                     id: property.id,
@@ -602,7 +602,7 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
                   <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
                   <p className="text-xs font-bold text-emerald-900">Inquiry Received!</p>
                   <p className="text-[11px] text-emerald-700">
-                    Our senior Property Bank agent will contact you shortly on WhatsApp/Call.
+                    Our senior Citi property agent will contact you shortly on WhatsApp/Call.
                   </p>
                 </div>
               ) : (

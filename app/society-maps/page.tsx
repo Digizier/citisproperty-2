@@ -149,7 +149,7 @@ export default function SocietyMapsPage() {
       try {
         await navigator.share({
           title: `${society.name} - Master Plan PDF Blueprint`,
-          text: `Download and view official master plan PDF for ${society.name} (${society.city}) verified by Property Bank Real Estate:`,
+          text: `Download and view official master plan PDF for ${society.name} (${society.city}) verified by Citi property Real Estate:`,
           url: shareUrl,
         });
         showToast('Share dialog opened!');
@@ -217,8 +217,8 @@ export default function SocietyMapsPage() {
             </h1>
             <p className="text-xs sm:text-sm md:text-base text-slate-600 max-w-3xl leading-relaxed">
               Download official, high-definition society master plan blueprints, sector layouts, and
-              plot numbering maps. Verified directly by <strong>Property Bank Real Estate</strong> at
-              11-AA Main Commercial Market, Citi Housing Samundri Road, Faisalabad.
+              plot numbering maps. Verified directly by <strong>Citi property Real Estate</strong> at
+              Citi Housing samundri Road, Bypass, Faisalabad.
             </p>
           </div>
 
@@ -314,7 +314,7 @@ export default function SocietyMapsPage() {
             <h3 className="text-lg font-bold text-slate-900">No Society Maps Found</h3>
             <p className="text-xs text-slate-500 max-w-md mx-auto">
               No society master plan matches your search &quot;{searchQuery}&quot;. Clear your
-              search or contact Property Bank directly for custom maps.
+              search or contact Citi property Real Estate directly for custom maps.
             </p>
             <button
               type="button"
@@ -351,7 +351,7 @@ export default function SocietyMapsPage() {
                   : `/society-maps?map=${slug}&view=1`;
 
               const whatsappShareText = encodeURIComponent(
-                `Official Master Plan PDF Blueprint for ${society.name} (${society.city}):\n${shareUrl}\n\nVerified by Property Bank Real Estate (Citi Housing Authorized Dealership).`
+                `Official Master Plan PDF Blueprint for ${society.name} (${society.city}):\n${shareUrl}\n\nVerified by Citi property Real Estate Faisalabad.`
               );
               const whatsappShareUrl = `https://api.whatsapp.com/send?text=${whatsappShareText}`;
 
@@ -556,9 +556,9 @@ export default function SocietyMapsPage() {
               <span className="text-[10px] font-extrabold uppercase text-brand-gold-700">
                 Head Office
               </span>
-              <h4 className="font-extrabold text-slate-900 text-sm">Property Bank Real Estate</h4>
+              <h4 className="font-extrabold text-slate-900 text-sm">Citi property Real Estate</h4>
               <p className="text-slate-600">
-                11-AA Main Commercial Market, Citi Housing Samundri Road, Faisalabad
+                Citi Housing samundri Road, Bypass, Faisalabad, 38000
               </p>
             </div>
 
@@ -666,7 +666,7 @@ export default function SocietyMapsPage() {
 
             {/* Modal Footer */}
             <div className="px-5 py-3 border-t border-slate-200 bg-slate-50 flex flex-wrap items-center justify-between text-xs text-slate-600">
-              <span>Verified by Property Bank Real Estate • citisproperty.com</span>
+              <span>Verified by Citi property Real Estate • citisproperty.com</span>
               <div className="flex items-center gap-3">
                 <a
                   href="tel:03218653500"

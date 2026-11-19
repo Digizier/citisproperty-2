@@ -16,16 +16,16 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Industrial Real Estate Agency Faisalabad | Property Bank',
+  title: 'Industrial Real Estate Agency Faisalabad | Citi property Real Estate',
   description:
-    'Authorized industrial real estate agency in Faisalabad. Industrial plots, logistics warehousing & factory sites near M-3 & Citi Housing. Call +92 321 8653500.',
+    'Industrial real estate agency in Faisalabad. Industrial plots, logistics warehousing & factory sites near M-3, Bypass & Citi Housing. Call +92 321 8653500.',
   alternates: {
     canonical: 'https://citisproperty.com/industrial-real-estate-agency/',
   },
   openGraph: {
-    title: 'Industrial Real Estate Agency Faisalabad | Property Bank Real Estate',
+    title: 'Industrial Real Estate Agency Faisalabad | Citi property Real Estate',
     description:
-      'Authorized industrial real estate agency in Faisalabad. Industrial plots, logistics warehousing & factory sites near M-3 & Citi Housing. Call +92 321 8653500.',
+      'Industrial real estate agency in Faisalabad. Industrial plots, logistics warehousing & factory sites near M-3, Bypass & Citi Housing. Call +92 321 8653500.',
     url: 'https://citisproperty.com/industrial-real-estate-agency/',
     siteName: 'citisproperty.com',
     images: ['https://citisproperty.com/logo.png'],
@@ -37,17 +37,17 @@ export const metadata: Metadata = {
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': ['RealEstateAgent', 'Service'],
-  name: 'Industrial Real Estate Agency — Property Bank Real Estate',
+  name: 'Industrial Real Estate Agency — Citi property Real Estate',
   serviceType: 'Industrial Real Estate Agency',
   provider: {
     '@type': 'LocalBusiness',
-    name: 'Property Bank Real Estate Faisalabad',
+    name: 'Citi property Real Estate',
     telephone: '+92 321 8653500',
     url: 'https://citisproperty.com',
-    hasMap: 'https://www.google.com/maps?cid=875368538195546979',
+    hasMap: 'https://share.google/Clziqy6RnKzN8niRl',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Office 11-AA, Main Commercial Market, Citi Housing, Samundri Road',
+      streetAddress: 'Citi Housing samundri Road, Bypass',
       addressLocality: 'Faisalabad',
       addressRegion: 'Punjab',
       postalCode: '38000',
@@ -80,7 +80,7 @@ export default function IndustrialRealEstateAgencyPage() {
           Industrial Real Estate Agency in Faisalabad
         </h1>
         <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed">
-          Faisalabad is the undisputed industrial powerhouse and textile capital of Pakistan. Property Bank Real Estate provides corporate investors, manufacturers, and logistics operators with verified industrial land, warehousing facilities, and factory sites across major industrial corridors.
+          Faisalabad is the undisputed industrial powerhouse and textile capital of Pakistan. Citi property Real Estate provides corporate investors, manufacturers, and logistics operators with verified industrial land, warehousing facilities, and factory sites across major industrial corridors.
         </p>
       </div>
 
@@ -124,7 +124,7 @@ export default function IndustrialRealEstateAgencyPage() {
             Specialized Industrial Property Solutions
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            From greenfield land acquisition to turnkey logistics sheds, Property Bank Real Estate connects manufacturing enterprises with prime industrial real estate:
+            From greenfield land acquisition to turnkey logistics sheds, Citi property Real Estate connects manufacturing enterprises with prime industrial real estate:
           </p>
         </div>
 
@@ -177,10 +177,10 @@ export default function IndustrialRealEstateAgencyPage() {
               Looking for Industrial Land or Warehousing in Faisalabad?
             </div>
             <div className="text-lg sm:text-xl font-black">
-              Connect with Property Bank Real Estate Industrial Division
+              Connect with Citi property Real Estate Industrial Division
             </div>
             <p className="text-xs text-slate-400">
-              Open 24/7 • Direct Consultation &amp; Site Feasibility Inspections
+              Open 24 Hours • Citi Housing samundri Road, Bypass, Faisalabad
             </p>
           </div>
 
@@ -206,7 +206,7 @@ export default function IndustrialRealEstateAgencyPage() {
             <Link
               href="/contact"
               prefetch={false}
-              aria-label="Schedule a site visit with Property Bank Real Estate"
+              aria-label="Schedule a site visit with Citi property Real Estate"
               className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2 border border-slate-700 transition-all"
             >
               <span>Schedule Site Inspection</span>

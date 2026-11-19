@@ -200,7 +200,7 @@ export default function SharePropertyButton({
   const handleShareNative = async () => {
     const priceText = formatPKRPrice(property.price);
     const titleText = `${property.title} | CitisProperty.com`;
-    const detailsText = `Assalam-o-Alaikum, check out this property listing on Citi Housing (Property Bank Real Estate):\n\n🏡 *${property.title}*\n💰 *Demand Price:* PKR ${priceText}\n📍 *Location:* ${property.location}, ${property.city}\n📏 *Area:* ${property.area_size} ${property.area_unit}\n\n`;
+    const detailsText = `Assalam-o-Alaikum, check out this property listing on Citi property Real Estate:\n\n🏡 *${property.title}*\n💰 *Demand Price:* PKR ${priceText}\n📍 *Location:* ${property.location}, ${property.city}\n📏 *Area:* ${property.area_size} ${property.area_unit}\n\n`;
 
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {

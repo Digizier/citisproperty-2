@@ -15,8 +15,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const city = params.city || 'Faisalabad';
-  const title = `Properties for Rent in ${city} — Citi Housing | Property Bank`;
-  const description = `Find furnished and unfurnished houses, portions and commercial spaces for rent in Citi Housing ${city}. Gated security, underground utilities. Call 0321-8653500.`;
+  const title = `Properties for Rent in ${city} — Citi property Real Estate`;
+  const description = `Find furnished and unfurnished houses, portions and commercial spaces for rent in ${city}. Citi property Real Estate: 0321-8653500.`;
   const pageUrl = `https://citisproperty.com/Rentals/${city}/`;
 
   return {

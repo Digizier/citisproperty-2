@@ -3,16 +3,16 @@ import type { Metadata } from 'next';
 import PropertyListContent from '@/components/PropertyListContent';
 
 export const metadata: Metadata = {
-  title: 'All Verified Properties for Sale & Rent — Citi Housing | Property Bank',
+  title: 'All Verified Properties for Sale & Rent — Citi property Real Estate',
   description:
-    'Browse 100% document-verified houses, residential plots, and commercial properties across Citi Housing Faisalabad, Gujranwala, Sialkot, and Jhelum.',
+    'Browse 100% document-verified houses, residential plots, and commercial properties in Faisalabad with Citi property Real Estate.',
   alternates: {
     canonical: 'https://citisproperty.com/properties/',
   },
   openGraph: {
-    title: 'All Verified Properties for Sale & Rent — Citi Housing | Property Bank',
+    title: 'All Verified Properties for Sale & Rent — Citi property Real Estate',
     description:
-      'Browse 100% document-verified houses, residential plots, and commercial properties across Citi Housing Faisalabad, Gujranwala, Sialkot, and Jhelum.',
+      'Browse 100% document-verified houses, residential plots, and commercial properties in Faisalabad with Citi property Real Estate.',
     url: 'https://citisproperty.com/properties/',
     images: ['https://citisproperty.com/logo.png'],
   },

@@ -4,23 +4,23 @@ import LayoutShell from '@/components/LayoutShell';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://citisproperty.com'),
-  title: 'Property Bank Real Estate | Citi Housing Faisalabad Dealers',
+  title: 'Citi property Real Estate | Real Estate Property in Faisalabad',
   description:
-    'Authorized dealers for Citi Housing Faisalabad. Buy, sell & invest in verified residential & commercial plots, luxury villas & homes. Contact us today!',
+    'Citi property Real Estate is your trusted estate agent and property dealer in Faisalabad since 2018. Buy, sell & invest in verified residential & commercial plots, luxury homes, and rental properties at Citi Housing Samundri Road Bypass.',
   keywords: [
-    'Property Bank Real Estate',
-    'Property Bank Real Estate Faisalabad',
-    'Citi Housing',
-    'City Housing',
-    'Citi Housing Faisalabad',
-    'Citi Housing Samundri Road',
-    'Citi Housing Sargodha Road',
-    'Real Estate Agency Faisalabad',
-    'Property Dealer Citi Housing Faisalabad',
-    'Plots for sale Citi Housing Samundri Road',
-    'Plots in Faisalabad',
-    'Houses for sale Faisalabad',
-    'Best Property Dealer Faisalabad',
+    'Citi property Real Estate',
+    'citi property real estate faisalabad',
+    'real estate property faisalabad',
+    'real estate property in faisalabad',
+    'property dealer near me',
+    'property dealer in faisalabad',
+    'real estate agency in faisalabad',
+    'citi housing faisalabad plots for sale',
+    'citi housing samundri road bypass',
+    'plots for sale in faisalabad',
+    'houses for sale near me',
+    'houses to buy near me',
+    'commercial property for sale in faisalabad',
     'citisproperty.com',
   ],
   alternates: {
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     apple: '/favicon.png',
   },
   openGraph: {
-    title: 'Property Bank Real Estate | Citi Housing Faisalabad Dealers',
+    title: 'Citi property Real Estate | Real Estate Property in Faisalabad',
     description:
-      'Authorized dealers for Citi Housing Faisalabad. Buy, sell & invest in verified residential & commercial plots, luxury villas & homes. Contact us today!',
+      'Citi property Real Estate is your trusted estate agent and property dealer in Faisalabad since 2018. Buy, sell & invest in verified residential & commercial plots, luxury homes, and rental properties at Citi Housing Samundri Road Bypass.',
     url: 'https://citisproperty.com',
     siteName: 'citisproperty.com',
     images: [
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
         url: '/logo.png',
         width: 512,
         height: 512,
-        alt: 'Property Bank Real Estate - Citi Housing Faisalabad Logo',
+        alt: 'Citi property Real Estate Faisalabad Logo',
       },
     ],
     locale: 'en_PK',
@@ -73,26 +73,25 @@ const structuredSchema = {
     {
       '@type': ['RealEstateAgent', 'LocalBusiness'],
       '@id': 'https://citisproperty.com/#realestateagent',
-      name: 'Property Bank Real Estate Faisalabad',
-      legalName: 'Property Bank Real Estate',
+      name: 'Citi property Real Estate',
+      legalName: 'Citi property Real Estate',
       alternateName: [
-        'Property Bank Real Estate',
-        'Citi Housing Authorized Dealer - Property Bank',
-        'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
+        'Citi Property Real Estate',
+        'Citi Property Faisalabad',
         'citisproperty.com',
       ],
       url: 'https://citisproperty.com',
       logo: 'https://citisproperty.com/logo.png',
       image: 'https://citisproperty.com/logo.png',
       description:
-        'Official authorized real estate dealership for Citi Housing developments across Pakistan including Faisalabad (Samundri Road & Sargodha Road), Gujranwala, Sialkot, and Jhelum. Buy, sell, and invest in verified residential plots, luxury designer houses, and commercial plots with Property Bank Real Estate.',
+        'Citi property Real Estate has been serving Faisalabad’s property market since 2018, providing professional real estate guidance for sellers, investors, landlords, and businesses. We deal in commercial, rental, and investment properties with local market knowledge and practical assistance throughout the property process. Our team serves Citi Housing Faisalabad, including Blocks A, B, D, E, F and G, Whether you are looking for property for sale, property for rent, plots, houses, commercial property or investment opportunities.',
       telephone: '+92 321 8653500',
       priceRange: 'PKR 3,500,000 - PKR 150,000,000',
       currenciesAccepted: 'PKR',
       paymentAccepted: 'Cash, Bank Transfer, Pay Order',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Office 11-AA, Main Commercial Market, Citi Housing, Samundri Road',
+        streetAddress: 'Citi Housing samundri Road, Bypass',
         addressLocality: 'Faisalabad',
         addressRegion: 'Punjab',
         postalCode: '38000',
@@ -113,27 +112,24 @@ const structuredSchema = {
             'Thursday',
             'Friday',
             'Saturday',
-            'Sunday',
           ],
           opens: '00:00',
           closes: '23:59',
         },
       ],
-      hasMap: 'https://www.google.com/maps?cid=875368538195546979',
+      hasMap: 'https://share.google/Clziqy6RnKzN8niRl',
       sameAs: [
-        'https://www.google.com/maps?cid=875368538195546979',
-        'https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6',
-        'https://share.google/Veaql80VOjBuNszbc',
-        'https://www.facebook.com/Asifcitihousing',
-        'https://www.facebook.com/share/1EM79fibhT/',
+        'https://share.google/Clziqy6RnKzN8niRl',
         'https://wa.me/923218653500',
       ],
       areaServed: [
         { '@type': 'AdministrativeArea', name: 'Citi Housing Faisalabad' },
-        { '@type': 'AdministrativeArea', name: 'Citi Housing Samundri Road, Faisalabad' },
-        { '@type': 'AdministrativeArea', name: 'Citi Housing Sargodha Road, Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'Citi Housing samundri Road, Bypass, Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'Samundri Road, Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'Sargodha Road, Faisalabad' },
         { '@type': 'City', name: 'Faisalabad' },
         { '@type': 'AdministrativeArea', name: 'Wapda City, Faisalabad' },
+        { '@type': 'AdministrativeArea', name: 'FDA City, Faisalabad' },
         { '@type': 'AdministrativeArea', name: 'Eden Valley, Faisalabad' },
       ],
     },
@@ -141,7 +137,7 @@ const structuredSchema = {
       '@type': 'WebSite',
       '@id': 'https://citisproperty.com/#website',
       url: 'https://citisproperty.com',
-      name: 'Citi Housing Real Estate Portal',
+      name: 'Citi property Real Estate Portal',
       publisher: {
         '@id': 'https://citisproperty.com/#realestateagent',
       },
@@ -157,26 +153,26 @@ const structuredSchema = {
       mainEntity: [
         {
           '@type': 'Question',
-          name: 'Who is the authorized real estate dealer for Citi Housing Faisalabad?',
+          name: 'Who is the top real estate agency and property dealer in Citi Housing Faisalabad?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Property Bank Real Estate (citisproperty.com) is the official authorized dealership for Citi Housing developments including Sargodha Road and Samundri Road, Faisalabad.',
+            text: 'Citi property Real Estate (citisproperty.com) has been serving Faisalabad’s property market since 2018. Located at Citi Housing Samundri Road Bypass, we provide transparent guidance for buying, selling, and renting plots, luxury houses, and commercial properties.',
           },
         },
         {
           '@type': 'Question',
-          name: 'What plot and house sizes are available in Citi Housing Faisalabad?',
+          name: 'What properties are available in Citi Housing Faisalabad?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Citi Housing Faisalabad offers 5 Marla, 10 Marla, 1 Kanal, and 2 Kanal residential plots and designer luxury villas, as well as prime commercial plots in Citi Gold Mark.',
+            text: 'Citi property Real Estate deals in 5 Marla, 10 Marla, 1 Kanal, and 2 Kanal residential plots, ready-to-move designer houses, and prime commercial plots and shops across Blocks A, B, C, D, E, F, and G.',
           },
         },
         {
           '@type': 'Question',
-          name: 'How can I contact Property Bank Real Estate for Citi Housing booking and inquiries?',
+          name: 'How can I contact Citi property Real Estate for property inquiries?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'You can call or message on WhatsApp directly at +92-321-8653500, or visit citisproperty.com to explore 100% verified listings.',
+            text: 'You can call or WhatsApp directly at 0321 8653500 (+92 321 8653500), or visit our office at Citi Housing Samundri Road, Bypass, Faisalabad.',
           },
         },
       ],
@@ -226,7 +222,7 @@ export default function RootLayout({
         const adminName = (data.admin_name && data.admin_name.trim()) || 'Nadir Habib';
         const rawDigits = adminPhone.replace(/[^0-9]/g, '');
         const intlPhone = rawDigits.startsWith('92') ? rawDigits : (rawDigits.startsWith('0') ? '92' + rawDigits.slice(1) : '92' + rawDigits);
-        const siteName = data.site_name || 'Property Bank Real Estate';
+        const siteName = data.site_name || 'Citi property Real Estate';
 
         // 1. Under Construction Mode
         if (data.mode === 'under_construction') {

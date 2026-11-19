@@ -233,7 +233,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 type: property.type,
               })
             }
-            aria-label={`Call Property Bank agent about ${property.title}`}
+            aria-label={`Call Citi property agent about ${property.title}`}
             className="flex items-center justify-center gap-1 sm:gap-1.5 py-2.5 px-1.5 sm:px-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 hover:bg-slate-50 active:scale-95 transition-all text-center min-w-0"
             title="Call Agent"
           >

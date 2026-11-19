@@ -15,8 +15,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const city = params.city || 'Faisalabad';
-  const title = `Flats & Apartments for Sale in ${city} — Citi Housing | Property Bank`;
-  const description = `Luxury 1, 2 & 3 bedroom apartments and penthouses for sale in Citi Housing ${city} (Citi Heights). Modern living with complete amenities. Call 0321-8653500.`;
+  const title = `Flats & Apartments for Sale in ${city} — Citi property Real Estate`;
+  const description = `Luxury 1, 2 & 3 bedroom apartments and penthouses for sale in ${city}. Modern living with complete amenities. Citi property Real Estate: 0321-8653500.`;
   const pageUrl = `https://citisproperty.com/Flats/${city}/`;
 
   return {

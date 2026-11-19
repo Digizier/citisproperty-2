@@ -16,7 +16,7 @@ export default function TermsPage() {
         </p>
         <h3 className="font-bold text-base text-slate-900 pt-2">2. Official Transfers</h3>
         <p>
-          Property Bank Real Estate facilitates documentation and guidance; final title transfers and allotment cards are subject to developer rules and biometric verifications at Citi Housing Head Office.
+          Citi property Real Estate facilitates documentation and guidance; final title transfers and allotment cards are subject to developer rules and biometric verifications at Citi Housing Head Office.
         </p>
       </div>
     </div>

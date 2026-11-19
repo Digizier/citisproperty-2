@@ -26,15 +26,15 @@ import { PAKISTAN_CITIES, PROPERTY_TYPES } from '@/lib/constants';
 
 function getCategorySEOIntro(type: string, purpose: string, city: string): string {
   if (purpose === 'rent') {
-    return `Looking for verified houses, portions, or commercial spaces for rent in ${city}? Citi Housing developments provide an elite, gated community lifestyle with 24/7 surveillance, underground electrification, continuous water filtration, and family parks. Property Bank Real Estate connects tenants and overseas property owners with transparent rental agreements, genuine market valuations, and rapid possession handover across prime residential sectors in ${city}.`;
+    return `Looking for verified houses, portions, or commercial spaces for rent in ${city}? Citi property Real Estate connects tenants and property owners with transparent rental agreements, genuine market valuations, and rapid possession handover across prime residential and commercial sectors in ${city}.`;
   }
   if (type === 'Plots') {
-    return `Discover authentic on-ground and booking file residential plots in ${city} with Property Bank Real Estate. We provide 100% verified documentation for 5 Marla, 10 Marla, 1 Kanal, and 2 Kanal plots directly confirmed with developer records. Citi Housing ${city} features state-of-the-art underground utilities, modern sewerage systems, wide carpeted boulevards, and commercial hubs, making it one of the highest-yielding real estate investments in Punjab.`;
+    return `Discover authentic on-ground and booking file residential plots in ${city} with Citi property Real Estate. We provide 100% verified documentation for 5 Marla, 10 Marla, 1 Kanal, and 2 Kanal plots directly confirmed with developer records. Explore prime plots with modern underground utilities, wide carpeted boulevards, and high-yielding real estate investments in ${city}.`;
   }
   if (type === 'Commercial') {
-    return `Explore high-yield commercial shops, corporate offices, and plaza plots in ${city}. With prime locations in Citi Gold Mark, Main Boulevard, and civic commercial zones, these properties cater to high footfall from thousands of resident families. Property Bank Real Estate facilitates direct transfers, clean title verification, and attractive rental yield opportunities for investors in ${city}.`;
+    return `Explore high-yield commercial shops, corporate offices, and plaza plots in ${city}. Citi property Real Estate facilitates direct transfers, clean title verification, and attractive rental yield opportunities for commercial investors in ${city}.`;
   }
-  return `Browse authentic, verified real estate listings in ${city} with Property Bank Real Estate — official authorized dealership for Citi Housing. Explore 5 Marla, 10 Marla, and 1 Kanal brand-new designer houses, luxury villas, and prime plots with ready possession. All property files are physically verified at the head office to guarantee 100% secure, transparent transactions.`;
+  return `Browse authentic, verified real estate listings in ${city} with Citi property Real Estate — serving Faisalabad since 2018. Explore 5 Marla, 10 Marla, and 1 Kanal brand-new designer houses, luxury villas, and prime plots with ready possession. All property files are physically verified to guarantee 100% secure, transparent transactions.`;
 }
 
 interface PropertyListContentProps {
@@ -552,7 +552,7 @@ export default function PropertyListContent({
               How are property files verified?
             </h3>
             <p className="leading-relaxed">
-              Every plot or house file listed with Property Bank Real Estate undergoes direct verification with Citi Housing Head Office records, ensuring clean titles, zero encumbrances, and valid ownership before transfer.
+              Every plot or house file listed with Citi property Real Estate undergoes direct verification with developer records, ensuring clean titles, zero encumbrances, and valid ownership before transfer.
             </p>
           </div>
 

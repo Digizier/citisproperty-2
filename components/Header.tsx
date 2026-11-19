@@ -48,7 +48,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
             <span className="text-brand-gold-400 font-medium">
-              Official Dealer: <strong className="text-white">{settings?.site_name || 'Property Bank Real Estate'}</strong>
+              Registered Estate Agent: <strong className="text-white">{settings?.site_name || 'Citi property Real Estate'}</strong>
             </span>
             <div className="flex items-center gap-4">
               {(settings?.phones || '+92 321 8653500')
@@ -59,7 +59,7 @@ export default function Header() {
                   <a
                     key={idx}
                     href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
-                    aria-label={`Call Property Bank Real Estate at ${phone}`}
+                    aria-label={`Call Citi property Real Estate at ${phone}`}
                     className="flex items-center gap-1.5 hover:text-white transition-colors"
                   >
                     <Phone className="w-3 h-3 text-brand-gold-400" />
@@ -71,33 +71,24 @@ export default function Header() {
 
           <div className="flex items-center gap-5 text-slate-300">
             <a
-              href={settings?.google_review_url || 'https://g.page/r/CWPTsi4M7yUMEBE/review'}
+              href="https://share.google/Clziqy6RnKzN8niRl"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Review Property Bank Real Estate on Google"
+              aria-label="Review Citi property Real Estate on Google"
               className="flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold transition-colors"
             >
               <Star className="w-3.5 h-3.5 fill-amber-400" />
               <span>Review on Google</span>
             </a>
             <a
-              href={settings?.google_maps_url || 'https://www.google.com/maps?cid=875368538195546979'}
+              href="https://share.google/Clziqy6RnKzN8niRl"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View Property Bank Real Estate Office Location on Google Maps"
+              aria-label="View Citi property Real Estate Office Location on Google Maps"
               className="flex items-center gap-1 hover:text-white transition-colors"
             >
               <MapPin className="w-3 h-3 text-red-400" />
-              <span>Office Location</span>
-            </a>
-            <a
-              href={settings?.facebook_url || 'https://www.facebook.com/Asifcitihousing'}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Property Bank Real Estate on Facebook"
-              className="hover:text-white transition-colors"
-            >
-              Facebook
+              <span>Office Location (Bypass)</span>
             </a>
           </div>
         </div>
@@ -110,13 +101,13 @@ export default function Header() {
           <Link
             href="/"
             prefetch={false}
-            aria-label="Property Bank Real Estate Homepage"
+            aria-label="Citi property Real Estate Homepage"
             className="flex items-center gap-2 sm:gap-3 group min-w-0 flex-shrink"
           >
             <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex-shrink-0 transition-transform group-hover:scale-105">
               <img
                 src="/logo.png"
-                alt="City Housing (Pvt) Ltd - Property Bank Real Estate Logo"
+                alt="Citi property Real Estate Logo"
                 width={56}
                 height={56}
                 className="w-full h-full object-contain"
@@ -124,10 +115,10 @@ export default function Header() {
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-xs sm:text-base md:text-lg font-black tracking-tight text-slate-900 uppercase leading-tight truncate group-hover:text-brand-gold-600 transition-colors">
-                City Housing <span className="text-brand-gold-600 text-[10px] sm:text-xs font-bold">(Pvt) Ltd</span>
+                Citi property <span className="text-brand-gold-600 text-[10px] sm:text-xs font-bold">Real Estate</span>
               </span>
               <span className="text-[9px] sm:text-[10px] md:text-[11px] font-extrabold text-brand-gold-600 tracking-wider uppercase truncate mt-0.5">
-                Property Bank Real Estate
+                Faisalabad
               </span>
             </div>
           </Link>
@@ -344,7 +335,7 @@ export default function Header() {
               href={`https://wa.me/${(settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Chat with Property Bank Real Estate on WhatsApp"
+              aria-label="Chat with Citi property Real Estate on WhatsApp"
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-colors"
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
@@ -354,7 +345,7 @@ export default function Header() {
             <Link
               href="/post-listing"
               prefetch={false}
-              aria-label="Post Free Property Listing on Property Bank"
+              aria-label="Post Free Property Listing on Citi property Real Estate"
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-gold-500 via-brand-gold-600 to-amber-600 hover:from-brand-gold-600 hover:to-amber-700 text-slate-950 text-xs font-black shadow-md shadow-brand-gold-500/20 active:scale-95 transition-all"
             >
               <PlusCircle className="w-4 h-4" />
@@ -393,7 +384,7 @@ export default function Header() {
               </div>
               <div>
                 <div className="font-extrabold text-xs">Post Property for Sale / Rent</div>
-                <div className="text-[10px] text-brand-gold-300">Free Listing with Verified Property Bank Dealers</div>
+                <div className="text-[10px] text-brand-gold-300">Free Listing with Verified Citi property Real Estate Dealers</div>
               </div>
             </div>
             <span className="text-xs font-black bg-brand-gold-500 text-slate-950 px-2 py-0.5 rounded-md">
@@ -404,7 +395,7 @@ export default function Header() {
           {/* Quick Helpline Header */}
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
             <div className="font-bold text-slate-800 flex items-center justify-between">
-              <span>Property Bank 24/7 Helpline:</span>
+              <span>Citi property Real Estate 24/7 Helpline:</span>
               <span className="text-[10px] text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full font-bold">
                 Online
               </span>
@@ -418,7 +409,7 @@ export default function Header() {
                   <a
                     key={idx}
                     href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
-                    aria-label={`Call Property Bank Real Estate at ${phone}`}
+                    aria-label={`Call Citi property Real Estate at ${phone}`}
                     className="flex items-center gap-1 hover:underline"
                   >
                     <Phone className="w-3 h-3 text-brand-gold-600" /> {phone}

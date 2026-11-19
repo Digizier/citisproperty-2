@@ -4,16 +4,16 @@ import Link from 'next/link';
 import { MapPin, Compass, Building, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Area Guides & Society Reviews — Citi Housing | Property Bank',
+  title: 'Area Guides & Society Reviews — Citi property Real Estate',
   description:
-    'Comprehensive area guides for Citi Housing Faisalabad (Sargodha & Samundri Road), Gujranwala, Sialkot, and Jhelum. Location analysis, amenities, and investment trends.',
+    'Comprehensive area guides for Citi Housing Faisalabad (Samundri Road & Sargodha Road), Wapda City, and Faisalabad societies by Citi property Real Estate.',
   alternates: {
     canonical: 'https://citisproperty.com/area-guides/',
   },
   openGraph: {
-    title: 'Area Guides & Society Reviews — Citi Housing | Property Bank',
+    title: 'Area Guides & Society Reviews — Citi property Real Estate',
     description:
-      'Comprehensive area guides for Citi Housing Faisalabad (Sargodha & Samundri Road), Gujranwala, Sialkot, and Jhelum.',
+      'Comprehensive area guides for Citi Housing Faisalabad (Samundri Road & Sargodha Road) by Citi property Real Estate.',
     url: 'https://citisproperty.com/area-guides/',
     images: ['https://citisproperty.com/logo.png'],
   },

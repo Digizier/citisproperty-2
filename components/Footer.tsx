@@ -43,7 +43,7 @@ export default function Footer() {
               <div className="relative w-14 h-14 bg-white/5 rounded-2xl p-1 border border-brand-gold-500/30 flex-shrink-0">
                 <img
                   src="/logo.png"
-                  alt="City Housing (Pvt) Ltd - Property Bank Real Estate"
+                  alt="Citi property Real Estate"
                   width={56}
                   height={56}
                   className="w-full h-full object-contain"
@@ -51,16 +51,16 @@ export default function Footer() {
               </div>
               <div>
                 <h3 className="font-black text-white uppercase text-base tracking-tight leading-tight">
-                  City Housing <span className="text-brand-gold-400 text-xs font-bold">(Pvt) Ltd</span>
+                  Citi property <span className="text-brand-gold-400 text-xs font-bold">Real Estate</span>
                 </h3>
                 <p className="text-xs font-bold text-brand-gold-400 uppercase tracking-wider mt-0.5">
-                  Property Bank Real Estate
+                  Faisalabad
                 </p>
               </div>
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              Official authorized dealers and premier luxury living advisors for Citi Housing Faisalabad, Gujranwala, Sialkot, and Jhelum. Dedicated to 100% transparent transfers and high-yield real estate investments.
+              Serving Faisalabad’s property market since 2018. Professional guidance for buying, selling, and renting residential plots, commercial properties, and luxury homes at Citi Housing Samundri Road Bypass.
             </p>
 
             {/* Google Review Badge */}
@@ -72,10 +72,10 @@ export default function Footer() {
                 </div>
               </div>
               <a
-                href={settings?.google_review_url || "https://g.page/r/CWPTsi4M7yUMEBE/review"}
+                href="https://share.google/Clziqy6RnKzN8niRl"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Leave a verified review for Property Bank Real Estate on Google"
+                aria-label="Leave a verified review for Citi property Real Estate on Google"
                 className="inline-flex items-center gap-1.5 text-xs text-brand-gold-400 hover:text-brand-gold-300 font-semibold transition-colors"
               >
                 <span>Leave a Google Review</span>
@@ -204,20 +204,20 @@ export default function Footer() {
           {/* Contact & Office Details */}
           <div className="space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Official Head Office & Dealership
+              Office Location &amp; Contact
             </h4>
 
             <div className="flex items-start gap-3 text-xs text-slate-400">
               <MapPin className="w-4 h-4 text-brand-gold-500 flex-shrink-0 mt-0.5" />
               <span>
-                {settings?.address || 'Office 11-AA, Main Commercial Market, Citi Housing Samundri Road, Faisalabad (Head Office: Main Sargodha Road Opposite Allied Bank, Citi Housing, Faisalabad)'}
+                Citi Housing samundri Road, Bypass, Faisalabad, 38000
               </span>
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
               <Clock className="w-4 h-4 text-emerald-400 flex-shrink-0" />
               <span>
-                Hours: <strong className="text-white">Open 24 Hours / 7 Days</strong> (24/7 Client Support)
+                Hours: <strong className="text-white">Monday – Saturday: Open 24 Hours</strong> (Sunday: Closed)
               </span>
             </div>
 
@@ -234,7 +234,7 @@ export default function Footer() {
                   <React.Fragment key={idx}>
                     <a
                       href={`tel:${p.replace(/[^0-9+]/g, '')}`}
-                      aria-label={`Call Property Bank Real Estate at ${p}`}
+                      aria-label={`Call Citi property Real Estate at ${p}`}
                       className="hover:text-white transition-colors"
                     >
                       {p}
@@ -249,7 +249,7 @@ export default function Footer() {
               <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
               <a
                 href={`mailto:${settings?.email || 'info@citisproperty.com'}`}
-                aria-label="Send email to Property Bank Real Estate"
+                aria-label="Send email to Citi property Real Estate"
                 className="hover:text-white transition-colors"
               >
                 {settings?.email || 'info@citisproperty.com'}
@@ -258,23 +258,14 @@ export default function Footer() {
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs">
               <a
-                href={settings?.google_maps_url || "https://www.google.com/maps?cid=875368538195546979"}
+                href="https://share.google/Clziqy6RnKzN8niRl"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="View Property Bank Real Estate on Google Maps CID 875368538195546979"
+                aria-label="View Citi property Real Estate on Google Maps"
                 className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
               >
                 <MapPin className="w-3 h-3 text-red-400" />
-                <span>Google Maps</span>
-              </a>
-              <a
-                href={settings?.facebook_url || "https://www.facebook.com/Asifcitihousing"}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit Property Bank Real Estate on Facebook"
-                className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
-              >
-                <span>Facebook</span>
+                <span>Google Maps Profile</span>
               </a>
             </div>
           </div>
@@ -283,7 +274,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
-            &copy; {new Date().getFullYear()} Citi Housing (Pvt) Ltd — Property Bank Real Estate. All rights reserved.
+            &copy; {new Date().getFullYear()} Citi property Real Estate. All rights reserved.
           </div>
 
           <div className="flex items-center gap-6">

@@ -82,8 +82,8 @@ export default function ContactPage() {
   };
 
   const whatsappClean = (settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '');
-  const googleMapUrl = settings?.google_maps_url || 'https://www.google.com/maps?cid=875368538195546979';
-  const googleReviewUrl = settings?.google_review_url || 'https://g.page/r/CWPTsi4M7yUMEBE/review';
+  const googleMapUrl = 'https://share.google/Clziqy6RnKzN8niRl';
+  const googleReviewUrl = 'https://share.google/Clziqy6RnKzN8niRl';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
@@ -91,13 +91,13 @@ export default function ContactPage() {
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold-500/10 border border-brand-gold-500/30 text-brand-gold-700 text-xs font-bold uppercase tracking-wider mb-2">
           <ShieldCheck className="w-4 h-4 text-brand-gold-600" />
-          <span>Property Bank Real Estate • Authorized Citi Housing Dealership</span>
+          <span>Citi property Real Estate • Registered Estate Agent Faisalabad</span>
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
           Contact &amp; Book a Visit
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          Official Authorized Dealership for Citi Housing (Pvt) Ltd in Faisalabad. Visit our offices on Samundri Road and Sargodha Road, or schedule a free site tour and consultation.
+          Serving Faisalabad’s property market since 2018. Visit our office at Citi Housing Samundri Road Bypass, or schedule a free property consultation and site tour.
         </p>
       </div>
 
@@ -115,10 +115,10 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="font-extrabold text-sm text-slate-900">
-                  Citi Housing Samundri Road Office
+                  Citi property Real Estate Office
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                  <strong>Office # 11-AA, Main Commercial Market</strong>, Citi Housing, Samundri Road Near Main Gate, Faisalabad, 38000
+                  <strong>Citi Housing samundri Road, Bypass</strong>, Faisalabad, 38000
                 </p>
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="font-extrabold text-sm text-slate-900">
-                  Citi Housing Sargodha Road (Head Office)
+                  Citi Housing Sargodha Road Office
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">
                   <strong>Main Sargodha Road</strong>, Opposite Allied Bank, Citi Housing, Faisalabad
@@ -170,7 +170,7 @@ export default function ContactPage() {
               <span>Office Working Hours</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Monday to Sunday: <strong>Open 24 Hours / 7 Days</strong> (24/7 Advisory, Site Tour Bookings &amp; Transfers)
+              Monday to Saturday: <strong>Open 24 Hours</strong> (Sunday: Closed)
             </p>
 
             <div className="pt-2 flex flex-wrap gap-2.5 text-xs">
@@ -178,7 +178,7 @@ export default function ContactPage() {
                 href={googleMapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Get Google Maps directions to Property Bank Real Estate CID 875368538195546979"
+                aria-label="Get Google Maps directions to Citi property Real Estate"
                 className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black inline-flex items-center gap-1.5 shadow transition-all"
               >
                 <Navigation className="w-4 h-4 fill-slate-950" />
@@ -188,11 +188,11 @@ export default function ContactPage() {
                 href={googleReviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Review Property Bank Real Estate on Google"
+                aria-label="Review Citi property Real Estate on Google"
                 className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold inline-flex items-center gap-1.5 transition-colors"
               >
                 <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                <span>Review Us on Google (4.5★)</span>
+                <span>Review Us on Google Profile</span>
               </a>
             </div>
           </div>
@@ -205,11 +205,11 @@ export default function ContactPage() {
               <CheckCircle2 className="w-16 h-16 text-emerald-600 mx-auto" />
               <h3 className="text-2xl font-black text-slate-900">Inquiry &amp; Booking Received!</h3>
               <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                Thank you for reaching out to <strong>Property Bank Real Estate</strong>. Our senior consultant will call or message you on WhatsApp shortly to confirm your request.
+                Thank you for reaching out to <strong>Citi property Real Estate</strong>. Our senior consultant will call or message you on WhatsApp shortly to confirm your request.
               </p>
               <div className="pt-4">
                 <a
-                  href={`https://wa.me/${whatsappClean}?text=Hi%20Property%20Bank,%20I%20just%20submitted%20an%20inquiry%20on%20your%20website.`}
+                  href={`https://wa.me/${whatsappClean}?text=Hi%20Citi%20Property,%20I%20just%20submitted%20an%20inquiry%20on%20your%20website.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-colors"
@@ -338,7 +338,7 @@ export default function ContactPage() {
                     ? 'Submitting Your Request...'
                     : isBookingMode
                     ? 'Confirm Site Visit Request'
-                    : 'Submit Inquiry to Property Bank'}
+                    : 'Submit Inquiry to Citi property Real Estate'}
                 </span>
               </button>
             </form>

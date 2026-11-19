@@ -8,7 +8,7 @@ export default function PrivacyPage() {
 
       <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
         <p>
-          At <strong>citisproperty.com</strong> (Property Bank Real Estate / City Housing (Pvt) Ltd), we are committed to safeguarding the personal privacy of our website visitors, clients, and investors.
+          At <strong>citisproperty.com</strong> (Citi property Real Estate), we are committed to safeguarding the personal privacy of our website visitors, clients, and investors.
         </p>
         <h3 className="font-bold text-base text-slate-900 pt-2">1. Information We Collect</h3>
         <p>
