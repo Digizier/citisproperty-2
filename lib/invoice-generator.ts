@@ -12,15 +12,15 @@ export function generateInvoiceHtml(
     Boolean(inquiry.message?.startsWith('[PROPERTY SUBMISSION]'));
 
   const siteName =
-    settings?.site_name || 'Citi Housing (Pvt) Ltd — Property Bank Real Estate';
+    settings?.site_name || 'Citi property Real Estate';
   const phones = settings?.phones || '03218653500';
   const whatsapp = settings?.whatsapp || '923218653500';
   const address =
     settings?.address ||
-    'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan';
+    'Citi Housing samundri Road, Bypass, Faisalabad, 38000';
   const email = settings?.email || 'info@citisproperty.com';
 
-  const invoiceNo = `PB-INQ-${inquiry.id.replace(/[^0-9]/g, '').slice(-6) || Date.now().toString().slice(-6)}`;
+  const invoiceNo = `CP-INQ-${inquiry.id.replace(/[^0-9]/g, '').slice(-6) || Date.now().toString().slice(-6)}`;
   const dateFormatted = inquiry.created_at
     ? new Date(inquiry.created_at).toLocaleString('en-US', {
         dateStyle: 'full',
@@ -288,8 +288,8 @@ export function generateInvoiceHtml(
     <!-- Header -->
     <div class="header-bar">
       <div>
-        <div class="brand-title">Citi Housing (Pvt) Ltd</div>
-        <div class="brand-sub">Property Bank Real Estate — Official Authorized Dealership</div>
+        <div class="brand-title">Citi property Real Estate</div>
+        <div class="brand-sub">Citi Housing Authorized Real Estate Dealership</div>
         <div class="brand-meta">
           <strong>Address:</strong> ${address}<br />
           <strong>Helplines:</strong> ${phones} | <strong>WhatsApp:</strong> ${whatsapp}<br />
@@ -330,7 +330,7 @@ export function generateInvoiceHtml(
         <div class="card-title">Dealership Routing & Status</div>
         <div class="field-row">
           <span class="field-label">Dealing Authority:</span>
-          <span class="field-value">Property Bank Executive Desk</span>
+          <span class="field-value">Citi property Real Estate Desk</span>
         </div>
         <div class="field-row">
           <span class="field-label">Current Pipeline:</span>
@@ -434,7 +434,7 @@ export function generateInvoiceHtml(
     <!-- Footer Authorization -->
     <div class="footer-bar">
       <div>
-        <div style="font-weight: 700; color: #0f172a;">Property Bank Real Estate Official Record</div>
+        <div style="font-weight: 700; color: #0f172a;">Citi property Real Estate Official Record</div>
         <div>Generated from citisproperty.com portal • Confidential Client Document</div>
       </div>
       <div class="stamp-box">

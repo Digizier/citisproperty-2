@@ -3392,7 +3392,7 @@ export default function AdminPage() {
                       value={editingSociety.master_plan_pdf_url || ''}
                       onChange={(e) => setEditingSociety({ ...editingSociety, master_plan_pdf_url: e.target.value })}
                       className="flex-1 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-brand-gold-300 font-mono text-[11px] focus:outline-none focus:border-brand-gold-500"
-                      placeholder="/maps/property-bank-master-plan.pdf or Cloud Storage URL"
+                      placeholder="/maps/citi-housing-master-plan.pdf or Cloud Storage URL"
                     />
 
                     <label className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl border border-dashed border-brand-gold-500/50 hover:border-brand-gold-400 bg-brand-gold-500/10 hover:bg-brand-gold-500/20 text-brand-gold-300 font-bold text-xs cursor-pointer transition shrink-0">

@@ -1,4 +1,21 @@
 import React from 'react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy — Citi property Real Estate',
+  description:
+    'Read the official privacy policy of citisproperty.com (Citi property Real Estate Faisalabad). Learn how we protect client inquiries, data, and property transactions.',
+  alternates: {
+    canonical: 'https://citisproperty.com/privacy/',
+  },
+  openGraph: {
+    title: 'Privacy Policy — Citi property Real Estate',
+    description:
+      'Official privacy policy of citisproperty.com (Citi property Real Estate Faisalabad).',
+    url: 'https://citisproperty.com/privacy/',
+    images: ['https://citisproperty.com/logo.png'],
+  },
+};
 
 export default function PrivacyPage() {
   return (

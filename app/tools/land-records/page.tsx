@@ -1,6 +1,23 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ShieldCheck, FileCheck, HelpCircle, CheckCircle2, Phone, AlertTriangle } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Land Records & Property Verification Guide Faisalabad — Citi property Real Estate',
+  description:
+    'Complete guide to Citi Housing Faisalabad file transfers, allotment verification, NDC certificates, and Punjab land registry documentation.',
+  alternates: {
+    canonical: 'https://citisproperty.com/tools/land-records/',
+  },
+  openGraph: {
+    title: 'Land Records & Property Verification Guide Faisalabad — Citi property Real Estate',
+    description:
+      'Complete guide to Citi Housing Faisalabad file transfers, allotment verification, NDC certificates, and Punjab land registry documentation.',
+    url: 'https://citisproperty.com/tools/land-records/',
+    images: ['https://citisproperty.com/logo.png'],
+  },
+};
 
 export default function LandRecordsPage() {
   return (

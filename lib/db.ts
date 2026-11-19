@@ -39,15 +39,15 @@ const PROPERTY_DETAIL_FIELDS =
 // Default Fallback Settings
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   id: 'default',
-  site_name: 'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
+  site_name: 'Citi property Real Estate',
   tagline: "Pakistan's Most Trusted Luxury Living & Prime Real Estate Dealership",
   phones: '03218653500',
   whatsapp: '923218653500',
   email: 'info@citisproperty.com',
-  address: 'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan',
-  google_maps_url: 'https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6',
-  google_review_url: 'https://g.page/r/CWPTsi4M7yUMEBE/review',
-  facebook_url: 'https://www.facebook.com/share/1EM79fibhT/',
+  address: 'Citi Housing samundri Road, Bypass, Faisalabad, 38000',
+  google_maps_url: 'https://share.google/Clziqy6RnKzN8niRl',
+  google_review_url: 'https://g.page/r/CQ5mSIOS0vQLEAI/review',
+  facebook_url: '',
   admin_pin: 'asif@ciitisproperty.com_123@#',
 };
 
@@ -287,7 +287,7 @@ export async function adminSaveProperty(property: Partial<Property>): Promise<Pr
     map_url: property.map_url || '',
     is_featured: property.is_featured ?? false,
     is_active: property.is_active ?? true,
-    agent_name: property.agent_name || 'Property Bank Real Estate',
+    agent_name: property.agent_name || 'Citi property Real Estate',
     agent_phone: property.agent_phone || '03218653500',
     agent_whatsapp: property.agent_whatsapp || '923218653500',
     updated_at: new Date().toISOString(),
@@ -883,7 +883,7 @@ export const DEFAULT_SOCIETIES: Society[] = [
     description:
       'Citi Housing Faisalabad offers a gold standard lifestyle with wide road networks, underground utilities, magnificent themed entrance, Glow Park, central masjid, and gated 24/7 security.',
     image_url: '/maps/citi-housing-master-plan-hd.webp',
-    master_plan_pdf_url: '/maps/property-bank-master-plan.pdf',
+    master_plan_pdf_url: '/maps/citi-housing-master-plan.pdf',
     master_plan_image_url: '/maps/citi-housing-master-plan-hd.webp',
     is_featured: true,
     is_active: true,

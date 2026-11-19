@@ -71,7 +71,7 @@ export default function Header() {
 
           <div className="flex items-center gap-5 text-slate-300">
             <a
-              href="https://share.google/Clziqy6RnKzN8niRl"
+              href="https://g.page/r/CQ5mSIOS0vQLEAI/review"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Review Citi property Real Estate on Google"
@@ -560,7 +560,7 @@ export default function Header() {
           {/* Social & Google Links in Mobile Menu */}
           <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-600 px-2">
             <a
-              href="https://g.page/r/CWPTsi4M7yUMEBE/review"
+              href="https://g.page/r/CQ5mSIOS0vQLEAI/review"
               target="_blank"
               rel="noopener noreferrer"
               className="text-amber-600 font-bold flex items-center gap-1"
@@ -568,7 +568,7 @@ export default function Header() {
               <Star className="w-3.5 h-3.5 fill-amber-500" /> Rate on Google
             </a>
             <a
-              href="https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6"
+              href="https://share.google/Clziqy6RnKzN8niRl"
               target="_blank"
               rel="noopener noreferrer"
               className="text-slate-600 hover:text-slate-900"

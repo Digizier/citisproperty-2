@@ -108,7 +108,7 @@ export default function SocietyMapsPage() {
         if (urlParams.get('view') === '1' || urlParams.get('open') === '1') {
           setPreviewPdf({
             isOpen: true,
-            url: target.master_plan_pdf_url || '/maps/property-bank-master-plan.pdf',
+            url: target.master_plan_pdf_url || '/maps/citi-housing-master-plan.pdf',
             title: target.name,
             slug: targetSlug,
           });
@@ -338,7 +338,7 @@ export default function SocietyMapsPage() {
                   highlightedMapSlug.toLowerCase() === slug.toLowerCase());
 
               const pdfUrl =
-                society.master_plan_pdf_url || '/maps/property-bank-master-plan.pdf';
+                society.master_plan_pdf_url || '/maps/citi-housing-master-plan.pdf';
               const imageUrl =
                 society.master_plan_image_url ||
                 society.image_url ||

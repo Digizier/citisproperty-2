@@ -120,6 +120,8 @@ const structuredSchema = {
       hasMap: 'https://share.google/Clziqy6RnKzN8niRl',
       sameAs: [
         'https://share.google/Clziqy6RnKzN8niRl',
+        'https://g.page/r/CQ5mSIOS0vQLEAI/review',
+        'https://www.google.com/search?kgmid=/g/11t_kngqsv',
         'https://wa.me/923218653500',
       ],
       areaServed: [

@@ -83,7 +83,7 @@ export default function ContactPage() {
 
   const whatsappClean = (settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '');
   const googleMapUrl = 'https://share.google/Clziqy6RnKzN8niRl';
-  const googleReviewUrl = 'https://share.google/Clziqy6RnKzN8niRl';
+  const googleReviewUrl = 'https://g.page/r/CQ5mSIOS0vQLEAI/review';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
@@ -104,10 +104,10 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Office Locations & Helplines */}
         <div className="lg:col-span-5 space-y-6">
-          {/* Office 1: Citi Housing Samundri Road (Primary Dealership) */}
+          {/* Office 1: Citi Housing Samundri Road (Primary Registered Dealership) */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 relative overflow-hidden">
             <div className="absolute top-0 right-0 px-3 py-1 bg-amber-500 text-slate-950 font-black text-[10px] uppercase tracking-wider rounded-bl-xl">
-              Main Booking Office
+              Registered Head Office
             </div>
             <div className="flex items-start gap-3">
               <div className="p-2.5 rounded-2xl bg-amber-500/10 text-amber-600 flex-shrink-0">
@@ -115,7 +115,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="font-extrabold text-sm text-slate-900">
-                  Citi property Real Estate Office
+                  Citi property Real Estate (Head Office)
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">
                   <strong>Citi Housing samundri Road, Bypass</strong>, Faisalabad, 38000
@@ -135,8 +135,11 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Office 2: Citi Housing Sargodha Road (Head Office) */}
+          {/* Office 2: Citi Housing Sargodha Road (Branch Desk) */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 relative overflow-hidden">
+            <div className="absolute top-0 right-0 px-3 py-1 bg-slate-100 text-slate-700 font-bold text-[10px] uppercase tracking-wider rounded-bl-xl">
+              Branch Desk
+            </div>
             <div className="flex items-start gap-3">
               <div className="p-2.5 rounded-2xl bg-blue-500/10 text-blue-600 flex-shrink-0">
                 <Building2 className="w-5 h-5" />

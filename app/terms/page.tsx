@@ -1,4 +1,21 @@
 import React from 'react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service — Citi property Real Estate',
+  description:
+    'Review the terms of service, listing conditions, and real estate advisory policies for citisproperty.com (Citi property Real Estate Faisalabad).',
+  alternates: {
+    canonical: 'https://citisproperty.com/terms/',
+  },
+  openGraph: {
+    title: 'Terms of Service — Citi property Real Estate',
+    description:
+      'Official terms of service for citisproperty.com (Citi property Real Estate Faisalabad).',
+    url: 'https://citisproperty.com/terms/',
+    images: ['https://citisproperty.com/logo.png'],
+  },
+};
 
 export default function TermsPage() {
   return (

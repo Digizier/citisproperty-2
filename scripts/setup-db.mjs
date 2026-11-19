@@ -67,7 +67,7 @@ async function setup() {
       images JSONB DEFAULT '[]'::jsonb,
       is_featured BOOLEAN DEFAULT false,
       is_active BOOLEAN DEFAULT true,
-      agent_name TEXT DEFAULT 'Property Bank Real Estate',
+      agent_name TEXT DEFAULT 'Citi property Real Estate',
       agent_phone TEXT DEFAULT '03218653500',
       agent_whatsapp TEXT DEFAULT '923218653500',
       created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -179,15 +179,15 @@ async function setup() {
       id, site_name, tagline, phones, whatsapp, email, address, google_maps_url, google_review_url, facebook_url, admin_pin
     ) VALUES (
       'default',
-      'Citi Housing (Pvt) Ltd - Property Bank Real Estate',
+      'Citi property Real Estate',
       'Pakistan''s Most Trusted Luxury Living & Prime Real Estate Dealership',
       '03218653500',
       '923218653500',
       'info@citisproperty.com',
-      'Property Bank Real Estate, Citi Housing Sargodha Road & Samundri Road, Faisalabad, Punjab, Pakistan',
-      'https://maps.app.goo.gl/Umc7Ci9kQZN1GwVo6',
-      'https://g.page/r/CWPTsi4M7yUMEBE/review',
-      'https://www.facebook.com/share/1EM79fibhT/',
+      'Citi Housing samundri Road, Bypass, Faisalabad, 38000',
+      'https://share.google/Clziqy6RnKzN8niRl',
+      'https://g.page/r/CQ5mSIOS0vQLEAI/review',
+      '',
       'admin123'
     ) ON CONFLICT (id) DO UPDATE SET
       site_name = EXCLUDED.site_name,
@@ -251,7 +251,7 @@ async function setup() {
       id: 'banner-1',
       title: 'Citi Housing Faisalabad - Phase 1 & 2',
       subtitle: 'Premium residential plots & turnkey designer villas on Sargodha & Samundri Road',
-      badge: 'OFFICIAL DEALER - PROPERTY BANK',
+      badge: 'AUTHORIZED DEALER - CITI PROPERTY',
       image_url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
       mobile_image_url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop',
       link_url: '/new-projects',
@@ -359,7 +359,7 @@ async function setup() {
       area_unit: 'Marla',
       bedrooms: 0,
       bathrooms: 0,
-      description: 'Prime location 5 Marla on-ground plot with all development charges cleared. Ideal for immediate house construction or short-term investment return. Direct deal with owner through Property Bank.',
+      description: 'Prime location 5 Marla on-ground plot with all development charges cleared. Ideal for immediate house construction or short-term investment return. Direct deal with owner through Citi property Real Estate.',
       features: ['On-Ground Plot', 'Possession Ready', 'Near Main Boulevard', 'Sewerage & Electricity Ready', 'Clear Title Registry'],
       thumbnail_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop',
       images: [

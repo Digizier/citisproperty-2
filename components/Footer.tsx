@@ -72,7 +72,7 @@ export default function Footer() {
                 </div>
               </div>
               <a
-                href="https://share.google/Clziqy6RnKzN8niRl"
+                href="https://g.page/r/CQ5mSIOS0vQLEAI/review"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Leave a verified review for Citi property Real Estate on Google"
