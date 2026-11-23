@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import { X, Phone, MapPin, User, CheckCircle2, Sparkles, Loader2, Send } from 'lucide-react';
 import { submitInquiry } from '@/lib/db';
@@ -163,23 +164,23 @@ export default function LeadCapturePopup() {
     }
   };
 
-  if (!isMounted || !isOpen) {
+  if (!isMounted || !isOpen || typeof document === 'undefined') {
     return null;
   }
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="lead-popup-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
       onClick={(e) => {
         if (e.target === e.currentTarget && !submitting) {
           handleClose();
         }
       }}
     >
-      <div className="relative w-full max-w-md bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-brand-gold-500/40 rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md my-auto bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-brand-gold-500/40 rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
         {/* Subtle Decorative Golden Glow in Corner */}
         <div className="absolute -top-16 -right-16 w-36 h-36 bg-brand-gold-500/20 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-36 h-36 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -329,7 +330,7 @@ export default function LeadCapturePopup() {
                   ) : (
                     <>
                       <Send className="w-3.5 h-3.5" />
-                      <span>Submit Details</span>
+                      <span>Get Upto date</span>
                     </>
                   )}
                 </button>
@@ -344,6 +345,7 @@ export default function LeadCapturePopup() {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
