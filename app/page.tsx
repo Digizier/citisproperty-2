@@ -29,6 +29,7 @@ import { Property, Category } from '@/lib/types';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyCardSkeleton from '@/components/PropertyCardSkeleton';
 import SearchableSelect from '@/components/SearchableSelect';
+import LeadCapturePopup from '@/components/LeadCapturePopup';
 import { PAKISTAN_CITIES, PROPERTY_TYPES } from '@/lib/constants';
 import { trackEvent } from '@/lib/analytics';
 
@@ -691,6 +692,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Instant Lead Capture Popup Modal (Home Page Only) */}
+      <LeadCapturePopup />
     </div>
   );
 }
