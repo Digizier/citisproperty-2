@@ -44,8 +44,8 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   phones: '03218653500',
   whatsapp: '923218653500',
   email: 'info@citisproperty.com',
-  address: 'Citi Housing samundri Road, Bypass, Faisalabad, 38000',
-  google_maps_url: 'https://share.google/Clziqy6RnKzN8niRl',
+  address: 'Bypass, Samundri Rd, Citi Housing Faisalabad, 38000, Pakistan',
+  google_maps_url: 'https://share.google/kqahSEawatNDdQBx8',
   google_review_url: 'https://g.page/r/CQ5mSIOS0vQLEAI/review',
   facebook_url: '',
   admin_pin: 'asif@ciitisproperty.com_123@#',
@@ -62,8 +62,26 @@ export function sanitizeSiteSettings(s: any): SiteSettings {
   const rawWhatsapp = (s.whatsapp || '').toString();
   const whatsapp = rawWhatsapp.includes('8658450') ? '923218653500' : (rawWhatsapp || '923218653500');
 
+  const site_name =
+    !s.site_name || s.site_name.includes('Property Bank')
+      ? 'Citi property Real Estate'
+      : s.site_name;
+
+  const address =
+    !s.address || s.address.includes('Property Bank') || s.address.includes('Office 11-AA')
+      ? 'Bypass, Samundri Rd, Citi Housing Faisalabad, 38000, Pakistan'
+      : s.address;
+
+  const google_maps_url =
+    !s.google_maps_url || s.google_maps_url.includes('maps.app.goo.gl')
+      ? 'https://share.google/kqahSEawatNDdQBx8'
+      : s.google_maps_url;
+
   return {
     ...s,
+    site_name,
+    address,
+    google_maps_url,
     phones: phones || '03218653500',
     whatsapp,
   };
@@ -75,8 +93,13 @@ export function sanitizeProperty(p: Property): Property {
     p.agent_phone && !p.agent_phone.includes('8658450') ? p.agent_phone : '03218653500';
   const agent_whatsapp =
     p.agent_whatsapp && !p.agent_whatsapp.includes('8658450') ? p.agent_whatsapp : '923218653500';
+  const agent_name =
+    !p.agent_name || p.agent_name.includes('Property Bank')
+      ? 'Citi property Real Estate'
+      : p.agent_name;
   return {
     ...p,
+    agent_name,
     agent_phone,
     agent_whatsapp,
   };
@@ -881,7 +904,7 @@ export const DEFAULT_SOCIETIES: Society[] = [
     city: 'Faisalabad',
     location: 'Samundri Road, Faisalabad',
     description:
-      'Citi Housing Faisalabad offers a gold standard lifestyle with wide road networks, underground utilities, magnificent themed entrance, Glow Park, central masjid, and gated 24/7 security.',
+      'Citi Housing Faisalabad offers a gold standard lifestyle with wide road networks, underground utilities, magnificent themed entrance, Glow Park, central masjid, and gated armed security.',
     image_url: '/maps/citi-housing-master-plan-hd.webp',
     master_plan_pdf_url: '/maps/citi-housing-master-plan.pdf',
     master_plan_image_url: '/maps/citi-housing-master-plan-hd.webp',

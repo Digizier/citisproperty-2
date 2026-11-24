@@ -266,7 +266,7 @@ export default async function PropertyPage({ params }: PageProps) {
           }}
         />
       )}
-      <PropertyDetailClient idOrSlug={params.id} />
+      <PropertyDetailClient idOrSlug={params.id} initialProperty={property} />
     </>
   );
 }

@@ -90,7 +90,7 @@ async function run() {
         'citi-housing-phase-ii-samundri-road',
         'Faisalabad',
         'Samundri Road, Faisalabad',
-        'Citi Housing Faisalabad offers a gold standard lifestyle with wide road networks, underground utilities, magnificent themed entrance, Glow Park, central masjid, and gated 24/7 security.',
+        'Citi Housing Faisalabad offers a gold standard lifestyle with wide road networks, underground utilities, magnificent themed entrance, Glow Park, central masjid, and gated armed security.',
         '/maps/citi-housing-master-plan-hd.webp',
         '/maps/citi-housing-master-plan.pdf',
         '/maps/citi-housing-master-plan-hd.webp',

@@ -307,7 +307,7 @@ async function setup() {
       bedrooms: 5,
       bathrooms: 6,
       description: 'Stunning 1 Kanal Spanish architecture villa featuring 5 master bedrooms with attached Italian baths, double height lobby, 2 imported kitchens with appliances, basement home cinema, servant quarter, and landscaped lawn. Direct access to Citi Gold Mark & Mosque.',
-      features: ['Sui Gas', 'Underground Electricity', 'Water Filtration', '24/7 Security & CCTV', 'Gated Community', 'Italian Kitchen', 'Basement Cinema', 'Near Park'],
+      features: ['Sui Gas', 'Underground Electricity', 'Water Filtration', 'Gated Security & CCTV', 'Gated Community', 'Italian Kitchen', 'Basement Cinema', 'Near Park'],
       thumbnail_url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop',
       images: [
         'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop',
@@ -334,7 +334,7 @@ async function setup() {
       bedrooms: 4,
       bathrooms: 5,
       description: 'Architect-designed 10 Marla double-storey house built with Grade-A materials. Solid ash wood doors, Grohe bathroom fittings, spacious car porch for 2 SUVs, and open American kitchen. Possession and utility bills active.',
-      features: ['Sui Gas Available', 'Underground Utilities', 'Car Porch (2 Cars)', 'Solid Wood Work', '24/7 Armed Guard Security', 'Walking Distance to Commercial Market'],
+      features: ['Sui Gas Available', 'Underground Utilities', 'Car Porch (2 Cars)', 'Solid Wood Work', 'Armed Guard Security', 'Walking Distance to Commercial Market'],
       thumbnail_url: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=800&auto=format&fit=crop',
       images: [
         'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=800&auto=format&fit=crop',
@@ -434,8 +434,8 @@ async function setup() {
       area_unit: 'Marla',
       bedrooms: 3,
       bathrooms: 3,
-      description: 'Turnkey fully furnished 5 Marla house for executive family rental. Complete with inverter ACs, refrigerator, LED TVs, sofa sets, and beds. 24/7 security and maintenance staff on call.',
-      features: ['Fully Furnished', 'Inverter AC Installed', 'Double Kitchen', 'UPS/Solar Backup', '24/7 Gated Security'],
+      description: 'Turnkey fully furnished 5 Marla house for executive family rental. Complete with inverter ACs, refrigerator, LED TVs, sofa sets, and beds. Gated security and maintenance staff on call.',
+      features: ['Fully Furnished', 'Inverter AC Installed', 'Double Kitchen', 'UPS/Solar Backup', 'Gated Security'],
       thumbnail_url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop',
       images: [
         'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop'

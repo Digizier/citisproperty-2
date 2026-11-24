@@ -32,7 +32,7 @@ export default function AreaGuidesPage() {
       title: 'Citi Housing Faisalabad (Samundri Road)',
       location: 'Samundri Road, Faisalabad',
       description: 'Modern development with high-speed bypass connectivity. Rapidly expanding with ready on-ground plots and direct possession.',
-      highlights: ['Dancing Fountain', 'Dancing Fountain Park', 'Main Boulevard Commercial', '24/7 Gated Security'],
+      highlights: ['Dancing Fountain', 'Dancing Fountain Park', 'Main Boulevard Commercial', 'Gated Armed Security'],
       link: '/Plots/Faisalabad',
     },
     {

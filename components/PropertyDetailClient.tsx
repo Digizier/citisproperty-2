@@ -45,11 +45,19 @@ function getYouTubeEmbedUrl(url?: string): string | null {
   return null;
 }
 
-export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string }) {
-  const [property, setProperty] = useState<Property | null>(null);
-  const [selectedImage, setSelectedImage] = useState<string>('');
+export default function PropertyDetailClient({
+  idOrSlug,
+  initialProperty,
+}: {
+  idOrSlug: string;
+  initialProperty?: Property | null;
+}) {
+  const [property, setProperty] = useState<Property | null>(initialProperty || null);
+  const [selectedImage, setSelectedImage] = useState<string>(
+    initialProperty?.thumbnail_url || (Array.isArray(initialProperty?.images) && initialProperty?.images[0]) || ''
+  );
   const [mediaMode, setMediaMode] = useState<'video' | 'image'>('image');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialProperty);
 
   // Inquiry Form State
   const [inquiryName, setInquiryName] = useState('');
@@ -65,6 +73,19 @@ export default function PropertyDetailClient({ idOrSlug }: { idOrSlug: string })
   const [markupRate, setMarkupRate] = useState(16.5);
 
   useEffect(() => {
+    if (initialProperty) {
+      setProperty(initialProperty);
+      if (!selectedImage) {
+        const firstImg =
+          initialProperty.thumbnail_url ||
+          (Array.isArray(initialProperty.images) && initialProperty.images[0]) ||
+          '';
+        setSelectedImage(firstImg);
+      }
+      setLoading(false);
+      return;
+    }
+
     async function load() {
       setLoading(true);
       try {

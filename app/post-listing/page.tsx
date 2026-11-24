@@ -26,7 +26,7 @@ const DEFAULT_AMENITIES = [
   'Electricity',
   'Water Supply',
   'Sewerage',
-  '24/7 Security',
+  'Gated Security',
   'Gated Community',
   'Corner Plot',
   'Park Facing',
@@ -54,7 +54,7 @@ export default function PostListingPage() {
     'Sui Gas',
     'Electricity',
     'Water Supply',
-    '24/7 Security',
+    'Gated Security',
   ]);
   const [newCustomFeature, setNewCustomFeature] = useState('');
   const [ownerName, setOwnerName] = useState('');

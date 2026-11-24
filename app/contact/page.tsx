@@ -82,7 +82,7 @@ export default function ContactPage() {
   };
 
   const whatsappClean = (settings?.whatsapp || '923218653500').replace(/[^0-9]/g, '');
-  const googleMapUrl = 'https://share.google/Clziqy6RnKzN8niRl';
+  const googleMapUrl = 'https://share.google/kqahSEawatNDdQBx8';
   const googleReviewUrl = 'https://g.page/r/CQ5mSIOS0vQLEAI/review';
 
   return (
@@ -118,7 +118,7 @@ export default function ContactPage() {
                   Citi property Real Estate (Head Office)
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                  <strong>Citi Housing samundri Road, Bypass</strong>, Faisalabad, 38000
+                  <strong>Bypass, Samundri Rd, Citi Housing Faisalabad, 38000, Pakistan</strong>
                 </p>
               </div>
             </div>
@@ -173,7 +173,7 @@ export default function ContactPage() {
               <span>Office Working Hours</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Monday to Saturday: <strong>Open 24 Hours</strong> (Sunday: Closed)
+              Mon–Sun: <strong>10:00 am – 8:00 pm, every day</strong>
             </p>
 
             <div className="pt-2 flex flex-wrap gap-2.5 text-xs">

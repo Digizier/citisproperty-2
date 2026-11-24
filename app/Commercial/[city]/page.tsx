@@ -15,6 +15,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const city = params.city || 'Faisalabad';
+  const isFaisalabad = city.toLowerCase() === 'faisalabad';
   const title = `Commercial Properties & Plots in ${city} — Citi property Real Estate`;
   const description = `Prime commercial plots, shops, and plazas for sale in ${city}. High ROI commercial investment. Citi property Real Estate: 0321-8653500.`;
   const pageUrl = `https://citisproperty.com/Commercial/${city}/`;
@@ -22,6 +23,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
+    robots: isFaisalabad
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
     alternates: {
       canonical: pageUrl,
     },

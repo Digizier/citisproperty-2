@@ -15,6 +15,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const city = params.city || 'Faisalabad';
+  const isFaisalabad = city.toLowerCase() === 'faisalabad';
   const title = `Houses for Sale in ${city} — Citi property Real Estate`;
   const description = `Find luxury 5 Marla, 10 Marla & 1 Kanal houses for sale in ${city}. 100% verified listings, modern architecture, Citi property Real Estate. Call 0321-8653500.`;
   const pageUrl = `https://citisproperty.com/Homes/${city}/`;
@@ -22,6 +23,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
+    robots: isFaisalabad
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
     alternates: {
       canonical: pageUrl,
     },

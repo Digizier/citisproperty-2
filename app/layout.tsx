@@ -84,14 +84,14 @@ const structuredSchema = {
       logo: 'https://citisproperty.com/logo.png',
       image: 'https://citisproperty.com/logo.png',
       description:
-        'Citi property Real Estate has been serving Faisalabad’s property market since 2018, providing professional real estate guidance for sellers, investors, landlords, and businesses. We deal in commercial, rental, and investment properties with local market knowledge and practical assistance throughout the property process. Our team serves Citi Housing Faisalabad, including Blocks A, B, D, E, F and G, Whether you are looking for property for sale, property for rent, plots, houses, commercial property or investment opportunities.',
+        'Citi property Real Estate has been serving Faisalabad’s property market since 2018, providing professional real estate guidance for sellers, investors, landlords, and businesses. We deal in residential plots, commercial properties, and luxury homes at Citi Housing Samundri Road Bypass and Sargodha Road, including Phase 1 (Blocks A–G), Phase 2 (Blocks AA–EE), and Samundri Road.',
       telephone: '+92 321 8653500',
       priceRange: 'PKR 3,500,000 - PKR 150,000,000',
       currenciesAccepted: 'PKR',
       paymentAccepted: 'Cash, Bank Transfer, Pay Order',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Citi Housing samundri Road, Bypass',
+        streetAddress: 'Bypass, Samundri Rd, Citi Housing Faisalabad, 38000, Pakistan',
         addressLocality: 'Faisalabad',
         addressRegion: 'Punjab',
         postalCode: '38000',
@@ -99,8 +99,8 @@ const structuredSchema = {
       },
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: 31.3325,
-        longitude: 73.0488,
+        latitude: 31.33250,
+        longitude: 73.04880,
       },
       openingHoursSpecification: [
         {
@@ -112,17 +112,15 @@ const structuredSchema = {
             'Thursday',
             'Friday',
             'Saturday',
+            'Sunday',
           ],
-          opens: '00:00',
-          closes: '23:59',
+          opens: '10:00',
+          closes: '20:00',
         },
       ],
-      hasMap: 'https://share.google/Clziqy6RnKzN8niRl',
+      hasMap: 'https://share.google/kqahSEawatNDdQBx8',
       sameAs: [
-        'https://share.google/Clziqy6RnKzN8niRl',
-        'https://g.page/r/CQ5mSIOS0vQLEAI/review',
-        'https://www.google.com/search?kgmid=/g/11t_kngqsv',
-        'https://wa.me/923218653500',
+        'https://share.google/kqahSEawatNDdQBx8',
       ],
       areaServed: [
         { '@type': 'AdministrativeArea', name: 'Citi Housing Faisalabad' },

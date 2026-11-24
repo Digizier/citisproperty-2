@@ -207,7 +207,7 @@ export default function PropertyListContent({
           </span>
           <span className="flex items-center gap-1.5">
             <Clock className="w-4 h-4 text-brand-gold-600" />
-            <span>Open 24/7 Helpline: +92 321 8653500</span>
+            <span>Helpline: +92 321 8653500 (Mon–Sun 10am–8pm)</span>
           </span>
           <span className="flex items-center gap-1.5">
             <MapPin className="w-4 h-4 text-red-500" />

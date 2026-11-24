@@ -26,11 +26,11 @@ interface PropertyA4FlyerProps {
 }
 
 const DEFAULT_AMENITIES = [
-  'Electricity (24/7 Supply)',
+  'Uninterrupted Electricity',
   'Sui Gas Connection',
   'Clean Drinking Water',
   'Underground Sewerage',
-  '24/7 Security & CCTV',
+  'Gated Security & CCTV',
   'Gated Community',
   'Near Jamia Mosque',
   'Commercial Hub Access',

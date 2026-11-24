@@ -126,37 +126,37 @@ export default function Footer() {
           {/* Quick Real Estate Links */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Properties for Sale
+              Citi Housing Guides &amp; Rates
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <Link href="/Homes/Faisalabad" prefetch={false} className="hover:text-white transition-colors">
-                  Houses in Citi Housing Faisalabad
+                <Link href="/citi-housing-faisalabad" prefetch={false} className="hover:text-white transition-colors">
+                  Citi Housing Faisalabad (Overview)
                 </Link>
               </li>
               <li>
-                <Link href="/Plots/Faisalabad" prefetch={false} className="hover:text-white transition-colors">
-                  Residential Plots on Sargodha Road
+                <Link href="/citi-housing-faisalabad-phase-1-sargodha-road" prefetch={false} className="hover:text-white transition-colors">
+                  Phase 1 Sargodha Road (Blocks A–G)
                 </Link>
               </li>
               <li>
-                <Link href="/Plots/Faisalabad" prefetch={false} className="hover:text-white transition-colors">
-                  Plots on Samundri Road Faisalabad
+                <Link href="/citi-housing-faisalabad-phase-2-sargodha-road" prefetch={false} className="hover:text-white transition-colors">
+                  Phase 2 Sargodha Road (Blocks AA–EE)
                 </Link>
               </li>
               <li>
-                <Link href="/Commercial/Faisalabad" prefetch={false} className="hover:text-white transition-colors">
-                  Citi Gold Mark Commercial Shops
+                <Link href="/citi-housing-faisalabad-samundri-road" prefetch={false} className="hover:text-white transition-colors">
+                  Samundri Road (Glow Park &amp; Sports Arena)
                 </Link>
               </li>
               <li>
-                <Link href="/Rentals/Faisalabad" prefetch={false} className="hover:text-white transition-colors">
-                  Furnished Rental Houses & Villas
+                <Link href="/citi-housing-faisalabad-block-rates" prefetch={false} className="hover:text-white transition-colors">
+                  Citi Housing Block Rates 2026
                 </Link>
               </li>
               <li>
-                <Link href="/new-projects" prefetch={false} className="hover:text-white transition-colors">
-                  Latest Citi Housing New Projects
+                <Link href="/society-maps" prefetch={false} className="hover:text-white transition-colors">
+                  Master Society Maps &amp; Sectors
                 </Link>
               </li>
             </ul>
@@ -210,38 +210,27 @@ export default function Footer() {
             <div className="flex items-start gap-3 text-xs text-slate-400">
               <MapPin className="w-4 h-4 text-brand-gold-500 flex-shrink-0 mt-0.5" />
               <span>
-                Citi Housing samundri Road, Bypass, Faisalabad, 38000
+                Bypass, Samundri Rd, Citi Housing Faisalabad, 38000, Pakistan
               </span>
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
               <Clock className="w-4 h-4 text-emerald-400 flex-shrink-0" />
               <span>
-                Hours: <strong className="text-white">Monday – Saturday: Open 24 Hours</strong> (Sunday: Closed)
+                Hours: <strong className="text-white">Mon–Sun 10:00 am – 8:00 pm</strong>
               </span>
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-400">
               <Phone className="w-4 h-4 text-brand-gold-400 flex-shrink-0" />
               <div className="space-x-2">
-                {(settings?.phones
-                  ? settings.phones
-                      .split(/[,/]/)
-                      .map((s) => s.trim())
-                      .filter((s) => Boolean(s) && !s.includes('8658450'))
-                  : ['+92 321 8653500']
-                ).map((p: string, idx: number, arr: string[]) => (
-                  <React.Fragment key={idx}>
-                    <a
-                      href={`tel:${p.replace(/[^0-9+]/g, '')}`}
-                      aria-label={`Call Citi property Real Estate at ${p}`}
-                      className="hover:text-white transition-colors"
-                    >
-                      {p}
-                    </a>
-                    {idx < arr.length - 1 && <span className="text-slate-600"> / </span>}
-                  </React.Fragment>
-                ))}
+                <a
+                  href="tel:+923218653500"
+                  aria-label="Call Citi property Real Estate at 0321 8653500"
+                  className="hover:text-white transition-colors"
+                >
+                  0321 8653500
+                </a>
               </div>
             </div>
 
@@ -258,7 +247,7 @@ export default function Footer() {
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs">
               <a
-                href="https://share.google/Clziqy6RnKzN8niRl"
+                href="https://share.google/kqahSEawatNDdQBx8"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View Citi property Real Estate on Google Maps"

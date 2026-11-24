@@ -425,31 +425,60 @@ export default function HomePage() {
               <div className="relative h-48 overflow-hidden">
                 <img
                   src="/images/sargodha-road.webp"
-                  alt="Citi Housing Faisalabad Sargodha Road"
+                  alt="Citi Housing Faisalabad Phase 1 Sargodha Road"
                   width={600}
                   height={338}
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-3 left-3 bg-gradient-to-r from-brand-gold-600 to-amber-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded shadow-sm">
-                  Phase 1 — Operational
+                  Phase 1 — Sargodha Road
                 </span>
               </div>
               <div className="p-5 space-y-2">
-                <h3 className="font-bold text-base text-white">Citi Housing Sargodha Road</h3>
+                <h3 className="font-bold text-base text-white">Phase 1 (Blocks A–G)</h3>
                 <p className="text-xs text-slate-400">
-                  Prime Faisalabad location with Citi Gold Mark commercial center, Opera cinema, and central theme park.
+                  Established phase with central park, Citi Gold Mark commercial center, Opera cinema, and resale houses.
                 </p>
                 <div className="pt-2 flex items-center justify-between text-xs font-semibold text-brand-gold-400">
-                  <span>Plots & Villas Available</span>
-                  <Link href="/Plots/Faisalabad" prefetch={false} className="hover:underline flex items-center gap-1">
-                    View <ArrowRight className="w-3 h-3" />
+                  <span>Block Rates &amp; Resale</span>
+                  <Link href="/citi-housing-faisalabad-phase-1-sargodha-road" prefetch={false} className="hover:underline flex items-center gap-1">
+                    View Guide <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
               </div>
             </div>
 
             {/* Project 2 */}
+            <div className="group bg-slate-800/80 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-gold-500/40 transition-all">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src="/images/plots-land.webp"
+                  alt="Citi Housing Faisalabad Phase 2 Sargodha Road"
+                  width={600}
+                  height={338}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded">
+                  Phase 2 — Sargodha Road
+                </span>
+              </div>
+              <div className="p-5 space-y-2">
+                <h3 className="font-bold text-base text-white">Phase 2 (Blocks AA–EE)</h3>
+                <p className="text-xs text-slate-400">
+                  Newer Sargodha Road phase offering 5M, 10M &amp; 1K plots with competitive entry prices and active development.
+                </p>
+                <div className="pt-2 flex items-center justify-between text-xs font-semibold text-brand-gold-400">
+                  <span>Instalment vs Resale</span>
+                  <Link href="/citi-housing-faisalabad-phase-2-sargodha-road" prefetch={false} className="hover:underline flex items-center gap-1">
+                    View Guide <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 3 */}
             <div className="group bg-slate-800/80 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-gold-500/40 transition-all">
               <div className="relative h-48 overflow-hidden">
                 <img
@@ -460,47 +489,18 @@ export default function HomePage() {
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <span className="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded">
-                  Phase 2 — Rapid Construction
-                </span>
-              </div>
-              <div className="p-5 space-y-2">
-                <h3 className="font-bold text-base text-white">Citi Housing Samundri Road</h3>
-                <p className="text-xs text-slate-400">
-                  High-speed road connectivity, modern dancing fountain, school campus, and rapid possession delivery.
-                </p>
-                <div className="pt-2 flex items-center justify-between text-xs font-semibold text-brand-gold-400">
-                  <span>5M & 10M Ready Plots</span>
-                  <Link href="/Plots/Faisalabad" prefetch={false} className="hover:underline flex items-center gap-1">
-                    View <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Project 3 */}
-            <div className="group bg-slate-800/80 rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-gold-500/40 transition-all">
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src="/images/multi-city.webp"
-                  alt="Citi Housing Gujranwala & Sialkot"
-                  width={600}
-                  height={338}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
                 <span className="absolute top-3 left-3 bg-amber-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded">
-                  Multi-City Projects
+                  Samundri Road Sectors
                 </span>
               </div>
               <div className="p-5 space-y-2">
-                <h3 className="font-bold text-base text-white">Gujranwala, Sialkot & Jhelum</h3>
+                <h3 className="font-bold text-base text-white">Samundri Road Sectors</h3>
                 <p className="text-xs text-slate-400">
-                  Luxury master planned communities catering to overseas Pakistanis and high net-worth investors.
+                  Glow Park, Sports Arena, and Executive Block with modern infrastructure, dancing fountain, and payment plans.
                 </p>
                 <div className="pt-2 flex items-center justify-between text-xs font-semibold text-brand-gold-400">
-                  <span>Commercial & Residential</span>
-                  <Link href="/new-projects" prefetch={false} className="hover:underline flex items-center gap-1">
+                  <span>Glow Park &amp; Sports Arena</span>
+                  <Link href="/citi-housing-faisalabad-samundri-road" prefetch={false} className="hover:underline flex items-center gap-1">
                     Explore <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
@@ -602,7 +602,7 @@ export default function HomePage() {
           <div className="space-y-2 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-1 text-amber-400">
               {'★'.repeat(5)}
-              <span className="text-xs text-slate-400 ml-2 font-bold">5.0 Star Client Rating</span>
+              <span className="text-xs text-slate-400 ml-2 font-bold">5.0 Star Rating (7 Google Reviews)</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-white">
               Looking for verified property deals in Faisalabad?
@@ -614,7 +614,7 @@ export default function HomePage() {
 
           <div className="flex flex-wrap gap-3">
             <a
-              href="https://share.google/Clziqy6RnKzN8niRl"
+              href="https://g.page/r/CQ5mSIOS0vQLEAI/review"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Post a verified review for Citi property Real Estate on Google"

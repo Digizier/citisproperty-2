@@ -97,7 +97,7 @@ export default function MobileBottomNav() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Contact 24/7 Helpline on WhatsApp"
+                aria-label="Contact Helpline on WhatsApp"
                 className="flex flex-col items-center py-1 px-2 text-slate-500 hover:text-emerald-600 active:scale-95 transition-all focus:outline-none"
               >
                 <Icon className="w-5 h-5 mb-0.5 text-emerald-600" />

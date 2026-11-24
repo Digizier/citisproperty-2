@@ -46,7 +46,7 @@ export function generateInvoiceHtml(
     : [];
   const featuresList = cleanAmenities.length > 0
     ? cleanAmenities.join(' • ')
-    : 'Standard Utilities & 24/7 Security';
+    : 'Standard Utilities & Gated Security';
 
   return `<!DOCTYPE html>
 <html lang="en">

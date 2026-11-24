@@ -103,7 +103,7 @@ export default function RealEstateRentalAgencyPage() {
           </div>
           <h2 className="text-base font-bold text-slate-900">Elite Gated Security &amp; Utilities</h2>
           <p className="text-xs text-slate-600 leading-relaxed">
-            24/7 armed gated security, underground electricity network, purified water filtration plants, landscaped theme parks, and Beaconhouse/Roots school campuses right inside the society.
+            Continuous armed gated security, underground electricity network, purified water filtration plants, landscaped theme parks, and Beaconhouse/Roots school campuses right inside the society.
           </p>
         </div>
 
@@ -181,7 +181,7 @@ export default function RealEstateRentalAgencyPage() {
               Connect with Citi property Real Estate Rental Desk
             </div>
             <p className="text-xs text-slate-400">
-              Open 24 Hours • Citi Housing samundri Road, Bypass, Faisalabad
+              Mon–Sun 10:00 am – 8:00 pm • Bypass, Samundri Rd, Citi Housing Faisalabad
             </p>
           </div>
 

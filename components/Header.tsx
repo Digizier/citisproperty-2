@@ -48,7 +48,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
             <span className="text-brand-gold-400 font-medium">
-              Registered Estate Agent: <strong className="text-white">{settings?.site_name || 'Citi property Real Estate'}</strong>
+              Registered Estate Agent: <strong className="text-white">Citi property Real Estate</strong>
             </span>
             <div className="flex items-center gap-4">
               {(settings?.phones || '+92 321 8653500')
@@ -81,7 +81,7 @@ export default function Header() {
               <span>Review on Google</span>
             </a>
             <a
-              href="https://share.google/Clziqy6RnKzN8niRl"
+              href="https://share.google/kqahSEawatNDdQBx8"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="View Citi property Real Estate Office Location on Google Maps"
@@ -395,7 +395,7 @@ export default function Header() {
           {/* Quick Helpline Header */}
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
             <div className="font-bold text-slate-800 flex items-center justify-between">
-              <span>Citi property Real Estate 24/7 Helpline:</span>
+              <span>Citi property Real Estate Helpline:</span>
               <span className="text-[10px] text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full font-bold">
                 Online
               </span>

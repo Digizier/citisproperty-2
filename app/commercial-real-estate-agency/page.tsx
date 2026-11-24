@@ -180,7 +180,7 @@ export default function CommercialRealEstateAgencyPage() {
               Consult with Citi property Real Estate Commercial Desk
             </div>
             <p className="text-xs text-slate-400">
-              Open 24 Hours • Citi Housing samundri Road, Bypass, Faisalabad
+              Mon–Sun 10:00 am – 8:00 pm • Bypass, Samundri Rd, Citi Housing Faisalabad
             </p>
           </div>
 

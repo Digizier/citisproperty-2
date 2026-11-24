@@ -3,19 +3,49 @@ import { supabase } from '@/lib/supabase';
 
 const BASE_URL = 'https://citisproperty.com';
 
-const CITIES = ['Faisalabad', 'Gujranwala', 'Sialkot', 'Jhelum', 'Lahore', 'Islamabad'];
+const CITIES = ['Faisalabad'];
 const CATEGORIES = ['Homes', 'Plots', 'Commercial', 'Flats', 'Rentals'];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  // 1. Static Core Pages
+  // 1. Static Core Pages & The 5 Priority SEO Pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: `${BASE_URL}/`,
       lastModified: now,
       changeFrequency: 'daily',
       priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/citi-housing-faisalabad/`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/citi-housing-faisalabad-phase-1-sargodha-road/`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/citi-housing-faisalabad-phase-2-sargodha-road/`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/citi-housing-faisalabad-samundri-road/`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/citi-housing-faisalabad-block-rates/`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
     },
     {
       url: `${BASE_URL}/properties/`,

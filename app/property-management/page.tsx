@@ -112,7 +112,7 @@ export default function PropertyManagementPage() {
           <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
             <Wrench className="w-6 h-6" />
           </div>
-          <h2 className="text-base font-bold text-slate-900">24/7 Routine Maintenance</h2>
+          <h2 className="text-base font-bold text-slate-900">Routine Maintenance &amp; Repairs</h2>
           <p className="text-xs text-slate-600 leading-relaxed">
             Trusted on-call technicians for plumbing, electrical, HVAC, and painting work. Pre-approved cost estimates with zero hidden markups or unauthorized repair bills.
           </p>
@@ -192,7 +192,7 @@ export default function PropertyManagementPage() {
               Enroll Your Faisalabad Property with Citi property Real Estate
             </div>
             <p className="text-xs text-slate-400">
-              Open 24 Hours • Citi Housing samundri Road, Bypass, Faisalabad
+              Mon–Sun 10:00 am – 8:00 pm • Bypass, Samundri Rd, Citi Housing Faisalabad
             </p>
           </div>
 

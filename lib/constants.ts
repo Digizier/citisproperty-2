@@ -133,7 +133,7 @@ export const DEFAULT_AMENITIES: string[] = [
   'Electricity',
   'Water Supply',
   'Sewerage',
-  '24/7 Security',
+  'Gated Guard Security',
   'Gated Community',
   'Corner Plot',
   'Park Facing',

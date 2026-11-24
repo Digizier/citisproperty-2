@@ -6,3 +6,4 @@ out/
 *.log
 *.tsbuildinfo
 *.exe
+test-results/
